@@ -1,10 +1,11 @@
 # Add files here to ignore them from prettier formatting
-dist
-coverage
-.nx/cache
-.angular
-.github
-.idea
-node_modules
+/dist
+/coverage
+/.nx/cache
+/.angular
+/.github
+/.idea
+/node_modules
 package.json
 package-lock.json
+README.md
