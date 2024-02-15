@@ -1,0 +1,75 @@
+{
+  "name": "personal-journey-front",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "duckrulz",
+  "sourceRoot": "apps/personal-journey-front/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/personal-journey-front",
+        "index": "apps/personal-journey-front/src/index.html",
+        "browser": "apps/personal-journey-front/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/personal-journey-front/tsconfig.app.json",
+        "assets": [
+          "apps/personal-journey-front/src/favicon.ico",
+          "apps/personal-journey-front/src/assets"
+        ],
+        "styles": ["apps/personal-journey-front/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "personal-journey-front:build:production"
+        },
+        "development": {
+          "buildTarget": "personal-journey-front:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "personal-journey-front:build"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "personal-journey-front:build",
+        "staticFilePath": "dist/apps/personal-journey-front/browser"
+      }
+    }
+  }
+}
