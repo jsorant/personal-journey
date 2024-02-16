@@ -19,9 +19,9 @@ describe('AppComponent', () => {
     );
   });
 
-  it(`should have as title 'personal-journey-front'`, () => {
+  it(`should have as title 'Personal Journey'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('personal-journey-front');
+    expect(app.title).toEqual('Personal Journey');
   });
 });

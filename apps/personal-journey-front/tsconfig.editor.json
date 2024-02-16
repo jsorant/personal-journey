@@ -2,6 +2,11 @@
   "extends": "./tsconfig.json",
   "include": ["src/**/*.ts"],
   "compilerOptions": {
-    "types": ["jest", "node"]
-  }
+    "types": ["jest", "cypress", "node"]
+  },
+  "references": [
+    {
+      "path": "./cypress/tsconfig.json"
+    }
+  ]
 }
