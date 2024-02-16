@@ -18,6 +18,11 @@ Learn more about [Nx generators on the docs](https://nx.dev/features/generate-co
 
 ### Dev
 
+Run dev:
+```
+nx serve personal-journey-front 
+```
+
 Unit tests:
 ```
 nx test personal-journey-front --watch 

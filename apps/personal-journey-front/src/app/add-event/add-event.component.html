@@ -1,0 +1,61 @@
+<h2>Add a new event</h2>
+
+<form [formGroup]="myForm">
+  <label for="add-event-date">Date:</label>
+  <input type="date" id="add-event-date" formControlName="date" />
+  <br /><br />
+  <label for="add-event-time">Time:</label>
+  <input type="time" id="add-event-time" formControlName="time" />
+  <br /><br />
+  <label for="add-event-duration">Duration (min):</label>
+  <input
+    type="number"
+    id="add-event-duration"
+    min="1"
+    formControlName="duration"
+  />
+  <br /><br />
+  <label>Type:</label>
+  <input
+    type="radio"
+    id="add-event-type-anxiety"
+    value="anxiety"
+    name="type"
+    formControlName="type"
+  />
+  <label for="add-event-type-anxiety">Anxiety</label><br />
+  <input
+    type="radio"
+    id="add-event-type-depression"
+    value="depression"
+    name="type"
+    formControlName="type"
+  />
+  <label for="add-event-type-depression">Depression</label><br />
+  <br /><br />
+  <label for="add-event-level">Level:</label>
+  <input
+    type="range"
+    id="add-event-level"
+    formControlName="level"
+    min="{{ viewModel.minLevel }}"
+    max="{{ viewModel.maxLevel }}"
+    step="1"
+    value="{{ viewModel.level }}"
+    oninput="this.nextElementSibling.value = this.value"
+  />
+  <output>{{ viewModel.level }}</output>
+  <br /><br />
+  <label for="add-event-thoughts">Thoughts:</label>
+  <input
+    id="add-event-thoughts"
+    type="text"
+    formControlName="thoughts"
+    placeholder="{{ viewModel.thoughtsPlaceholder }}"
+  />
+</form>
+
+<br />
+<br />
+
+<button id="add-event-button" (click)="addNewEvent()">Add</button>

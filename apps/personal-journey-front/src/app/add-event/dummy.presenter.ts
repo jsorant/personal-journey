@@ -14,7 +14,12 @@ export class DummyPresenter implements AddEventPresenter {
     thoughtsPlaceholder: 'Describe...',
     thoughts: '',
   };
+
   initialViewModel(): AddEventViewModel {
     return this.viewModel;
+  }
+
+  async addNewEvent(thoughts: string): Promise<void> {
+    // Nothing to do
   }
 }
