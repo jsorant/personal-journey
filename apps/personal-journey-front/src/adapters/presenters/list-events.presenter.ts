@@ -9,3 +9,4 @@ export interface ListEventsPresenter {
   setView(view: ListEventsView): void;
   initialEvents(): Event[];
 }
+

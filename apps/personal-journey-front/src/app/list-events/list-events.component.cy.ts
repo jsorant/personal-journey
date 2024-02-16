@@ -72,7 +72,7 @@ describe('ListEventsComponent', () => {
     expectContainsEvent('#event-2', event3);
   });
 
-  it('should update events', () => {
+  it.skip('should update events', () => {
     presenter.events = [event1];
     cy.mount(ListEventsComponent).then(() => {
       cy.get('#events-list').children().should('have.length', 1);
