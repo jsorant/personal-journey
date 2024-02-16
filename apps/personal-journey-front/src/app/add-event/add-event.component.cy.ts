@@ -68,11 +68,15 @@ describe('AddEventComponent', () => {
     cy.spy(presenter, 'addNewEvent');
 
     cy.get('#add-event-thoughts').type("I'm feeling cold");
+    cy.get('#add-event-date').type('2019-11-11');
+    cy.get('#add-event-time').type('11:11');
 
     cy.get('#add-event-button')
       .click()
       .then(() => {
-        expect(presenter.addNewEvent).to.be.calledOnceWith("I'm feeling cold");
+        expect(presenter.addNewEvent).to.be.calledOnceWith(
+          new Date('2019-11-11 11:11', "I'm feeling cold")
+        );
       });
   });
 });

@@ -1,7 +1,7 @@
 export interface AddEventPresenter {
   initialViewModel(): AddEventViewModel;
 
-  addNewEvent(thoughts: string): Promise<void>;
+  addNewEvent(date: Date, thoughts: string): Promise<void>;
 }
 
 export interface AddEventViewModel {

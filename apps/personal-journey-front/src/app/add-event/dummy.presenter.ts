@@ -19,7 +19,8 @@ export class DummyPresenter implements AddEventPresenter {
     return this.viewModel;
   }
 
-  async addNewEvent(thoughts: string): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async addNewEvent(date: Date, thoughts: string): Promise<void> {
     // Nothing to do
   }
 }

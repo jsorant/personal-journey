@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { AddEventPresenter, AddEventViewModel } from './add-event.presenter';
 import { EventsRepository } from '../../domain/events.repository';
-import { Promise } from 'cypress/types/cy-bluebird';
-import { CurrentDate } from './current-date';
+import { CurrentDate } from '../current-date';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +18,11 @@ export class AddEventPresenterImpl implements AddEventPresenter {
     this.#currentDate = currentDate;
   }
 
-  addNewEvent(thoughts: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async addNewEvent(date: Date, thoughts: string): Promise<void> {
+    this.#eventsRepository.saveEvent({
+      date,
+      thoughts,
+    });
   }
 
   initialViewModel(): AddEventViewModel {

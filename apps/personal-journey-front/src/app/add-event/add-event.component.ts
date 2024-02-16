@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgOptimizedImage } from '@angular/common';
-import { EventsRepository } from '../../domain/events.repository';
 import { TimeHelper } from '../helpers/time.helper';
 import {
   AddEventPresenter,
@@ -17,7 +16,6 @@ import {
 })
 export class AddEventComponent {
   readonly #presenter: AddEventPresenter;
-  readonly #eventsRepository: EventsRepository;
   viewModel: AddEventViewModel;
   myForm: FormGroup;
 
@@ -28,12 +26,8 @@ export class AddEventComponent {
   #levelControl = new FormControl();
   #thoughtsControl = new FormControl();
 
-  constructor(
-    @Inject('EventsRepository') eventsRepository: EventsRepository,
-    @Inject('AddEventPresenter') presenter: AddEventPresenter
-  ) {
+  constructor(@Inject('AddEventPresenter') presenter: AddEventPresenter) {
     this.#presenter = presenter;
-    this.#eventsRepository = eventsRepository;
     this.myForm = new FormGroup({
       date: this.#dateControl,
       time: this.#timeControl,
@@ -64,17 +58,12 @@ export class AddEventComponent {
       this.#dateControl.value + ' ' + this.#timeControl.value
     );
 
-    this.#eventsRepository.saveEvent({
-      date: date,
-      thoughts: this.#thoughtsControl.value,
-    });
-
     console.log('date', date);
     console.log('type', this.#typeControl.value);
     console.log('level', this.#levelControl.value);
     console.log('duration', this.#durationMinutesControl.value);
     console.log('thoughts', this.#thoughtsControl.value);
 
-    await this.#presenter.addNewEvent(this.#thoughtsControl.value);
+    await this.#presenter.addNewEvent(date, this.#thoughtsControl.value);
   }
 }
