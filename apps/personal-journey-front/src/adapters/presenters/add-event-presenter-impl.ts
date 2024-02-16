@@ -2,15 +2,21 @@ import { Inject, Injectable } from '@angular/core';
 import { AddEventPresenter, AddEventViewModel } from './add-event.presenter';
 import { EventsRepository } from '../../domain/events.repository';
 import { Promise } from 'cypress/types/cy-bluebird';
+import { CurrentDate } from './current-date';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AddEventPresenterImpl implements AddEventPresenter {
   readonly #eventsRepository: EventsRepository;
+  readonly #currentDate: CurrentDate;
 
-  constructor(@Inject('EventsRepository') eventsRepository: EventsRepository) {
+  constructor(
+    @Inject('EventsRepository') eventsRepository: EventsRepository,
+    @Inject('CurrentDate') currentDate: CurrentDate
+  ) {
     this.#eventsRepository = eventsRepository;
+    this.#currentDate = currentDate;
   }
 
   addNewEvent(thoughts: string): Promise<void> {
@@ -19,10 +25,10 @@ export class AddEventPresenterImpl implements AddEventPresenter {
 
   initialViewModel(): AddEventViewModel {
     return {
-      date: new Date(),
+      date: this.#currentDate.value(),
       durationMinutes: 5,
       type: 'anxiety',
-      level: 7,
+      level: 1,
       minLevel: 0,
       maxLevel: 10,
       thoughtsPlaceholder: 'Describe how you feel',
