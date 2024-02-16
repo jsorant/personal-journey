@@ -1,0 +1,20 @@
+<div *ngIf="events.length === 0; then noEventsBlock; else eventsBlock"></div>
+<ng-template #noEventsBlock>
+  <p id="list-events-empty-label">No events recorded yet.</p>
+</ng-template>
+<ng-template #eventsBlock>
+  <div id="events-list">
+    <ng-container *ngFor="let event of events; let i = index">
+      <div>
+        <p id="event-{{ i }}">
+          {{
+            event.date.toLocaleDateString() +
+              ' ' +
+              event.date.toLocaleTimeString()
+          }}
+          - {{ event.thoughts }}
+        </p>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
