@@ -1,4 +1,3 @@
-import { ListEventsView } from './list-events.view';
 import { ListEventsPresenter } from './list-events.presenter';
 import { EventsRepository } from '../../domain/events.repository';
 import { Inject, Injectable } from '@angular/core';
@@ -14,9 +13,7 @@ export class ListEventsPresenterImpl implements ListEventsPresenter {
     this.#eventsRepository = eventsRepository;
   }
 
-  initialEvents(): Event[] {
+  getEvents(): Event[] {
     return this.#eventsRepository.listEvents();
   }
-
-  setView(view: ListEventsView): void {}
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgOptimizedImage } from '@angular/common';
 import { TimeHelper } from '../helpers/time.helper';
@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './add-event.component.html',
   styleUrl: './add-event.component.css',
 })
-export class AddEventComponent implements OnInit {
+export class AddEventComponent {
   readonly #presenter: AddEventPresenter;
   viewModel: AddEventViewModel;
   myForm: FormGroup;
@@ -43,8 +43,6 @@ export class AddEventComponent implements OnInit {
     this.viewModel = this.#presenter.initialViewModel();
     this.applyViewModel();
   }
-
-  ngOnInit(): void {}
 
   applyViewModel() {
     this.#dateControl.setValue(

@@ -21,10 +21,7 @@ class DummyListEventsPresenter implements ListEventsPresenter {
   view: ListEventsView | undefined = undefined;
   events: Event[] = [];
 
-  setView(view: ListEventsView): void {
-    this.view = view;
-  }
-  initialEvents(): Event[] {
+  getEvents(): Event[] {
     return [...this.events];
   }
 }

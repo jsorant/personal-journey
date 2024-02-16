@@ -25,7 +25,7 @@ describe('ListEventsPresenterImpl', () => {
   test('should define initial events', () => {
     mockEventsRepository.listEvents.mockReturnValue([event1, event2]);
 
-    const events = sut.initialEvents();
+    const events = sut.getEvents();
 
     expect(events.length).toEqual(2);
     expect(events[0]).toEqual(event1);

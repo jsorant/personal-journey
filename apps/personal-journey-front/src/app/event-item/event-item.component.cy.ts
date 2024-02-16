@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Event } from '../../adapters/presenters/event';
 import { EventItemComponent } from './event-item.component';
 
@@ -8,8 +8,8 @@ const event: Event = {
 };
 
 describe('EventItemComponent', () => {
-  let fixture: any;
-  let comp: any;
+  let fixture: ComponentFixture<EventItemComponent>;
+  let comp: EventItemComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

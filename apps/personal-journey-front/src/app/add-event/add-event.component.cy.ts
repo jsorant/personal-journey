@@ -5,6 +5,7 @@ import {
   AddEventPresenter,
   AddEventViewModel,
 } from '../../adapters/presenters/add-event.presenter';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class DummyPresenter implements AddEventPresenter {
   public readonly viewModel: AddEventViewModel = {
@@ -35,7 +36,7 @@ describe('AddEventComponent', () => {
     presenter = new DummyPresenter();
     TestBed.overrideComponent(AddEventComponent, {
       add: {
-        imports: [],
+        imports: [RouterTestingModule],
         providers: [{ provide: 'AddEventPresenter', useValue: presenter }],
       },
     });
