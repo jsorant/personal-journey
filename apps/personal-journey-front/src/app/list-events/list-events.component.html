@@ -5,16 +5,10 @@
 <ng-template #eventsBlock>
   <div id="events-list">
     <ng-container *ngFor="let event of events; let i = index">
-      <div>
-        <p id="event-{{ i }}">
-          {{
-            event.date.toLocaleDateString() +
-              ' ' +
-              event.date.toLocaleTimeString()
-          }}
-          - {{ event.thoughts }}
-        </p>
-      </div>
+      <duckrulz-event-item
+        id="event-{{ i }}"
+        [event]="event"
+      ></duckrulz-event-item>
     </ng-container>
   </div>
 </ng-template>

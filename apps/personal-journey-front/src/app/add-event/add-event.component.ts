@@ -63,7 +63,9 @@ export class AddEventComponent {
     console.log('level', this.#levelControl.value);
     console.log('duration', this.#durationMinutesControl.value);
     console.log('thoughts', this.#thoughtsControl.value);
-
+    //TODO loader
     await this.#presenter.addNewEvent(date, this.#thoughtsControl.value);
+    //TODO hide loader then confirm
+    //TODO notify => navigate to list
   }
 }

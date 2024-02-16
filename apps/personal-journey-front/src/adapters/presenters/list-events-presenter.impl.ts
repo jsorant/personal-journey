@@ -1,7 +1,8 @@
 import { ListEventsView } from './list-events.view';
-import { Event, ListEventsPresenter } from './list-events.presenter';
+import { ListEventsPresenter } from './list-events.presenter';
 import { EventsRepository } from '../../domain/events.repository';
 import { Inject, Injectable } from '@angular/core';
+import { Event } from './event';
 
 @Injectable({
   providedIn: 'root',

@@ -1,0 +1,8 @@
+<div *ngIf="event">
+  <p id="event-label">
+    {{
+      event.date.toLocaleDateString() + ' ' + event.date.toLocaleTimeString()
+    }}
+    - {{ event.thoughts }}
+  </p>
+</div>

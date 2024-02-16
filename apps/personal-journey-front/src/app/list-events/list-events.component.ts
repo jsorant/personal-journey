@@ -1,15 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  Event,
-  ListEventsPresenter,
-} from '../../adapters/presenters/list-events.presenter';
+import { ListEventsPresenter } from '../../adapters/presenters/list-events.presenter';
 import { ListEventsView } from '../../adapters/presenters/list-events.view';
+import { Event } from '../../adapters/presenters/event';
+import { EventItemComponent } from '../event-item/event-item.component';
 
 @Component({
   selector: 'duckrulz-list-events',
   standalone: true,
-  imports: [CommonModule],
+  imports: [EventItemComponent, CommonModule],
   templateUrl: './list-events.component.html',
   styleUrl: './list-events.component.css',
 })

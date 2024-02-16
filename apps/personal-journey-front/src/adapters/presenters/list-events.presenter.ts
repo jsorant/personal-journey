@@ -1,12 +1,7 @@
 import { ListEventsView } from './list-events.view';
-
-export interface Event {
-  date: Date;
-  thoughts: string;
-}
+import { Event } from './event';
 
 export interface ListEventsPresenter {
   setView(view: ListEventsView): void;
   initialEvents(): Event[];
 }
-
