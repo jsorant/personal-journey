@@ -6,6 +6,7 @@ import {
   AddEventPresenter,
   AddEventViewModel,
 } from '../../adapters/presenters/add-event.presenter';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'duckrulz-add-event',
@@ -26,7 +27,10 @@ export class AddEventComponent {
   #levelControl = new FormControl();
   #thoughtsControl = new FormControl();
 
-  constructor(@Inject('AddEventPresenter') presenter: AddEventPresenter) {
+  constructor(
+    @Inject('AddEventPresenter') presenter: AddEventPresenter,
+    private route: ActivatedRoute
+  ) {
     this.#presenter = presenter;
     this.myForm = new FormGroup({
       date: this.#dateControl,
@@ -63,7 +67,9 @@ export class AddEventComponent {
     console.log('level', this.#levelControl.value);
     console.log('duration', this.#durationMinutesControl.value);
     console.log('thoughts', this.#thoughtsControl.value);
-
+    //TODO loader
     await this.#presenter.addNewEvent(date, this.#thoughtsControl.value);
+    //TODO hide loader then confirm
+    //TODO notify => navigate to list
   }
 }

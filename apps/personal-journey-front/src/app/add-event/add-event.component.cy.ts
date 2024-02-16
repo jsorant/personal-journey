@@ -1,8 +1,33 @@
 import { AddEventComponent } from './add-event.component';
 import { TestBed } from '@angular/core/testing';
-import { InMemoryEventsRepository } from '../../domain/in-memory-events-repository.service';
 import { TimeHelper } from '../helpers/time.helper';
-import { DummyPresenter } from './dummy.presenter';
+import {
+  AddEventPresenter,
+  AddEventViewModel,
+} from '../../adapters/presenters/add-event.presenter';
+import { RouterTestingModule } from '@angular/router/testing';
+
+class DummyPresenter implements AddEventPresenter {
+  public readonly viewModel: AddEventViewModel = {
+    date: new Date('2020-12-25 10:15'),
+    durationMinutes: 6,
+    type: 'depression',
+    level: 7,
+    minLevel: 0,
+    maxLevel: 100,
+    thoughtsPlaceholder: 'Describe...',
+    thoughts: '',
+  };
+
+  initialViewModel(): AddEventViewModel {
+    return this.viewModel;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async addNewEvent(date: Date, thoughts: string): Promise<void> {
+    // Nothing to do
+  }
+}
 
 describe('AddEventComponent', () => {
   let presenter: DummyPresenter;
@@ -11,11 +36,8 @@ describe('AddEventComponent', () => {
     presenter = new DummyPresenter();
     TestBed.overrideComponent(AddEventComponent, {
       add: {
-        imports: [],
-        providers: [
-          { provide: 'EventsRepository', useClass: InMemoryEventsRepository },
-          { provide: 'AddEventPresenter', useValue: presenter },
-        ],
+        imports: [RouterTestingModule],
+        providers: [{ provide: 'AddEventPresenter', useValue: presenter }],
       },
     });
   });
@@ -75,7 +97,8 @@ describe('AddEventComponent', () => {
       .click()
       .then(() => {
         expect(presenter.addNewEvent).to.be.calledOnceWith(
-          new Date('2019-11-11 11:11', "I'm feeling cold")
+          new Date('2019-11-11 11:11'),
+          "I'm feeling cold"
         );
       });
   });

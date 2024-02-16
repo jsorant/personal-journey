@@ -6,10 +6,25 @@
       height="880"
       width="880"
       priority=""
-    />Personal Journey
+    />
+
+    Personal Journey
+
+    <a
+      routerLink="/events/add"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      >ADD</a
+    >
+
+    <a
+      routerLink="/events/list"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      >LIST</a
+    >
   </header>
   <h1>Welcome !</h1>
-  <section>
-    <duckrulz-add-event></duckrulz-add-event>
-  </section>
+
+  <router-outlet></router-outlet>
 </main>

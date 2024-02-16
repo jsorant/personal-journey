@@ -1,0 +1,16 @@
+<h2>Events list</h2>
+
+<div *ngIf="events.length === 0; then noEventsBlock; else eventsBlock"></div>
+<ng-template #noEventsBlock>
+  <p id="list-events-empty-label">No events recorded yet.</p>
+</ng-template>
+<ng-template #eventsBlock>
+  <div id="events-list">
+    <ng-container *ngFor="let event of events; let i = index">
+      <duckrulz-event-item
+        id="event-{{ i }}"
+        [event]="event"
+      ></duckrulz-event-item>
+    </ng-container>
+  </div>
+</ng-template>
