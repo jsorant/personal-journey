@@ -1,6 +1,5 @@
 import { AddEventComponent } from './add-event.component';
 import { TestBed } from '@angular/core/testing';
-import { InMemoryEventsRepository } from '../../domain/in-memory-events-repository.service';
 import { TimeHelper } from '../helpers/time.helper';
 import { DummyPresenter } from './dummy.presenter';
 
@@ -12,10 +11,7 @@ describe('AddEventComponent', () => {
     TestBed.overrideComponent(AddEventComponent, {
       add: {
         imports: [],
-        providers: [
-          { provide: 'EventsRepository', useClass: InMemoryEventsRepository },
-          { provide: 'AddEventPresenter', useValue: presenter },
-        ],
+        providers: [{ provide: 'AddEventPresenter', useValue: presenter }],
       },
     });
   });
