@@ -1,7 +1,6 @@
 import { AddEventComponent } from './add-event.component';
 import { TestBed } from '@angular/core/testing';
 import { InMemoryEventsRepository } from '../../domain/in-memory-events-repository.service';
-import { AddEventPresenter } from '../../adapters/presenters/add-event.presenter';
 import { TimeHelper } from '../helpers/time.helper';
 import { DummyPresenter } from './dummy.presenter';
 

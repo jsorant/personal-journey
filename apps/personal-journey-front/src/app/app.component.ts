@@ -5,7 +5,7 @@ import { NgOptimizedImage } from '@angular/common';
 @Component({
   standalone: true,
   imports: [RouterModule, NgOptimizedImage],
-  selector: 'personal-journey-root',
+  selector: 'duckrulz-personal-journey-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

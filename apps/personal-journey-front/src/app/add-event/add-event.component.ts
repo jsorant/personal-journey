@@ -9,7 +9,7 @@ import {
 } from '../../adapters/presenters/add-event.presenter';
 
 @Component({
-  selector: 'app-add-event',
+  selector: 'duckrulz-add-event',
   standalone: true,
   imports: [ReactiveFormsModule, NgOptimizedImage],
   templateUrl: './add-event.component.html',
@@ -60,7 +60,7 @@ export class AddEventComponent {
   }
 
   async addNewEvent(): Promise<void> {
-    let date = new Date(
+    const date = new Date(
       this.#dateControl.value + ' ' + this.#timeControl.value
     );
 
