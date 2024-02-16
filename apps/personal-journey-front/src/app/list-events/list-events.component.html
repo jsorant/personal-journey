@@ -1,3 +1,5 @@
+<h2>Events list</h2>
+
 <div *ngIf="events.length === 0; then noEventsBlock; else eventsBlock"></div>
 <ng-template #noEventsBlock>
   <p id="list-events-empty-label">No events recorded yet.</p>

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgOptimizedImage } from '@angular/common';
 import { TimeHelper } from '../helpers/time.helper';
@@ -6,6 +6,7 @@ import {
   AddEventPresenter,
   AddEventViewModel,
 } from '../../adapters/presenters/add-event.presenter';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'duckrulz-add-event',
@@ -14,7 +15,7 @@ import {
   templateUrl: './add-event.component.html',
   styleUrl: './add-event.component.css',
 })
-export class AddEventComponent {
+export class AddEventComponent implements OnInit {
   readonly #presenter: AddEventPresenter;
   viewModel: AddEventViewModel;
   myForm: FormGroup;
@@ -26,7 +27,10 @@ export class AddEventComponent {
   #levelControl = new FormControl();
   #thoughtsControl = new FormControl();
 
-  constructor(@Inject('AddEventPresenter') presenter: AddEventPresenter) {
+  constructor(
+    @Inject('AddEventPresenter') presenter: AddEventPresenter,
+    private route: ActivatedRoute
+  ) {
     this.#presenter = presenter;
     this.myForm = new FormGroup({
       date: this.#dateControl,
@@ -39,6 +43,8 @@ export class AddEventComponent {
     this.viewModel = this.#presenter.initialViewModel();
     this.applyViewModel();
   }
+
+  ngOnInit(): void {}
 
   applyViewModel() {
     this.#dateControl.setValue(

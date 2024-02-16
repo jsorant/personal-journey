@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {
+  RouterLink,
+  RouterLinkActive,
+  RouterModule,
+  RouterOutlet,
+} from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
 import { AddEventComponent } from './add-event/add-event.component';
 import { AddEventPresenterImpl } from '../adapters/presenters/add-event-presenter-impl';
@@ -15,6 +20,9 @@ import { ListEventsPresenterImpl } from '../adapters/presenters/list-events-pres
     ListEventsComponent,
     RouterModule,
     NgOptimizedImage,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
   ],
   selector: 'duckrulz-personal-journey-root',
   templateUrl: './app.component.html',
