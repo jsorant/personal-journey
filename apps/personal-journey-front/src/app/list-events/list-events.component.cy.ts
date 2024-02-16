@@ -11,12 +11,12 @@ const event1 = {
   thoughts: 'Cold',
 };
 const event2 = {
-  date: new Date('2022-01-05 08:50'),
-  thoughts: 'Cold',
+  date: new Date('2022-01-06 10:50'),
+  thoughts: 'Freezing',
 };
 const event3 = {
-  date: new Date('2022-01-05 08:50'),
-  thoughts: 'Cold',
+  date: new Date('2022-01-07 23:50'),
+  thoughts: 'Sleepy',
 };
 
 class DummyListEventsPresenter implements ListEventsPresenter {
@@ -73,7 +73,7 @@ describe('ListEventsComponent', () => {
   });
 
   it('should update events', () => {
-    presenter.events = [event1, event2];
+    presenter.events = [event1];
     cy.mount(ListEventsComponent).then(() => {
       cy.get('#events-list').children().should('have.length', 1);
       expectContainsEvent('#event-0', event1);
