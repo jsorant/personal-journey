@@ -8,6 +8,7 @@ import {
 } from '../../adapters/presenters/add-event.presenter';
 import { ActivatedRoute } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+// https://material.angular.io/components/sidenav/overview#creating-a-responsive-layout-for-mobile--desktop
 @Component({
   selector: 'duckrulz-add-event',
   standalone: true,
