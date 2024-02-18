@@ -7,11 +7,11 @@ import {
   AddEventViewModel,
 } from '../../adapters/presenters/add-event.presenter';
 import { ActivatedRoute } from '@angular/router';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @Component({
   selector: 'duckrulz-add-event',
   standalone: true,
-  imports: [ReactiveFormsModule, NgOptimizedImage],
+  imports: [ReactiveFormsModule, NgOptimizedImage, MatSlideToggleModule],
   templateUrl: './add-event.component.html',
   styleUrl: './add-event.component.css',
 })
