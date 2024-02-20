@@ -20,7 +20,9 @@ mat-toolbar {
 
 .box {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
 }
