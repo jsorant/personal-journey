@@ -15,6 +15,7 @@ import { InMemoryEventsRepository } from '../domain/in-memory-events-repository'
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from './navigation/header/header.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @Component({
   standalone: true,
@@ -38,6 +39,10 @@ import { HeaderComponent } from './navigation/header/header.component';
     { provide: 'AddEventPresenter', useClass: AddEventPresenterImpl },
     { provide: 'EventsRepository', useClass: InMemoryEventsRepository },
     { provide: 'CurrentDate', useClass: CurrentDateImpl },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
+    },
   ],
 })
 export class AppComponent {

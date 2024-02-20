@@ -1,11 +1,15 @@
 import { AddEventComponent } from './add-event.component';
-import { TestBed } from '@angular/core/testing';
-import { TimeHelper } from '../helpers/time.helper';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AddEventPresenter,
   AddEventViewModel,
 } from '../../adapters/presenters/add-event.presenter';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 class DummyPresenter implements AddEventPresenter {
   public readonly viewModel: AddEventViewModel = {
@@ -31,28 +35,32 @@ class DummyPresenter implements AddEventPresenter {
 
 describe('AddEventComponent', () => {
   let presenter: DummyPresenter;
+  let fixture: ComponentFixture<AddEventComponent>;
 
   beforeEach(() => {
     presenter = new DummyPresenter();
-    TestBed.overrideComponent(AddEventComponent, {
-      add: {
-        imports: [RouterTestingModule],
-        providers: [{ provide: 'AddEventPresenter', useValue: presenter }],
-      },
-    });
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        MatSlideToggleModule,
+        MatLabel,
+        MatFormField,
+        MatInput,
+      ],
+      providers: [
+        provideAnimations(),
+        { provide: 'AddEventPresenter', useValue: presenter },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(AddEventComponent);
+    fixture.detectChanges();
   });
 
   it('should initialize with default values', () => {
-    cy.mount(AddEventComponent);
-
-    cy.get('#add-event-date').should(
-      'have.value',
-      TimeHelper.toHtmlDateInputValue(presenter.viewModel.date)
-    );
-    cy.get('#add-event-time').should(
-      'have.value',
-      TimeHelper.toHtmlTimeInputValue(presenter.viewModel.date)
-    );
+    cy.get('#add-event-date').should('have.value', '12/25/2020');
+    cy.get('#add-event-time').should('have.value', '10:15');
     cy.get('#add-event-duration').should(
       'have.value',
       presenter.viewModel.durationMinutes
@@ -86,12 +94,13 @@ describe('AddEventComponent', () => {
   });
 
   it('should add an event', () => {
-    cy.mount(AddEventComponent);
     cy.spy(presenter, 'addNewEvent');
 
     cy.get('#add-event-thoughts').type("I'm feeling cold");
     cy.get('#add-event-date').type('2019-11-11');
     cy.get('#add-event-time').type('11:11');
+
+    cy.get('#add-event-duration').type('8');
 
     cy.get('#add-event-button')
       .click()

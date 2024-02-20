@@ -8,16 +8,12 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/personal-journey-front",
         "index": "apps/personal-journey-front/src/index.html",
         "browser": "apps/personal-journey-front/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/personal-journey-front/tsconfig.app.json",
         "assets": [
           "apps/personal-journey-front/src/favicon.ico",
