@@ -4,26 +4,8 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <!--in here all the content must reside. We will add a navigation header as well-->
-    <header>
-      Personal Journey
-
-      <a
-        routerLink="/events/add"
-        routerLinkActive="active"
-        ariaCurrentWhenActive="page"
-        >ADD</a
-      >
-
-      <a
-        routerLink="/events/list"
-        routerLinkActive="active"
-        ariaCurrentWhenActive="page"
-        >LIST</a
-      >
-    </header>
     <duckrulz-header></duckrulz-header>
     <main>
-      <h1>Welcome !</h1>
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
