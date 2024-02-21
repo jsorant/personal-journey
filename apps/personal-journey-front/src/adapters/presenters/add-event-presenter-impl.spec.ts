@@ -4,7 +4,7 @@ import { EventsRepository } from '../../domain/events.repository';
 import { CurrentDate } from '../current-date';
 import { EventType } from '../../domain/event';
 
-describe('AddEventPresenterImpl', () => {
+describe(AddEventPresenterImpl.name, () => {
   const now = new Date('2022-12-11 12:05');
   let mockEventsRepository: Mock<EventsRepository>;
   let mockCurrentDate: Mock<CurrentDate>;

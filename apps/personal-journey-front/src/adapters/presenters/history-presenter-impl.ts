@@ -1,4 +1,4 @@
-import { ListEventsPresenter } from './list-events.presenter';
+import { HistoryPresenter } from './history.presenter';
 import { EventsRepository } from '../../domain/events.repository';
 import { Inject, Injectable } from '@angular/core';
 import { Event, EventType } from '../../domain/event';
@@ -7,7 +7,7 @@ import { EventViewModel, EventViewModelType } from './event-view-model';
 @Injectable({
   providedIn: 'root',
 })
-export class ListEventsPresenterImpl implements ListEventsPresenter {
+export class HistoryPresenterImpl implements HistoryPresenter {
   readonly #eventsRepository: EventsRepository;
 
   constructor(@Inject('EventsRepository') eventsRepository: EventsRepository) {
@@ -19,12 +19,12 @@ export class ListEventsPresenterImpl implements ListEventsPresenter {
   }
 
   private adaptEvents(domainEvents: Event[]): EventViewModel[] {
-    return domainEvents.map(ListEventsPresenterImpl.adaptEvent);
+    return domainEvents.map(HistoryPresenterImpl.adaptEvent);
   }
 
   private static adaptEvent(domainEvent: Event): EventViewModel {
     return EventViewModel.builder()
-      .withType(ListEventsPresenterImpl.adaptType(domainEvent.type))
+      .withType(HistoryPresenterImpl.adaptType(domainEvent.type))
       .withDate(domainEvent.date)
       .withDurationMinutes(domainEvent.durationMinutes)
       .withLevel(domainEvent.level)

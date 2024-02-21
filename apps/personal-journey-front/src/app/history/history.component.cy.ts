@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ListEventsComponent } from './list-events.component';
-import { ListEventsPresenter } from '../../adapters/presenters/list-events.presenter';
+import { HistoryComponent } from './history.component';
+import { HistoryPresenter } from '../../adapters/presenters/history.presenter';
 import {
   eventViewModel1,
   eventViewModel2,
@@ -21,7 +21,7 @@ import {
   MatListItemHarness,
 } from '@angular/material/list/testing';
 
-class DummyListEventsPresenter implements ListEventsPresenter {
+class DummyHistoryPresenter implements HistoryPresenter {
   events: EventViewModel[] = [];
 
   getEvents(): EventViewModel[] {
@@ -29,13 +29,13 @@ class DummyListEventsPresenter implements ListEventsPresenter {
   }
 }
 
-describe('ListEventsComponent', () => {
-  let presenter: DummyListEventsPresenter;
-  let fixture: ComponentFixture<ListEventsComponent>;
+describe(HistoryComponent.name, () => {
+  let presenter: DummyHistoryPresenter;
+  let fixture: ComponentFixture<HistoryComponent>;
   let loader: HarnessLoader;
 
   async function initializeComponentWithEvents(events: EventViewModel[]) {
-    presenter = new DummyListEventsPresenter();
+    presenter = new DummyHistoryPresenter();
     presenter.events = events;
 
     await TestBed.configureTestingModule({
@@ -49,11 +49,11 @@ describe('ListEventsComponent', () => {
       providers: [
         provideAnimations(),
         provideNativeDateAdapter(),
-        { provide: 'ListEventsPresenter', useValue: presenter },
+        { provide: 'HistoryPresenter', useValue: presenter },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ListEventsComponent);
+    fixture = TestBed.createComponent(HistoryComponent);
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
   }

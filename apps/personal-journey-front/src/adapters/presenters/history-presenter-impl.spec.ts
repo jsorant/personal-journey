@@ -1,7 +1,7 @@
 import { EventsRepository } from '../../domain/events.repository';
 import { Event, EventType } from '../../domain/event';
 import { mock, Mock } from 'ts-jest-mocker';
-import { ListEventsPresenterImpl } from './list-events-presenter.impl';
+import { HistoryPresenterImpl } from './history-presenter-impl';
 import {
   domainEvent1,
   domainEvent2,
@@ -9,14 +9,14 @@ import {
 } from '../../tests/domain-events';
 import { EventViewModel, EventViewModelType } from './event-view-model';
 
-describe('ListEventsPresenterImpl', () => {
+describe(HistoryPresenterImpl.name, () => {
   let mockEventsRepository: Mock<EventsRepository>;
-  let sut: ListEventsPresenterImpl;
+  let sut: HistoryPresenterImpl;
 
   beforeEach(() => {
     mockEventsRepository = mock<EventsRepository>();
 
-    sut = new ListEventsPresenterImpl(mockEventsRepository);
+    sut = new HistoryPresenterImpl(mockEventsRepository);
   });
 
   test('should define initial events', () => {

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ListEventsPresenter } from '../../adapters/presenters/list-events.presenter';
+import { HistoryPresenter } from '../../adapters/presenters/history.presenter';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -10,7 +10,7 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-  selector: 'duckrulz-list-events',
+  selector: 'duckrulz-history',
   standalone: true,
   imports: [
     CommonModule,
@@ -19,13 +19,13 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDividerModule,
     DatePipe,
   ],
-  templateUrl: './list-events.component.html',
-  styleUrl: './list-events.component.css',
+  templateUrl: './history.component.html',
+  styleUrl: './history.component.css',
 })
-export class ListEventsComponent {
+export class HistoryComponent {
   events: EventViewModel[];
 
-  constructor(@Inject('ListEventsPresenter') presenter: ListEventsPresenter) {
+  constructor(@Inject('HistoryPresenter') presenter: HistoryPresenter) {
     this.events = presenter.getEvents();
   }
 

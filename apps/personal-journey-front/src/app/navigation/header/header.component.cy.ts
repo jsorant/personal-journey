@@ -48,16 +48,12 @@ describe('HeaderComponent', () => {
     clickOnButtonShouldNavigateTo('/events/add', '#add-event-button', router);
   });
 
-  it('should have the header', () => {
-    cy.get('#list-events-button').should('be.visible');
-    cy.get('#list-events-button').should('contain.text', 'List events');
+  it('should have the history button', () => {
+    cy.get('#history-button').should('be.visible');
+    cy.get('#history-button').should('contain.text', 'Historique');
   });
 
-  it('should navigate to list events with the list events button', () => {
-    clickOnButtonShouldNavigateTo(
-      '/events/list',
-      '#list-events-button',
-      router
-    );
+  it('should navigate to history with the history button', () => {
+    clickOnButtonShouldNavigateTo('/history', '#history-button', router);
   });
 });

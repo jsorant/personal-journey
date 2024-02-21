@@ -1,5 +1,5 @@
 import { EventViewModel } from './event-view-model';
 
-export interface ListEventsPresenter {
+export interface HistoryPresenter {
   getEvents(): EventViewModel[];
 }

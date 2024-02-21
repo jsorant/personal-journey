@@ -7,7 +7,7 @@ import { Router, RouterLink } from '@angular/router';
 
 const HOME_ROUTE = '/home';
 const ADD_EVENT_ROUTE = '/events/add';
-const LIST_EVENTS_ROUTE = '/events/list';
+const HISTORY_ROUTE = '/history';
 
 @Component({
   selector: 'duckrulz-header',
@@ -29,8 +29,8 @@ export class HeaderComponent {
     await this.router.navigateByUrl(HOME_ROUTE);
   }
 
-  async onListClicked() {
-    await this.router.navigateByUrl(LIST_EVENTS_ROUTE);
+  async onHistoryClicked() {
+    await this.router.navigateByUrl(HISTORY_ROUTE);
   }
 
   async onAddClicked() {
