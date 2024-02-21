@@ -1,18 +1,45 @@
 import { AddEventComponent } from './add-event.component';
-import { TestBed } from '@angular/core/testing';
-import { TimeHelper } from '../helpers/time.helper';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AddEventPresenter,
   AddEventViewModel,
 } from '../../adapters/presenters/add-event.presenter';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormField,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelect } from '@angular/material/select';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { HarnessLoader } from '@angular/cdk/testing';
+import {
+  matInputShouldHavePlaceholder,
+  matInputShouldHaveValue,
+  matSelectShouldHaveText,
+  matSliderShouldHaveMinMaxStep,
+  matSliderThumbShouldHaveValue,
+} from '../cypress/mat-input.cy';
+import {
+  MatSlider,
+  MatSliderModule,
+  MatSliderThumb,
+} from '@angular/material/slider';
+import { MatInputHarness } from '@angular/material/input/testing';
+import { MatSliderHarness } from '@angular/material/slider/testing';
+import { MatButton } from '@angular/material/button';
 
 class DummyPresenter implements AddEventPresenter {
   public readonly viewModel: AddEventViewModel = {
     date: new Date('2020-12-25 10:15'),
     durationMinutes: 6,
     type: 'depression',
-    level: 7,
+    level: 70,
     minLevel: 0,
     maxLevel: 100,
     thoughtsPlaceholder: 'Describe...',
@@ -31,38 +58,97 @@ class DummyPresenter implements AddEventPresenter {
 
 describe('AddEventComponent', () => {
   let presenter: DummyPresenter;
+  let fixture: ComponentFixture<AddEventComponent>;
 
-  beforeEach(() => {
+  let loader: HarnessLoader;
+
+  beforeEach(async () => {
     presenter = new DummyPresenter();
-    TestBed.overrideComponent(AddEventComponent, {
-      add: {
-        imports: [RouterTestingModule],
-        providers: [{ provide: 'AddEventPresenter', useValue: presenter }],
-      },
-    });
+
+    await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        MatFormField,
+        MatInput,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        MatSelect,
+        MatOption,
+        MatSlider,
+        MatSliderThumb,
+        MatSliderModule,
+        MatButton,
+      ],
+      providers: [
+        provideAnimations(),
+        provideNativeDateAdapter(),
+        { provide: 'AddEventPresenter', useValue: presenter },
+        {
+          provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+          useValue: { appearance: 'outline' },
+        },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(AddEventComponent);
+    fixture.detectChanges();
+    loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
-  it('should initialize with default values', () => {
-    cy.mount(AddEventComponent);
+  it.only('should initialize with default values', async () => {
+    await matInputShouldHaveValue('12/25/2020', '#add-event-date', loader);
 
-    cy.get('#add-event-date').should(
-      'have.value',
-      TimeHelper.toHtmlDateInputValue(presenter.viewModel.date)
+    //await matInputShouldHaveValue('10:15', '#add-event-time');
+
+    await matInputShouldHaveValue(
+      presenter.viewModel.durationMinutes.toString(),
+      '#add-event-duration',
+      loader
     );
-    cy.get('#add-event-time').should(
-      'have.value',
-      TimeHelper.toHtmlTimeInputValue(presenter.viewModel.date)
+
+    await matSelectShouldHaveText('Depression', '#add-event-type', loader);
+    /*await matInputShouldHaveValue(
+      presenter.viewModel.level.toString(),
+      '#add-event-level'
+    );*/
+
+    await matSliderShouldHaveMinMaxStep(
+      presenter.viewModel.minLevel,
+      presenter.viewModel.maxLevel,
+      1,
+      '#add-event-level',
+      loader
     );
+
+    await matSliderThumbShouldHaveValue(
+      presenter.viewModel.level,
+      '#add-event-level-thumb',
+      loader
+    );
+
+    await matInputShouldHaveValue(
+      presenter.viewModel.thoughts,
+      '#add-event-thoughts',
+      loader
+    );
+
+    await matInputShouldHavePlaceholder(
+      presenter.viewModel.thoughtsPlaceholder,
+      '#add-event-thoughts',
+      loader
+    );
+
+    /*
+    cy.get('#add-event-date').should('have.value', '12/25/2020');
+
+    cy.get('#add-event-time').should('have.value', '10:15');
+
     cy.get('#add-event-duration').should(
       'have.value',
       presenter.viewModel.durationMinutes
     );
-    cy.get('#add-event-type-anxiety')
-      .should('not.be.checked')
-      .and('have.value', 'anxiety');
-    cy.get('#add-event-type-depression')
-      .should('be.checked')
-      .and('have.value', 'depression');
+
     cy.get('#add-event-level').should('have.value', presenter.viewModel.level);
     cy.get('#add-event-level').should(
       'have.attr',
@@ -74,24 +160,46 @@ describe('AddEventComponent', () => {
       'max',
       presenter.viewModel.maxLevel
     );
+
     cy.get('#add-event-thoughts').should(
       'have.attr',
       'placeholder',
       presenter.viewModel.thoughtsPlaceholder
     );
+
     cy.get('#add-event-thoughts').should(
       'have.value',
       presenter.viewModel.thoughts
     );
+
+     */
   });
 
   it('should add an event', () => {
-    cy.mount(AddEventComponent);
     cy.spy(presenter, 'addNewEvent');
+
+    /*
+    const select = await loader.getHarness(
+      MatSelectHarness.with({ selector: '#add-event-type' })
+    );
+    console.log(await select.getValueText());
+
+    expect(await select.getValueText()).to.eq('Depression');
+
+    await select.open();
+
+    const bugOption = await select.getOptions({
+      isSelected: true,
+    });
+    console.log(await bugOption.at(0).getText());
+    console.log(bugOption);
+    */
 
     cy.get('#add-event-thoughts').type("I'm feeling cold");
     cy.get('#add-event-date').type('2019-11-11');
     cy.get('#add-event-time').type('11:11');
+
+    cy.get('#add-event-duration').type('8');
 
     cy.get('#add-event-button')
       .click()

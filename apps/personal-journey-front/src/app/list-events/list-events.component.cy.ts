@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ListEventsComponent } from './list-events.component';
 import { ListEventsPresenter } from '../../adapters/presenters/list-events.presenter';
-import { ListEventsView } from '../../adapters/presenters/list-events.view';
 import { Event } from '../../adapters/presenters/event';
 
 const event1 = {
@@ -18,7 +17,6 @@ const event3 = {
 };
 
 class DummyListEventsPresenter implements ListEventsPresenter {
-  view: ListEventsView | undefined = undefined;
   events: Event[] = [];
 
   getEvents(): Event[] {

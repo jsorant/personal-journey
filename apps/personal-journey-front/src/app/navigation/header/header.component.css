@@ -1,0 +1,28 @@
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover,
+a:active {
+  color: lightgray;
+}
+
+mat-toolbar {
+  border-radius: 3px;
+}
+
+@media (max-width: 959px) {
+  mat-toolbar {
+    border-radius: 0;
+  }
+}
+
+.box {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+}

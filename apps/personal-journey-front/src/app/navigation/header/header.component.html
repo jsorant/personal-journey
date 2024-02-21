@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+  <div class="box">
+    <button id="home-icon-button" mat-icon-button (click)="onHomeClicked()">
+      <mat-icon>home</mat-icon>
+    </button>
+
+    <div>
+      <a id="home-link" routerLink="/home">Personal Journey</a>
+    </div>
+
+    <button id="list-events-button" mat-raised-button (click)="onListClicked()">
+      <mat-icon>list</mat-icon>
+      List events
+    </button>
+
+    <button id="add-event-button" mat-raised-button (click)="onAddClicked()">
+      <mat-icon>add</mat-icon>
+      Add event
+    </button>
+  </div>
+</mat-toolbar>

@@ -8,10 +8,14 @@ import {
 import { NgOptimizedImage } from '@angular/common';
 import { AddEventComponent } from './add-event/add-event.component';
 import { AddEventPresenterImpl } from '../adapters/presenters/add-event-presenter-impl';
-import { InMemoryEventsRepository } from '../domain/in-memory-events-repository';
 import { CurrentDateImpl } from '../adapters/current-date-impl';
 import { ListEventsComponent } from './list-events/list-events.component';
 import { ListEventsPresenterImpl } from '../adapters/presenters/list-events-presenter.impl';
+import { InMemoryEventsRepository } from '../domain/in-memory-events-repository';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { HeaderComponent } from './navigation/header/header.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @Component({
   standalone: true,
@@ -23,6 +27,9 @@ import { ListEventsPresenterImpl } from '../adapters/presenters/list-events-pres
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
+    MatSidenavModule,
+    MatToolbarModule,
+    HeaderComponent,
   ],
   selector: 'duckrulz-personal-journey-root',
   templateUrl: './app.component.html',
@@ -32,6 +39,10 @@ import { ListEventsPresenterImpl } from '../adapters/presenters/list-events-pres
     { provide: 'AddEventPresenter', useClass: AddEventPresenterImpl },
     { provide: 'EventsRepository', useClass: InMemoryEventsRepository },
     { provide: 'CurrentDate', useClass: CurrentDateImpl },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
+    },
   ],
 })
 export class AppComponent {

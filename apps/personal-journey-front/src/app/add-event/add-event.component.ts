@@ -1,75 +1,90 @@
-import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { NgOptimizedImage } from '@angular/common';
+import { Component, inject, Inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TimeHelper } from '../helpers/time.helper';
 import {
   AddEventPresenter,
   AddEventViewModel,
 } from '../../adapters/presenters/add-event.presenter';
-import { ActivatedRoute } from '@angular/router';
+import {
+  MatFormField,
+  MatFormFieldModule,
+  MatLabel,
+} from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import {
+  MatSlider,
+  MatSliderModule,
+  MatSliderThumb,
+} from '@angular/material/slider';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'duckrulz-add-event',
   standalone: true,
-  imports: [ReactiveFormsModule, NgOptimizedImage],
+  imports: [
+    ReactiveFormsModule,
+    MatLabel,
+    MatFormField,
+    MatInput,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatSelect,
+    MatOption,
+    MatSlider,
+    MatSliderThumb,
+    MatSliderModule,
+    MatButton,
+  ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './add-event.component.html',
   styleUrl: './add-event.component.css',
 })
 export class AddEventComponent {
+  readonly #formBuilder: FormBuilder = inject(FormBuilder);
   readonly #presenter: AddEventPresenter;
   viewModel: AddEventViewModel;
-  myForm: FormGroup;
 
-  #dateControl = new FormControl();
-  #timeControl = new FormControl();
-  #durationMinutesControl = new FormControl();
-  #typeControl = new FormControl();
-  #levelControl = new FormControl();
-  #thoughtsControl = new FormControl();
+  form = this.#formBuilder.group({
+    date: '',
+    time: '',
+    durationMinutes: 0,
+    type: '',
+    level: 0,
+    thoughts: '',
+  });
 
-  constructor(
-    @Inject('AddEventPresenter') presenter: AddEventPresenter,
-    private route: ActivatedRoute
-  ) {
+  constructor(@Inject('AddEventPresenter') presenter: AddEventPresenter) {
     this.#presenter = presenter;
-    this.myForm = new FormGroup({
-      date: this.#dateControl,
-      time: this.#timeControl,
-      duration: this.#durationMinutesControl,
-      type: this.#typeControl,
-      level: this.#levelControl,
-      thoughts: this.#thoughtsControl,
-    });
     this.viewModel = this.#presenter.initialViewModel();
     this.applyViewModel();
   }
 
   applyViewModel() {
-    this.#dateControl.setValue(
-      TimeHelper.toHtmlDateInputValue(this.viewModel.date)
-    );
-    this.#timeControl.setValue(
-      TimeHelper.toHtmlTimeInputValue(this.viewModel.date)
-    );
-    this.#typeControl.setValue(this.viewModel.type);
-    this.#durationMinutesControl.setValue(this.viewModel.durationMinutes);
-    this.#levelControl.setValue(this.viewModel.level);
-    this.#thoughtsControl.setValue(this.viewModel.thoughts);
+    this.form.setValue({
+      date: TimeHelper.toHtmlDateInputValue(this.viewModel.date),
+      time: TimeHelper.toHtmlTimeInputValue(this.viewModel.date),
+      durationMinutes: this.viewModel.durationMinutes,
+      type: this.viewModel.type,
+      level: this.viewModel.level,
+      thoughts: this.viewModel.thoughts,
+    });
   }
 
   async addNewEvent(): Promise<void> {
-    const date = new Date(
-      this.#dateControl.value + ' ' + this.#timeControl.value
-    );
+    let date = new Date(this.form.value.date!);
+    const hours = Number.parseInt(this.form.value.time!.split(':')[0]);
+    const minutes = Number.parseInt(this.form.value.time!.split(':')[1]);
+    date = new Date(date.setHours(hours, minutes));
 
     console.log('date', date);
-    console.log('type', this.#typeControl.value);
-    console.log('level', this.#levelControl.value);
-    console.log('duration', this.#durationMinutesControl.value);
-    console.log('thoughts', this.#thoughtsControl.value);
     //TODO loader
-    await this.#presenter.addNewEvent(date, this.#thoughtsControl.value);
+    await this.#presenter.addNewEvent(date, this.form.value.thoughts!);
     //TODO hide loader then confirm
     //TODO notify => navigate to list
+
+    console.log(this.form.value);
   }
 }
