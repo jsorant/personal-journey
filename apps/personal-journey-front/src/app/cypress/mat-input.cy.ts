@@ -5,6 +5,7 @@ import {
   MatSliderHarness,
   MatSliderThumbHarness,
 } from '@angular/material/slider/testing';
+import { MatButtonHarness } from '@angular/material/button/testing';
 
 export async function matInputShouldHaveValue(
   value: string,
@@ -68,4 +69,16 @@ export async function matSliderThumbShouldHaveValue(
   );
 
   expect(await harness.getValue()).to.eq(value);
+}
+
+export async function matButtonShouldHaveText(
+  text: string,
+  id: string,
+  loader: HarnessLoader
+) {
+  const harness = await loader.getHarness(
+    MatButtonHarness.with({ selector: id })
+  );
+
+  expect(await harness.getText()).to.eq(text);
 }

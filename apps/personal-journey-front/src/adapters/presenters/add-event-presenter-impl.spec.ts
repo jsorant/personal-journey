@@ -29,7 +29,9 @@ describe(AddEventPresenterImpl.name, () => {
     expect(viewModel.level).toBe(1);
     expect(viewModel.minLevel).toBe(0);
     expect(viewModel.maxLevel).toBe(10);
-    expect(viewModel.thoughtsPlaceholder).toBe('Describe how you feel');
+    expect(viewModel.thoughtsPlaceholder).toBe(
+      'Décrivez ce que vous avez ressenti, vos pensées, vos émotions...'
+    );
     expect(viewModel.thoughts).toBe('');
   });
 

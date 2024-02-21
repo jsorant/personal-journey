@@ -1,5 +1,5 @@
 <div class="page">
-  <h2>Add a new event</h2>
+  <h2>Ajouter un nouvel évènement</h2>
   <form [formGroup]="form" (ngSubmit)="addNewEvent()">
     <p>
       <mat-form-field>
@@ -18,13 +18,14 @@
       </mat-form-field>
     </p>
 
-    <label for="add-event-time">Time:</label>
-    <input type="time" id="add-event-time" formControlName="time" />
-    <br /><br />
+    <p>
+      <label for="add-event-time">Heure : </label>
+      <input type="time" id="add-event-time" formControlName="time" />
+    </p>
 
     <p>
       <mat-form-field floatLabel="always">
-        <mat-label>Duration (minutes)</mat-label>
+        <mat-label>Durée (minutes)</mat-label>
         <input
           matInput
           id="add-event-duration"
@@ -42,18 +43,20 @@
           formControlName="type"
           value="depression"
         >
-          <mat-option id="add-event-type-anxiety" value="anxiety"
-            >Anxiety</mat-option
-          >
-          <mat-option id="add-event-type-depression" value="depression"
-            >Depression</mat-option
-          >
+          <mat-option id="add-event-type-anxiety" value="anxiety">{{
+            anxietyTypeText()
+          }}</mat-option>
+          <mat-option id="add-event-type-depression" value="depression">{{
+            depressionTypeText()
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
     </p>
 
     <p>
-      <label>Level: {{ thumb.value }}</label>
+      <label
+        >Degré d'inconfort : {{ thumb.value }}/{{ viewModel.maxLevel }}</label
+      >
       <mat-slider
         id="add-event-level"
         min="{{ viewModel.minLevel }}"
@@ -72,7 +75,7 @@
 
     <p>
       <mat-form-field floatLabel="always">
-        <mat-label>Describe your thoughts</mat-label>
+        <mat-label>Décrivez l'évènement</mat-label>
         <textarea
           matInput
           id="add-event-thoughts"
@@ -89,7 +92,7 @@
       id="add-event-button"
       type="submit"
     >
-      Add new event
+      Ajouter l'évènement
     </button>
   </form>
 </div>

@@ -46,6 +46,16 @@ export class AddEventComponent {
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
   readonly #presenter: AddEventPresenter;
   viewModel: AddEventViewModel;
+  static ANXIETY_TYPE_TEXT = "Crise d'angoisse";
+  static DEPRESSION_TYPE_TEXT = 'Moment dépressif';
+
+  anxietyTypeText() {
+    return AddEventComponent.ANXIETY_TYPE_TEXT;
+  }
+
+  depressionTypeText() {
+    return AddEventComponent.DEPRESSION_TYPE_TEXT;
+  }
 
   form = this.#formBuilder.group({
     date: '',

@@ -104,7 +104,11 @@ describe('AddEventComponent', () => {
       loader
     );
 
-    await matSelectShouldHaveText('Depression', '#add-event-type', loader);
+    await matSelectShouldHaveText(
+      AddEventComponent.DEPRESSION_TYPE_TEXT,
+      '#add-event-type',
+      loader
+    );
     /*await matInputShouldHaveValue(
       presenter.viewModel.level.toString(),
       '#add-event-level'

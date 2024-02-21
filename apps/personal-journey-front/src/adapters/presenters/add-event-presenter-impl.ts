@@ -37,7 +37,8 @@ export class AddEventPresenterImpl implements AddEventPresenter {
       level: 1,
       minLevel: 0,
       maxLevel: 10,
-      thoughtsPlaceholder: 'Describe how you feel',
+      thoughtsPlaceholder:
+        'Décrivez ce que vous avez ressenti, vos pensées, vos émotions...',
       thoughts: '',
     };
   }
