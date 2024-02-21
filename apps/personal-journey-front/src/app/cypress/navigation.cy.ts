@@ -6,7 +6,7 @@ export function clickOnButtonShouldNavigateTo(
   router: Router
 ) {
   let calledUrl = '';
-  const stub = cy.stub(router, 'navigateByUrl').callsFake((arg) => {
+  cy.stub(router, 'navigateByUrl').callsFake((arg) => {
     calledUrl = arg.toString();
   });
 

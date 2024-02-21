@@ -3,7 +3,6 @@ import { HomeComponent } from './home.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('HeaderComponent', () => {
-  let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(waitForAsync(() => {
@@ -14,7 +13,6 @@ describe('HeaderComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
