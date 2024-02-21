@@ -30,8 +30,6 @@ import {
   MatSliderModule,
   MatSliderThumb,
 } from '@angular/material/slider';
-import { MatInputHarness } from '@angular/material/input/testing';
-import { MatSliderHarness } from '@angular/material/slider/testing';
 import { MatButton } from '@angular/material/button';
 
 class DummyPresenter implements AddEventPresenter {
@@ -59,7 +57,6 @@ class DummyPresenter implements AddEventPresenter {
 describe('AddEventComponent', () => {
   let presenter: DummyPresenter;
   let fixture: ComponentFixture<AddEventComponent>;
-
   let loader: HarnessLoader;
 
   beforeEach(async () => {
@@ -95,7 +92,7 @@ describe('AddEventComponent', () => {
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
   });
-
+  //TODO
   it.only('should initialize with default values', async () => {
     await matInputShouldHaveValue('12/25/2020', '#add-event-date', loader);
 

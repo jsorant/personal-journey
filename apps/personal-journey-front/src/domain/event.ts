@@ -1,4 +1,12 @@
+export enum EventType {
+  ANXIETY,
+  DEPRESSION,
+}
+
 export interface Event {
-  date: Date;
-  thoughts: string;
+  readonly type: EventType;
+  readonly date: Date;
+  readonly durationMinutes: number;
+  readonly level: number;
+  readonly thoughts: string;
 }

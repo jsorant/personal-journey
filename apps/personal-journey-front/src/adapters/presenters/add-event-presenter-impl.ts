@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { AddEventPresenter, AddEventViewModel } from './add-event.presenter';
 import { EventsRepository } from '../../domain/events.repository';
 import { CurrentDate } from '../current-date';
+import { EventType } from '../../domain/event';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,9 @@ export class AddEventPresenterImpl implements AddEventPresenter {
   async addNewEvent(date: Date, thoughts: string): Promise<void> {
     this.#eventsRepository.saveEvent({
       date,
+      type: EventType.ANXIETY,
+      level: 0,
+      durationMinutes: 10,
       thoughts,
     });
   }

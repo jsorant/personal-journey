@@ -9,8 +9,8 @@ import { NgOptimizedImage } from '@angular/common';
 import { AddEventComponent } from './add-event/add-event.component';
 import { AddEventPresenterImpl } from '../adapters/presenters/add-event-presenter-impl';
 import { CurrentDateImpl } from '../adapters/current-date-impl';
-import { ListEventsComponent } from './list-events/list-events.component';
-import { ListEventsPresenterImpl } from '../adapters/presenters/list-events-presenter.impl';
+import { HistoryComponent } from './history/history.component';
+import { HistoryPresenterImpl } from '../adapters/presenters/history-presenter-impl';
 import { InMemoryEventsRepository } from '../domain/in-memory-events-repository';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,7 +21,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
   standalone: true,
   imports: [
     AddEventComponent,
-    ListEventsComponent,
+    HistoryComponent,
     RouterModule,
     NgOptimizedImage,
     RouterOutlet,
@@ -35,7 +35,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [
-    { provide: 'ListEventsPresenter', useClass: ListEventsPresenterImpl },
+    { provide: 'HistoryPresenter', useClass: HistoryPresenterImpl },
     { provide: 'AddEventPresenter', useClass: AddEventPresenterImpl },
     { provide: 'EventsRepository', useClass: InMemoryEventsRepository },
     { provide: 'CurrentDate', useClass: CurrentDateImpl },
