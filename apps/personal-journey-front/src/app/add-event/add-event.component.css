@@ -1,0 +1,10 @@
+form {
+}
+
+form mat-form-field {
+  width: 500px;
+}
+
+mat-slider {
+  width: 400px;
+}

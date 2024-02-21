@@ -14,6 +14,12 @@ import { MatInput } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import {
+  MatSlider,
+  MatSliderModule,
+  MatSliderThumb,
+} from '@angular/material/slider';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'duckrulz-add-event',
@@ -27,6 +33,10 @@ import { MatSelect } from '@angular/material/select';
     MatDatepickerModule,
     MatSelect,
     MatOption,
+    MatSlider,
+    MatSliderThumb,
+    MatSliderModule,
+    MatButton,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './add-event.component.html',

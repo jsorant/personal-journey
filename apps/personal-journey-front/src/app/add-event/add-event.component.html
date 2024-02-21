@@ -1,91 +1,95 @@
-<h2>Add a new event</h2>
-<form [formGroup]="form" (ngSubmit)="addNewEvent()">
-  <p>
-    <mat-form-field>
-      <mat-label>Date</mat-label>
-      <input
-        matInput
-        id="add-event-date"
-        formControlName="date"
-        [matDatepicker]="picker"
-      />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </p>
+<div class="page">
+  <h2>Add a new event</h2>
+  <form [formGroup]="form" (ngSubmit)="addNewEvent()">
+    <p>
+      <mat-form-field>
+        <mat-label>Date</mat-label>
+        <input
+          matInput
+          id="add-event-date"
+          formControlName="date"
+          [matDatepicker]="picker"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </p>
 
-  <label for="add-event-time">Time:</label>
-  <input type="time" id="add-event-time" formControlName="time" />
-  <br /><br />
+    <label for="add-event-time">Time:</label>
+    <input type="time" id="add-event-time" formControlName="time" />
+    <br /><br />
 
-  <p>
-    <mat-form-field floatLabel="always">
-      <mat-label>Duration (minutes)</mat-label>
-      <input
-        matInput
-        id="add-event-duration"
-        type="number"
-        formControlName="durationMinutes"
-      />
-    </mat-form-field>
-  </p>
+    <p>
+      <mat-form-field floatLabel="always">
+        <mat-label>Duration (minutes)</mat-label>
+        <input
+          matInput
+          id="add-event-duration"
+          type="number"
+          formControlName="durationMinutes"
+        />
+      </mat-form-field>
+    </p>
 
-  <mat-form-field>
-    <mat-label>Type</mat-label>
-    <mat-select>
-      <mat-option value="anxiety">Anxiety</mat-option>
-      <mat-option value="depression">Depression</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <p>
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select
+          id="add-event-type"
+          formControlName="type"
+          value="depression"
+        >
+          <mat-option id="add-event-type-anxiety" value="anxiety"
+            >Anxiety</mat-option
+          >
+          <mat-option id="add-event-type-depression" value="depression"
+            >Depression</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </p>
 
-  <label>Type:</label>
-  <input
-    type="radio"
-    id="add-event-type-anxiety"
-    value="anxiety"
-    name="type"
-    formControlName="type"
-  />
-  <label for="add-event-type-anxiety">Anxiety</label><br />
-  <input
-    type="radio"
-    id="add-event-type-depression"
-    value="depression"
-    name="type"
-    formControlName="type"
-  />
-  <label for="add-event-type-depression">Depression</label><br />
-  <br /><br />
-  <label for="add-event-level">Level:</label>
-  <input
-    type="range"
-    id="add-event-level"
-    formControlName="level"
-    min="{{ viewModel.minLevel }}"
-    max="{{ viewModel.maxLevel }}"
-    step="1"
-    value="{{ viewModel.level }}"
-    oninput="this.nextElementSibling.value = this.value"
-  />
-  <output>{{ viewModel.level }}</output>
+    <p>
+      <label>Level: {{ thumb.value }}</label>
+      <mat-slider
+        id="add-event-level"
+        min="{{ viewModel.minLevel }}"
+        max="{{ viewModel.maxLevel }}"
+        step="1"
+        discrete
+      >
+        <input
+          matSliderThumb
+          id="add-event-level-thumb"
+          #thumb
+          formControlName="level"
+        />
+      </mat-slider>
+    </p>
 
-  <p>
-    <mat-form-field floatLabel="always">
-      <mat-label>Describe your thoughts</mat-label>
-      <textarea
-        matInput
-        id="add-event-thoughts"
-        placeholder="{{ viewModel.thoughtsPlaceholder }}"
-        formControlName="thoughts"
-      ></textarea>
-    </mat-form-field>
-  </p>
+    <p>
+      <mat-form-field floatLabel="always">
+        <mat-label>Describe your thoughts</mat-label>
+        <textarea
+          matInput
+          id="add-event-thoughts"
+          placeholder="{{ viewModel.thoughtsPlaceholder }}"
+          formControlName="thoughts"
+        ></textarea>
+      </mat-form-field>
+    </p>
 
-  <button id="add-event-button" class="button" type="submit">Add</button>
-</form>
-
-<br />
-<br />
+    <button
+      class="submit-button"
+      mat-raised-button
+      color="primary"
+      id="add-event-button"
+      type="submit"
+    >
+      Add new event
+    </button>
+  </form>
+</div>
