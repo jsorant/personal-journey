@@ -1,17 +1,14 @@
 import { EventsRepository } from '../../domain/events.repository';
-import { Event } from '../../domain/event';
+import { Event, EventType } from '../../domain/event';
 import { mock, Mock } from 'ts-jest-mocker';
 import { ListEventsPresenterImpl } from './list-events-presenter.impl';
+import {
+  domainEvent1,
+  domainEvent2,
+  domainEvent3,
+} from '../../tests/domain-events';
+import { EventViewModel, EventViewModelType } from './event-view-model';
 
-const event1: Event = {
-  date: new Date('2022-11-05 11:11'),
-  thoughts: 'Freezing',
-};
-
-const event2: Event = {
-  date: new Date('2022-11-15 20:11'),
-  thoughts: 'Sleepy',
-};
 describe('ListEventsPresenterImpl', () => {
   let mockEventsRepository: Mock<EventsRepository>;
   let sut: ListEventsPresenterImpl;
@@ -23,16 +20,40 @@ describe('ListEventsPresenterImpl', () => {
   });
 
   test('should define initial events', () => {
-    mockEventsRepository.listEvents.mockReturnValue([event1, event2]);
+    mockEventsRepository.listEvents.mockReturnValue([
+      domainEvent1,
+      domainEvent2,
+      domainEvent3,
+    ]);
 
     const events = sut.getEvents();
 
-    expect(events.length).toEqual(2);
-    expect(events[0]).toEqual(event1);
-    expect(events[1]).toEqual(event2);
+    expect(events.length).toEqual(3);
+    expectMatch(events[0], domainEvent1);
+    expectMatch(events[1], domainEvent2);
+    expectMatch(events[2], domainEvent3);
   });
 
-  test('should update view if events repository is updated', () => {
-    //TODO
-  });
+  function expectMatch(
+    eventViewModel: EventViewModel,
+    domainEvent: Event
+  ): void {
+    expectTypesMatch(eventViewModel, domainEvent);
+    expect(eventViewModel.date).toStrictEqual(domainEvent.date);
+    expect(eventViewModel.level).toStrictEqual(domainEvent.level);
+    expect(eventViewModel.durationMinutes).toStrictEqual(
+      domainEvent.durationMinutes
+    );
+    expect(eventViewModel.thoughts).toStrictEqual(domainEvent.thoughts);
+  }
+
+  function expectTypesMatch(
+    eventViewModel: EventViewModel,
+    domainEvent: Event
+  ) {
+    if (eventViewModel.type === EventViewModelType.ANXIETY)
+      expect(domainEvent.type).toStrictEqual(EventType.ANXIETY);
+    if (eventViewModel.type === EventViewModelType.DEPRESSION)
+      expect(domainEvent.type).toStrictEqual(EventType.DEPRESSION);
+  }
 });

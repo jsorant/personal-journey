@@ -2,6 +2,7 @@ import { Mock, mock } from 'ts-jest-mocker';
 import { AddEventPresenterImpl } from './add-event-presenter-impl';
 import { EventsRepository } from '../../domain/events.repository';
 import { CurrentDate } from '../current-date';
+import { EventType } from '../../domain/event';
 
 describe('AddEventPresenterImpl', () => {
   const now = new Date('2022-12-11 12:05');
@@ -37,6 +38,9 @@ describe('AddEventPresenterImpl', () => {
 
     expect(mockEventsRepository.saveEvent).toHaveBeenCalledWith({
       date: now,
+      type: EventType.ANXIETY,
+      level: 0,
+      durationMinutes: 10,
       thoughts: 'Thoughts',
     });
   });

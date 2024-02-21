@@ -1,5 +1,5 @@
-import { Event } from './event';
+import { EventViewModel } from './event-view-model';
 
 export interface ListEventsPresenter {
-  getEvents(): Event[];
+  getEvents(): EventViewModel[];
 }

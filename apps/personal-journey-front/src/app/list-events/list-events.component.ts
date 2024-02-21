@@ -1,20 +1,34 @@
 import { Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ListEventsPresenter } from '../../adapters/presenters/list-events.presenter';
-import { Event } from '../../adapters/presenters/event';
-import { EventItemComponent } from '../event-item/event-item.component';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import {
+  EventViewModel,
+  EventViewModelType,
+} from '../../adapters/presenters/event-view-model';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'duckrulz-list-events',
   standalone: true,
-  imports: [EventItemComponent, CommonModule],
+  imports: [
+    CommonModule,
+    MatListModule,
+    MatIconModule,
+    MatDividerModule,
+    DatePipe,
+  ],
   templateUrl: './list-events.component.html',
   styleUrl: './list-events.component.css',
 })
 export class ListEventsComponent {
-  events: Event[];
+  events: EventViewModel[];
 
   constructor(@Inject('ListEventsPresenter') presenter: ListEventsPresenter) {
     this.events = presenter.getEvents();
   }
+
+  protected readonly EventViewModel = EventViewModel;
+  protected readonly EventViewModelType = EventViewModelType;
 }

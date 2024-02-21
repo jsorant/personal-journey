@@ -5,12 +5,22 @@
   <p id="list-events-empty-label">No events recorded yet.</p>
 </ng-template>
 <ng-template #eventsBlock>
-  <div id="events-list">
-    <ng-container *ngFor="let event of events; let i = index">
-      <duckrulz-event-item
-        id="event-{{ i }}"
-        [event]="event"
-      ></duckrulz-event-item>
-    </ng-container>
-  </div>
+  <mat-list id="events-list">
+    @for (event of events; track event) {
+    <mat-list-item id="event-{{ $index }}" lines="3">
+      <mat-icon matListItemIcon
+        >@if (event.type === EventViewModelType.ANXIETY){offline_bolt} @else {
+        mood_bad }</mat-icon
+      >
+      <span matListItemTitle>{{ event.type }}</span>
+      <span matListItemLine *ngIf="event.thoughts.length > 0">{{
+        event.thoughts
+      }}</span>
+      <span matListItemLine
+        >{{ event.date | date : "d MMM yyyy 'at' HH:mm" }}
+      </span>
+    </mat-list-item>
+    <mat-divider> </mat-divider>
+    }
+  </mat-list>
 </ng-template>
