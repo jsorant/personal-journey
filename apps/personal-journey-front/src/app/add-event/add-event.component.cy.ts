@@ -117,7 +117,7 @@ describe('AddEventComponent', () => {
   });
 
   it('should add an event', async () => {
-    const addNewEventSpy = cy.stub(presenter, 'addNewEvent');
+    const addNewEventStub = cy.stub(presenter, 'addNewEvent');
 
     await harnessUtils.openMatSelectAndClickOnOption(
       AddEventComponent.ANXIETY_TYPE_TEXT,
@@ -156,9 +156,10 @@ describe('AddEventComponent', () => {
       level: 2,
       thoughts: 'Some thoughts',
     };
-    expect(addNewEventSpy).to.have.been.calledOnceWithExactly(expected);
-    //TODO this test should not work : dates' times do not match
-    //     dates should be compared with date.toString()
-    //     setUniqueTimeInputValue updates UI but not formGroup values
+    expect(addNewEventStub).to.have.been.calledOnceWithExactly(expected);
+
+    expect(addNewEventStub.firstCall.args[0].date.toString()).to.eq(
+      new Date('2022-12-25 16:14').toString()
+    );
   });
 });

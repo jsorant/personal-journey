@@ -18,9 +18,19 @@ export class TimeInputComponentHarness extends ComponentHarness {
 
   async setHours(value: string) {
     const hours = await this.getHoursElement();
+
+    await hours.clear();
+    // We don't want to send keys for the value if the value is an empty
+    // string in order to clear the value. Sending keys with an empty string
+    // still results in unnecessary focus events.
+    if (value) {
+      await hours.sendKeys(value);
+    }
+
+    // Some input types won't respond to key presses (e.g. `color`) so to be sure that the
+    // value is set, we also set the property after the keyboard sequence. Note that we don't
+    // want to do it before, because it can cause the value to be entered twice.
     await hours.setInputValue(value);
-    await this.forceStabilize();
-    //TODO seems to update ui but not formGroup so accessing value with getHours does not work
   }
 
   async getMinutes() {
@@ -30,8 +40,10 @@ export class TimeInputComponentHarness extends ComponentHarness {
 
   async setMinutes(value: string) {
     const minutes = await this.getMinutesElement();
+    await minutes.clear();
+    if (value) {
+      await minutes.sendKeys(value);
+    }
     await minutes.setInputValue(value);
-    await this.forceStabilize();
-    //TODO seems to update ui but not formGroup so accessing value with getHours does not work
   }
 }

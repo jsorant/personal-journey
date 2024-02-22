@@ -15,6 +15,9 @@
           [for]="picker"
         ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="form.controls.date.hasError('required')">
+          La date est requise
+        </mat-error>
       </mat-form-field>
     </p>
 
@@ -26,6 +29,15 @@
           formControlName="time"
         ></duckrulz-time-input>
         <mat-icon matSuffix>access_time</mat-icon>
+        <mat-error *ngIf="form.controls.time.hasError('onlyDigitsRequired')">
+          Ne peut contenir que des nombres
+        </mat-error>
+        <mat-error *ngIf="form.controls.time.hasError('invalidHoursRange')">
+          Champ invalide
+        </mat-error>
+        <mat-error *ngIf="form.controls.time.hasError('invalidMinutesRange')">
+          Champ invalide
+        </mat-error>
       </mat-form-field>
     </p>
 
@@ -38,6 +50,12 @@
           type="number"
           formControlName="durationMinutes"
         />
+        <mat-error *ngIf="form.controls.durationMinutes.hasError('required')">
+          La durée est requise
+        </mat-error>
+        <mat-error *ngIf="form.controls.durationMinutes.hasError('min')">
+          Valeur invalide
+        </mat-error>
       </mat-form-field>
     </p>
 
@@ -97,6 +115,7 @@
       color="primary"
       id="add-event-button"
       type="submit"
+      [disabled]="!form.valid"
     >
       Ajouter l'évènement
     </button>

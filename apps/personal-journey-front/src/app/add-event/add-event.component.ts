@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import { Component, EventEmitter, inject, Inject, Output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { TimeHelper } from '../helpers/time.helper';
 import {
   AddEventPresenter,
@@ -31,7 +36,9 @@ import { MatIcon } from '@angular/material/icon';
 import {
   Time,
   TimeInputComponent,
+  validateTimeInput,
 } from '../custom-components/time-input.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'duckrulz-add-event',
@@ -51,6 +58,7 @@ import {
     MatButton,
     MatIcon,
     TimeInputComponent,
+    NgIf,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './add-event.component.html',
@@ -75,9 +83,15 @@ export class AddEventComponent {
   }
 
   form = this.#formBuilder.group({
-    date: '',
-    time: Time.MIDNIGHT,
-    durationMinutes: 0,
+    date: new FormControl('', [Validators.required]),
+    time: new FormControl(Time.MIDNIGHT, [
+      Validators.required,
+      validateTimeInput,
+    ]),
+    durationMinutes: new FormControl(0, [
+      Validators.required,
+      Validators.min(0),
+    ]),
     type: '',
     level: 0,
     thoughts: '',
@@ -102,6 +116,7 @@ export class AddEventComponent {
   }
 
   async addNewEvent(): Promise<void> {
+    console.log('valid', this.form.valid);
     //TODO loader
 
     //TODO validate
@@ -122,6 +137,8 @@ export class AddEventComponent {
     //console.log(inputs);
 
     this.eventAdded.emit();
+    console.log(this.form.value.date);
+    console.log(this.adaptDate());
   }
 
   private adaptDate() {

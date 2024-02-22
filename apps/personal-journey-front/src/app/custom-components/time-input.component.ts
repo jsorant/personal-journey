@@ -18,9 +18,12 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  FormGroupDirective,
   FormsModule,
   NgControl,
+  NgForm,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import {
@@ -69,6 +72,34 @@ export class Time {
   }
 }
 
+export function validateTimeInput(
+  control: AbstractControl
+): ValidationErrors | null {
+  const time: Time = control.value;
+
+  const hours = time.hoursToNumber();
+  if (Number.isNaN(hours)) {
+    return { onlyDigitsRequired: true };
+  }
+  if (hours < 0 || hours > 23) {
+    return {
+      invalidHoursRange: true,
+    };
+  }
+
+  const minutes = time.minutesToNumber();
+  if (Number.isNaN(minutes)) {
+    return { onlyDigitsRequired: true };
+  }
+  if (minutes < 0 || minutes > 23) {
+    return {
+      invalidMinutesRange: true,
+    };
+  }
+
+  return null;
+}
+
 @Component({
   selector: 'duckrulz-time-input',
   templateUrl: 'time-input.component.html',
@@ -102,6 +133,7 @@ export class TimeInputComponent
   touched = false;
   controlType = 'duckrulz-time-input';
   id = `duckrulz-time-input-${TimeInputComponent.nextId++}`;
+  errorState: boolean = false;
   onChange = (_: any) => {};
 
   onTouched = () => {};
@@ -168,40 +200,41 @@ export class TimeInputComponent
     this.stateChanges.next();
   }
 
-  get errorState(): boolean {
-    return this.parts.invalid && this.touched;
+  ngDoCheck() {
+    if (this.ngControl) {
+      this.updateErrorState();
+    }
   }
 
+  private updateErrorState() {
+    const parent = this._parentFormGroup || this._parentForm;
+
+    const oldState = this.errorState;
+    const newState =
+      (this.ngControl?.invalid || this.parts.invalid) &&
+      (this.touched || parent.submitted);
+
+    if (oldState !== newState) {
+      this.errorState = newState;
+      this.stateChanges.next();
+    }
+  }
   constructor(
     formBuilder: FormBuilder,
     private _focusMonitor: FocusMonitor,
     private _elementRef: ElementRef<HTMLElement>,
     @Optional() @Inject(MAT_FORM_FIELD) public _formField: MatFormField,
-    @Optional() @Self() public ngControl: NgControl
+    @Optional() @Self() public ngControl: NgControl,
+    @Optional() private _parentForm: NgForm,
+    @Optional() private _parentFormGroup: FormGroupDirective
   ) {
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
 
     this.parts = formBuilder.group({
-      hours: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(HOURS_LENGTH),
-          Validators.maxLength(HOURS_LENGTH),
-          // TODO custom validator
-        ],
-      ],
-      minutes: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(MINUTES_LENGTH),
-          Validators.maxLength(MINUTES_LENGTH),
-          // TODO custom validator
-        ],
-      ],
+      hours: '',
+      minutes: '',
     });
   }
 
@@ -269,10 +302,13 @@ export class TimeInputComponent
   }
 
   _handleInput(control: AbstractControl, nextElement?: HTMLInputElement): void {
+    this.touched = true;
     this.ensureControlHasNoMoreThanTwoChars(this.parts.controls.hours);
     this.ensureControlHasNoMoreThanTwoChars(this.parts.controls.minutes);
     this.shouldFocusNext(control, nextElement);
     this.onChange(this.value);
+    this.updateErrorState();
+    this.stateChanges.next();
   }
 
   private shouldFocusNext(

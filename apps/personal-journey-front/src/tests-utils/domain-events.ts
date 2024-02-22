@@ -19,12 +19,12 @@ export const domainEvent2: Event = {
   date: new Date('2022-01-06 14:50'),
   durationMinutes: 10,
   level: 8,
-  thoughts: 'Heartbeats',
+  thoughts: 'Tremblements et rythme cardiaque élevé',
 };
 export const domainEvent3: Event = {
   type: EventType.DEPRESSION,
-  date: new Date('2022-01-07 23:50'),
+  date: new Date('2022-01-07 09:30'),
   durationMinutes: 60,
   level: 4,
-  thoughts: 'Sleepy',
+  thoughts: 'Envie de rester au lit',
 };
