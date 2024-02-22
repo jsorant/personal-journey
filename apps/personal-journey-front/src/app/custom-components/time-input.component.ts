@@ -1,0 +1,351 @@
+/* eslint-disable */
+
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  Optional,
+  Self,
+  ViewChild,
+} from '@angular/core';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  FormsModule,
+  NgControl,
+  NgForm,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import {
+  MAT_FORM_FIELD,
+  MatFormField,
+  MatFormFieldControl,
+} from '@angular/material/form-field';
+import { Subject } from 'rxjs';
+
+const HOURS_LENGTH = 2;
+const MINUTES_LENGTH = 2;
+
+export class Time {
+  private constructor(public hours: string, public minutes: string) {}
+
+  static MIDNIGHT = new Time('00', '00');
+
+  static buildWithStrings(hours: string, minutes: string) {
+    return new Time(hours, minutes);
+  }
+
+  static buildWithNumbers(hours: number, minutes: number) {
+    let hoursStr = hours.toString();
+    if (hoursStr.length === 1) hoursStr = 0 + hoursStr;
+    let minutesStr = minutes.toString();
+    if (minutesStr.length === 1) minutesStr = 0 + minutesStr;
+    return Time.buildWithStrings(hoursStr, minutesStr);
+  }
+
+  static buildWithDate(date: Date) {
+    return Time.buildWithNumbers(date.getHours(), date.getMinutes());
+  }
+
+  applyCurrentTimeInto(date: Date): Date {
+    const hours = this.hoursToNumber();
+    const minutes = this.minutesToNumber();
+    return new Date(date.setHours(hours, minutes));
+  }
+
+  hoursToNumber(): number {
+    return Number.parseInt(this.hours);
+  }
+
+  minutesToNumber(): number {
+    return Number.parseInt(this.minutes);
+  }
+}
+
+export function validateTimeInput(
+  control: AbstractControl
+): ValidationErrors | null {
+  const time: Time = control.value;
+
+  const hours = time.hoursToNumber();
+  if (Number.isNaN(hours)) {
+    return { onlyDigitsRequired: true };
+  }
+  if (hours < 0 || hours > 23) {
+    return {
+      invalidHoursRange: true,
+    };
+  }
+
+  const minutes = time.minutesToNumber();
+  if (Number.isNaN(minutes)) {
+    return { onlyDigitsRequired: true };
+  }
+  if (minutes < 0 || minutes > 23) {
+    return {
+      invalidMinutesRange: true,
+    };
+  }
+
+  return null;
+}
+
+@Component({
+  selector: 'duckrulz-time-input',
+  templateUrl: 'time-input.component.html',
+  styleUrls: ['time-input.component.css'],
+  providers: [
+    { provide: MatFormFieldControl, useExisting: TimeInputComponent },
+  ],
+
+  host: {
+    '[class.input-floating]': 'shouldLabelFloat',
+    '[id]': 'id',
+  },
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule],
+})
+export class TimeInputComponent
+  implements ControlValueAccessor, MatFormFieldControl<Time>, OnDestroy
+{
+  static nextId = 0;
+  // @ts-ignore
+  @ViewChild('hours') hoursInput: HTMLInputElement;
+  // @ts-ignore
+  @ViewChild('minutes') minutesInput: HTMLInputElement;
+
+  parts: FormGroup<{
+    hours: FormControl<string | null>;
+    minutes: FormControl<string | null>;
+  }>;
+  stateChanges = new Subject<void>();
+  focused = false;
+  touched = false;
+  controlType = 'duckrulz-time-input';
+  id = `duckrulz-time-input-${TimeInputComponent.nextId++}`;
+  errorState: boolean = false;
+  onChange = (_: any) => {};
+
+  onTouched = () => {};
+
+  get empty() {
+    const {
+      value: { hours, minutes },
+    } = this.parts;
+
+    return !hours && !minutes;
+  }
+
+  get shouldLabelFloat() {
+    return this.focused || !this.empty;
+  }
+
+  @Input('aria-describedby') userAriaDescribedBy: string = '';
+
+  @Input()
+  get placeholder(): string {
+    return this._placeholder;
+  }
+  set placeholder(value: string) {
+    this._placeholder = value;
+    this.stateChanges.next();
+  }
+  private _placeholder: string = '';
+
+  @Input()
+  get required(): boolean {
+    return this._required;
+  }
+  set required(value: BooleanInput) {
+    this._required = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+  private _required = false;
+
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
+  set disabled(value: BooleanInput) {
+    this._disabled = coerceBooleanProperty(value);
+    this._disabled ? this.parts.disable() : this.parts.enable();
+    this.stateChanges.next();
+  }
+  private _disabled = false;
+
+  @Input()
+  get value(): Time | null {
+    if (this.parts.valid) {
+      const {
+        value: { hours, minutes },
+      } = this.parts;
+
+      return Time.buildWithStrings(hours!, minutes!);
+    }
+    return null;
+  }
+  set value(time: Time | null) {
+    const { hours, minutes } = time || Time.MIDNIGHT;
+    this.parts.setValue({ hours: hours, minutes: minutes });
+    this.stateChanges.next();
+  }
+
+  ngDoCheck() {
+    if (this.ngControl) {
+      this.updateErrorState();
+    }
+  }
+
+  private updateErrorState() {
+    const parent = this._parentFormGroup || this._parentForm;
+
+    const oldState = this.errorState;
+    const newState =
+      (this.ngControl?.invalid || this.parts.invalid) &&
+      (this.touched || parent.submitted);
+
+    if (oldState !== newState) {
+      this.errorState = newState;
+      this.stateChanges.next();
+    }
+  }
+  constructor(
+    formBuilder: FormBuilder,
+    private _focusMonitor: FocusMonitor,
+    private _elementRef: ElementRef<HTMLElement>,
+    @Optional() @Inject(MAT_FORM_FIELD) public _formField: MatFormField,
+    @Optional() @Self() public ngControl: NgControl,
+    @Optional() private _parentForm: NgForm,
+    @Optional() private _parentFormGroup: FormGroupDirective
+  ) {
+    if (this.ngControl != null) {
+      this.ngControl.valueAccessor = this;
+    }
+
+    this.parts = formBuilder.group({
+      hours: '',
+      minutes: '',
+    });
+  }
+
+  ngOnDestroy() {
+    this.stateChanges.complete();
+    this._focusMonitor.stopMonitoring(this._elementRef);
+  }
+
+  onFocusIn(_event: FocusEvent) {
+    if (!this.focused) {
+      this.focused = true;
+      this.stateChanges.next();
+    }
+  }
+
+  onFocusOut(event: FocusEvent) {
+    if (
+      !this._elementRef.nativeElement.contains(event.relatedTarget as Element)
+    ) {
+      this.touched = true;
+      this.focused = false;
+      this.onTouched();
+      this.stateChanges.next();
+    }
+  }
+
+  autoFocusNext(
+    control: AbstractControl,
+    nextElement?: HTMLInputElement
+  ): void {
+    if (!control.errors && nextElement) {
+      this._focusMonitor.focusVia(nextElement, 'program');
+    }
+  }
+
+  autoFocusPrev(control: AbstractControl, prevElement: HTMLInputElement): void {
+    if (!control.value || control.value.length < 1) {
+      this._focusMonitor.focusVia(prevElement, 'program');
+    }
+  }
+
+  setDescribedByIds(ids: string[]) {
+    const controlElement = this._elementRef.nativeElement.querySelector(
+      '.time-input-container'
+    )!;
+    controlElement.setAttribute('aria-describedby', ids.join(' '));
+  }
+
+  onContainerClick() {}
+
+  writeValue(time: Time | null): void {
+    this.value = time;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  _handleInput(control: AbstractControl, nextElement?: HTMLInputElement): void {
+    this.touched = true;
+    this.ensureControlHasNoMoreThanTwoChars(this.parts.controls.hours);
+    this.ensureControlHasNoMoreThanTwoChars(this.parts.controls.minutes);
+    this.shouldFocusNext(control, nextElement);
+    this.onChange(this.value);
+    this.updateErrorState();
+    this.stateChanges.next();
+  }
+
+  private shouldFocusNext(
+    control: AbstractControl,
+    nextElement: HTMLInputElement | undefined
+  ) {
+    if (this.controlIsHours(control) && this.hoursHasTwoChars()) {
+      this.autoFocusNext(control, nextElement);
+      nextElement?.select();
+      this.onChange(this.value);
+    }
+  }
+
+  private controlIsHours(control: AbstractControl) {
+    return control === this.parts.controls.hours;
+  }
+
+  private hoursHasTwoChars() {
+    return (
+      this.parts.controls.hours.value &&
+      this.parts.controls.hours.value!.toString().length === 2
+    );
+  }
+
+  private ensureControlHasNoMoreThanTwoChars(
+    control: FormControl<string | null>
+  ) {
+    if (this.controlHasMoreThanTwoChars(control)) {
+      this.reduceControlToTwoChars(control);
+    }
+  }
+
+  private controlHasMoreThanTwoChars(control: FormControl) {
+    return control.value && control.value!.toString().length > 2;
+  }
+
+  private reduceControlToTwoChars(control: FormControl) {
+    control.setValue(control.value!.toString().substring(0, 2));
+  }
+}

@@ -4,12 +4,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   clickOnLinkShouldNavigateTo,
   clickOnButtonShouldNavigateTo,
-} from '../../cypress/navigation.cy';
+} from '../../../tests-utils/cypress-utils/navigation.cy';
 import { Router } from '@angular/router';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { matButtonShouldHaveText } from '../../../tests-utils/cypress-utils/harness-utils.cy';
 
 describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
   let router: Router;
+  let loader: HarnessLoader;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,6 +23,7 @@ describe('HeaderComponent', () => {
 
     fixture = TestBed.createComponent(HeaderComponent);
     router = fixture.componentInstance.router;
+    loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
   it('should have the home icon button', () => {
@@ -40,8 +45,11 @@ describe('HeaderComponent', () => {
   });
 
   it('should have the add event button', () => {
-    cy.get('#add-event-button').should('be.visible');
-    cy.get('#add-event-button').should('contain.text', 'Add event');
+    matButtonShouldHaveText(
+      HeaderComponent.ADD_EVENT_BUTTON_TEXT,
+      '#add-event-button',
+      loader
+    );
   });
 
   it('should navigate to add event with the add event button', () => {
@@ -49,8 +57,11 @@ describe('HeaderComponent', () => {
   });
 
   it('should have the history button', () => {
-    cy.get('#history-button').should('be.visible');
-    cy.get('#history-button').should('contain.text', 'Historique');
+    matButtonShouldHaveText(
+      HeaderComponent.HISTORY_BUTTON_TEXT,
+      '#history-button',
+      loader
+    );
   });
 
   it('should navigate to history with the history button', () => {

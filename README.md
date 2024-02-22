@@ -80,3 +80,9 @@ It will show tasks that you can run with Nx.
 
 - [Learn more about Exploring the Project Graph](https://nx.dev/core-features/explore-graph)
 
+# Next
+
+- Form inputs validation
+- Snackbar notifications
+- Mental health journey
+- Better date/time picker

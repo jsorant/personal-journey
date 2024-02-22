@@ -10,12 +10,12 @@
 
     <button id="history-button" mat-raised-button (click)="onHistoryClicked()">
       <mat-icon>list</mat-icon>
-      Historique
+      {{ historyButtonText() }}
     </button>
 
     <button id="add-event-button" mat-raised-button (click)="onAddClicked()">
       <mat-icon>add</mat-icon>
-      Add event
+      {{ addEventButtonText() }}
     </button>
   </div>
 </mat-toolbar>

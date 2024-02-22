@@ -1,13 +1,13 @@
-import { EventsRepository } from '../../domain/events.repository';
-import { Event, EventType } from '../../domain/event';
+import { EventsRepository } from '../../../domain/events.repository';
+import { Event, EventType } from '../../../domain/event';
 import { mock, Mock } from 'ts-jest-mocker';
 import { HistoryPresenterImpl } from './history-presenter-impl';
 import {
   domainEvent1,
   domainEvent2,
   domainEvent3,
-} from '../../tests/domain-events';
-import { EventViewModel, EventViewModelType } from './event-view-model';
+} from '../../../tests-utils/domain-events';
+import { EventViewModel, EventViewModelType } from '../event-view-model';
 
 describe(HistoryPresenterImpl.name, () => {
   let mockEventsRepository: Mock<EventsRepository>;

@@ -24,6 +24,16 @@ const HISTORY_ROUTE = '/history';
 })
 export class HeaderComponent {
   router = inject(Router);
+  static ADD_EVENT_BUTTON_TEXT = 'Ajouter un évènement';
+  static HISTORY_BUTTON_TEXT = 'Historique';
+
+  addEventButtonText() {
+    return HeaderComponent.ADD_EVENT_BUTTON_TEXT;
+  }
+
+  historyButtonText() {
+    return HeaderComponent.HISTORY_BUTTON_TEXT;
+  }
 
   async onHomeClicked(): Promise<void> {
     await this.router.navigateByUrl(HOME_ROUTE);

@@ -10,3 +10,5 @@ export interface Event {
   readonly level: number;
   readonly thoughts: string;
 }
+
+//TODO make a class with a builder, validations and primitive obsession

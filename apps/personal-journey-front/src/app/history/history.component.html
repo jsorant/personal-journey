@@ -2,7 +2,7 @@
 
 <div *ngIf="events.length === 0; then noEventsBlock; else eventsBlock"></div>
 <ng-template #noEventsBlock>
-  <p id="list-events-empty-label">No events recorded yet.</p>
+  <p id="list-events-empty-label">Aucun évènement enregistré</p>
 </ng-template>
 <ng-template #eventsBlock>
   <mat-list id="events-list">
@@ -16,9 +16,7 @@
       <span matListItemLine *ngIf="event.thoughts.length > 0">{{
         event.thoughts
       }}</span>
-      <span matListItemLine
-        >{{ event.date | date : "d MMM yyyy 'at' HH:mm" }}
-      </span>
+      <span matListItemLine>{{ formatDate(event.date) }} </span>
     </mat-list-item>
     <mat-divider> </mat-divider>
     }

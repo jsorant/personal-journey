@@ -1,9 +1,12 @@
 import { AddEventComponent } from './add-event.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DummyAddEventPresenter } from '../../tests-utils/presenters/dummy-add-event.presenter';
 import {
-  AddEventPresenter,
   AddEventViewModel,
-} from '../../adapters/presenters/add-event.presenter';
+  AddNewEventInputs,
+} from '../../adapters/presenters/add-event/add-event.presenter';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { HarnessLoader } from '@angular/cdk/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -12,55 +15,27 @@ import {
   MatFormFieldModule,
 } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelect } from '@angular/material/select';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { HarnessLoader } from '@angular/cdk/testing';
-import {
-  matInputShouldHavePlaceholder,
-  matInputShouldHaveValue,
-  matSelectShouldHaveText,
-  matSliderShouldHaveMinMaxStep,
-  matSliderThumbShouldHaveValue,
-} from '../cypress/mat-input.cy';
 import {
   MatSlider,
   MatSliderModule,
   MatSliderThumb,
 } from '@angular/material/slider';
 import { MatButton } from '@angular/material/button';
-
-class DummyPresenter implements AddEventPresenter {
-  public readonly viewModel: AddEventViewModel = {
-    date: new Date('2020-12-25 10:15'),
-    durationMinutes: 6,
-    type: 'depression',
-    level: 70,
-    minLevel: 0,
-    maxLevel: 100,
-    thoughtsPlaceholder: 'Describe...',
-    thoughts: '',
-  };
-
-  initialViewModel(): AddEventViewModel {
-    return this.viewModel;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async addNewEvent(date: Date, thoughts: string): Promise<void> {
-    // Nothing to do
-  }
-}
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
+import * as harnessUtils from '../../tests-utils/cypress-utils/harness-utils.cy';
 
 describe('AddEventComponent', () => {
-  let presenter: DummyPresenter;
+  let presenter: DummyAddEventPresenter;
+  let initialViewModel: AddEventViewModel;
   let fixture: ComponentFixture<AddEventComponent>;
   let loader: HarnessLoader;
 
   beforeEach(async () => {
-    presenter = new DummyPresenter();
+    presenter = new DummyAddEventPresenter();
+    initialViewModel = presenter.initialViewModel();
 
     await TestBed.configureTestingModule({
       imports: [
@@ -92,119 +67,99 @@ describe('AddEventComponent', () => {
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
   });
-  //TODO
-  it.only('should initialize with default values', async () => {
-    await matInputShouldHaveValue('12/25/2020', '#add-event-date', loader);
 
-    //await matInputShouldHaveValue('10:15', '#add-event-time');
+  it('should initialize with default values', async () => {
+    await harnessUtils.matInputShouldHaveValue(
+      initialViewModel.date.toLocaleDateString('fr'),
+      '#add-event-date',
+      loader
+    );
 
-    await matInputShouldHaveValue(
-      presenter.viewModel.durationMinutes.toString(),
+    await harnessUtils.uniqueTimeInputShouldHaveValue('10:15', loader);
+
+    await harnessUtils.matInputShouldHaveValue(
+      initialViewModel.durationMinutes.toString(),
       '#add-event-duration',
       loader
     );
 
-    await matSelectShouldHaveText('Depression', '#add-event-type', loader);
-    /*await matInputShouldHaveValue(
-      presenter.viewModel.level.toString(),
-      '#add-event-level'
-    );*/
+    await harnessUtils.matSelectShouldHaveText(
+      AddEventComponent.DEPRESSION_TYPE_TEXT,
+      '#add-event-type',
+      loader
+    );
 
-    await matSliderShouldHaveMinMaxStep(
-      presenter.viewModel.minLevel,
-      presenter.viewModel.maxLevel,
+    await harnessUtils.matSliderShouldHaveMinMaxStep(
+      initialViewModel.minLevel,
+      initialViewModel.maxLevel,
       1,
       '#add-event-level',
       loader
     );
 
-    await matSliderThumbShouldHaveValue(
-      presenter.viewModel.level,
+    await harnessUtils.matSliderThumbShouldHaveValue(
+      initialViewModel.level,
       '#add-event-level-thumb',
       loader
     );
 
-    await matInputShouldHaveValue(
-      presenter.viewModel.thoughts,
+    await harnessUtils.matInputShouldHaveValue(
+      initialViewModel.thoughts,
       '#add-event-thoughts',
       loader
     );
 
-    await matInputShouldHavePlaceholder(
-      presenter.viewModel.thoughtsPlaceholder,
+    await harnessUtils.matInputShouldHavePlaceholder(
+      initialViewModel.thoughtsPlaceholder,
       '#add-event-thoughts',
       loader
     );
-
-    /*
-    cy.get('#add-event-date').should('have.value', '12/25/2020');
-
-    cy.get('#add-event-time').should('have.value', '10:15');
-
-    cy.get('#add-event-duration').should(
-      'have.value',
-      presenter.viewModel.durationMinutes
-    );
-
-    cy.get('#add-event-level').should('have.value', presenter.viewModel.level);
-    cy.get('#add-event-level').should(
-      'have.attr',
-      'min',
-      presenter.viewModel.minLevel
-    );
-    cy.get('#add-event-level').should(
-      'have.attr',
-      'max',
-      presenter.viewModel.maxLevel
-    );
-
-    cy.get('#add-event-thoughts').should(
-      'have.attr',
-      'placeholder',
-      presenter.viewModel.thoughtsPlaceholder
-    );
-
-    cy.get('#add-event-thoughts').should(
-      'have.value',
-      presenter.viewModel.thoughts
-    );
-
-     */
   });
 
-  it('should add an event', () => {
-    cy.spy(presenter, 'addNewEvent');
+  it('should add an event', async () => {
+    const addNewEventStub = cy.stub(presenter, 'addNewEvent');
 
-    /*
-    const select = await loader.getHarness(
-      MatSelectHarness.with({ selector: '#add-event-type' })
+    await harnessUtils.openMatSelectAndClickOnOption(
+      AddEventComponent.ANXIETY_TYPE_TEXT,
+      '#add-event-type',
+      loader
     );
-    console.log(await select.getValueText());
 
-    expect(await select.getValueText()).to.eq('Depression');
+    await harnessUtils.setMatDatePickerInputValueTo(
+      '2022-12-25',
+      '#add-event-date',
+      loader
+    );
 
-    await select.open();
+    await harnessUtils.setUniqueTimeInputValue('16', '14', loader);
 
-    const bugOption = await select.getOptions({
-      isSelected: true,
-    });
-    console.log(await bugOption.at(0).getText());
-    console.log(bugOption);
-    */
+    await harnessUtils.setMatSliderThumbValueTo(
+      2,
+      '#add-event-level-thumb',
+      loader
+    );
 
-    cy.get('#add-event-thoughts').type("I'm feeling cold");
-    cy.get('#add-event-date').type('2019-11-11');
-    cy.get('#add-event-time').type('11:11');
+    await harnessUtils.setMatInputValueTo('45', '#add-event-duration', loader);
 
-    cy.get('#add-event-duration').type('8');
+    await harnessUtils.setMatInputValueTo(
+      'Some thoughts',
+      '#add-event-thoughts',
+      loader
+    );
 
-    cy.get('#add-event-button')
-      .click()
-      .then(() => {
-        expect(presenter.addNewEvent).to.be.calledOnceWith(
-          new Date('2019-11-11 11:11'),
-          "I'm feeling cold"
-        );
-      });
+    await harnessUtils.clickOnMatButton('#add-event-button', loader);
+
+    const expected: AddNewEventInputs = {
+      type: 'anxiety',
+      date: new Date('2022-12-25 16:14'),
+      durationMinutes: 45,
+      level: 2,
+      thoughts: 'Some thoughts',
+    };
+    expect(addNewEventStub).to.have.been.calledOnceWithExactly(expected);
+
+    expect(addNewEventStub.firstCall.args[0].date.toString()).to.eq(
+      new Date('2022-12-25 16:14').toString()
+    );
   });
 });

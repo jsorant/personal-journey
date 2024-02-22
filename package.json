@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "test": "nx test personal-journey-front --watch",
-    "test:comp": "cd apps/personal-journey-front && npx cypress open",
+    "test:comp": "nx component-test personal-journey-front",
+    "cypress": "cd apps/personal-journey-front && npx cypress open",
     "all": "nx run-many -p personal-journey-front -t lint test build e2e-ci component-test",
     "serve": "nx serve personal-journey-front",
     "lint": "nx lint personal-journey-front",
@@ -24,6 +25,7 @@
     "@angular/router": "~17.1.0",
     "@nx/angular": "18.0.4",
     "axios": "^1.6.0",
+    "date-fns": "^3.3.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

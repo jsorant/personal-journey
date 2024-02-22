@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HistoryComponent } from './history.component';
-import { HistoryPresenter } from '../../adapters/presenters/history.presenter';
+import { HistoryPresenter } from '../../adapters/presenters/history/history.presenter';
 import {
   eventViewModel1,
   eventViewModel2,
   eventViewModel3,
   eventWithoutThoughtsViewModel,
-} from '../../tests/view-model-events';
+} from '../../tests-utils/view-model-events';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -64,7 +64,7 @@ describe(HistoryComponent.name, () => {
     cy.get('#list-events-empty-label').should('be.visible');
     cy.get('#list-events-empty-label').should(
       'contain.text',
-      'No events recorded yet.'
+      'Aucun évènement enregistré'
     );
   });
 
@@ -89,6 +89,18 @@ describe(HistoryComponent.name, () => {
     expect(list.length).to.eq(3);
   });
 
+  it('should display an event without thoughts', async () => {
+    await initializeComponentWithEvents([eventWithoutThoughtsViewModel]);
+
+    const harness = await loader.getHarness(
+      MatListItemHarness.with({ selector: '#event-0' })
+    );
+
+    expect(await harness.getTitle()).to.be.not.empty;
+    expect(await harness.getSecondaryText()).to.be.not.empty;
+    expect(await harness.getTertiaryText()).to.be.empty;
+  });
+
   it('should display events details', async () => {
     await initializeComponentWithEvents([
       eventViewModel1,
@@ -103,18 +115,9 @@ describe(HistoryComponent.name, () => {
     expect(await harness.hasIcon()).to.be.true;
     expect(await harness.getTitle()).to.eq('Depressive situation');
     expect(await harness.getSecondaryText()).to.contain('Lorem ipsum dolor');
-    expect(await harness.getTertiaryText()).to.eq('5 Jan 2022 at 08:50');
-  });
-
-  it('should display an event without thoughts', async () => {
-    await initializeComponentWithEvents([eventWithoutThoughtsViewModel]);
-
-    const harness = await loader.getHarness(
-      MatListItemHarness.with({ selector: '#event-0' })
+    console.log(await harness.getTertiaryText());
+    expect(await harness.getTertiaryText()).to.eq(
+      'mer. 5 janvier 2022  à  08:50'
     );
-
-    expect(await harness.getTitle()).to.be.not.empty;
-    expect(await harness.getSecondaryText()).to.be.not.empty;
-    expect(await harness.getTertiaryText()).to.be.empty;
   });
 });
