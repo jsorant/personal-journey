@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Inject, Output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TimeHelper } from '../helpers/time.helper';
 import {
   AddEventPresenter,
@@ -13,7 +13,11 @@ import {
 } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
+import {
+  DateAdapter,
+  MatOption,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import {
   MatSlider,
@@ -21,6 +25,8 @@ import {
   MatSliderThumb,
 } from '@angular/material/slider';
 import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MyTel, MyTelInputComponent } from './tel.component';
 
 @Component({
   selector: 'duckrulz-add-event',
@@ -38,12 +44,15 @@ import { MatButton } from '@angular/material/button';
     MatSliderThumb,
     MatSliderModule,
     MatButton,
+    MatIcon,
+    MyTelInputComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './add-event.component.html',
   styleUrl: './add-event.component.css',
 })
 export class AddEventComponent {
+  readonly #dateAdapter: DateAdapter<unknown> = inject(DateAdapter<unknown>);
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
   readonly #presenter: AddEventPresenter;
   readonly viewModel: AddEventViewModel;
@@ -67,9 +76,11 @@ export class AddEventComponent {
     type: '',
     level: 0,
     thoughts: '',
+    tel: new FormControl(new MyTel('', '', '')),
   });
 
   constructor(@Inject('AddEventPresenter') presenter: AddEventPresenter) {
+    this.#dateAdapter.setLocale('fr');
     this.#presenter = presenter;
     this.viewModel = this.#presenter.initialViewModel();
     this.applyViewModel();
@@ -83,6 +94,7 @@ export class AddEventComponent {
       type: this.viewModel.type,
       level: this.viewModel.level,
       thoughts: this.viewModel.thoughts,
+      tel: new MyTel('', '', ''),
     });
   }
 
@@ -96,7 +108,7 @@ export class AddEventComponent {
     //TODO loader
     const inputs: AddNewEventInputs = {
       type: this.adaptType(this.form.value.type!),
-      date: new Date('2022-12-12'),
+      date,
       level: this.form.value.level!,
       durationMinutes: this.form.value.durationMinutes!,
       thoughts: this.form.value.thoughts!,

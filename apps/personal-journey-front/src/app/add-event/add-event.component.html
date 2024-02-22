@@ -19,8 +19,14 @@
     </p>
 
     <p>
-      <label for="add-event-time">Heure : </label>
-      <input type="time" id="add-event-time" formControlName="time" />
+      <mat-form-field floatLabel="always">
+        <mat-label>Phone number</mat-label>
+        <duckrulz-example-tel-input
+          id="add-event-tel"
+          formControlName="tel"
+        ></duckrulz-example-tel-input>
+        <mat-icon matSuffix>phone</mat-icon>
+      </mat-form-field>
     </p>
 
     <p>

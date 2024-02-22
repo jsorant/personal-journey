@@ -6,7 +6,12 @@ import {
 } from '../../adapters/presenters/add-event/add-event.presenter';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { HarnessLoader } from '@angular/cdk/testing';
+import {
+  BaseHarnessFilters,
+  ComponentHarness,
+  HarnessLoader,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -34,7 +39,8 @@ import {
   matSliderThumbShouldHaveValue,
   openMatSelectAndClickOnOption,
   setMatSliderThumbValueTo,
-  setTextIntoMatInput,
+  setMatInputValueTo,
+  setMatDatePickerInputValueTo,
 } from '../../tests/cypress-utils/material-utils.cy';
 
 describe('AddEventComponent', () => {
@@ -80,7 +86,7 @@ describe('AddEventComponent', () => {
 
   it('should initialize with default values', async () => {
     await matInputShouldHaveValue(
-      initialViewModel.date.toLocaleDateString('en-US'),
+      initialViewModel.date.toLocaleDateString('fr'),
       '#add-event-date',
       loader
     );
@@ -134,12 +140,23 @@ describe('AddEventComponent', () => {
       '#add-event-type',
       loader
     );
-    //TODO DATE
+
+    await setMatDatePickerInputValueTo('2022-12-10', '#add-event-date', loader);
+
+    /*
+    const harness: MyHarness = await loader.getHarness(
+      MyHarness.with({ selector: '#add-event-time' })
+    );
+
+
+
+    await harness.setValue('16:14');    */
+
     await setMatSliderThumbValueTo(2, '#add-event-level-thumb', loader);
 
-    await setTextIntoMatInput('45', '#add-event-duration', loader);
+    await setMatInputValueTo('45', '#add-event-duration', loader);
 
-    await setTextIntoMatInput('Some thoughts', '#add-event-thoughts', loader);
+    await setMatInputValueTo('Some thoughts', '#add-event-thoughts', loader);
 
     await clickOnMatButton('#add-event-button', loader);
 
