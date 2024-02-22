@@ -4,11 +4,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   clickOnLinkShouldNavigateTo,
   clickOnButtonShouldNavigateTo,
-} from '../../../tests/cypress-utils/navigation.cy';
+} from '../../../tests-utils/cypress-utils/navigation.cy';
 import { Router } from '@angular/router';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
-import { matButtonShouldHaveText } from '../../../tests/cypress-utils/material-utils.cy';
+import { matButtonShouldHaveText } from '../../../tests-utils/cypress-utils/material-utils.cy';
 
 describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;

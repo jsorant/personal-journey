@@ -6,7 +6,7 @@ import {
   domainEvent1,
   domainEvent2,
   domainEvent3,
-} from '../../../tests/domain-events';
+} from '../../../tests-utils/domain-events';
 import { EventViewModel, EventViewModelType } from '../event-view-model';
 
 describe(HistoryPresenterImpl.name, () => {

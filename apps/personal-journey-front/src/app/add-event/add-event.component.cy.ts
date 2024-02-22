@@ -1,17 +1,12 @@
 import { AddEventComponent } from './add-event.component';
-import { DummyAddEventPresenter } from '../../tests/presenters/dummy-add-event.presenter';
+import { DummyAddEventPresenter } from '../../tests-utils/presenters/dummy-add-event.presenter';
 import {
   AddEventViewModel,
   AddNewEventInputs,
 } from '../../adapters/presenters/add-event/add-event.presenter';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import {
-  BaseHarnessFilters,
-  ComponentHarness,
-  HarnessLoader,
-  HarnessPredicate,
-} from '@angular/cdk/testing';
+import { HarnessLoader } from '@angular/cdk/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -30,18 +25,7 @@ import {
 import { MatButton } from '@angular/material/button';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
-import {
-  clickOnMatButton,
-  matInputShouldHavePlaceholder,
-  matInputShouldHaveValue,
-  matSelectShouldHaveText,
-  matSliderShouldHaveMinMaxStep,
-  matSliderThumbShouldHaveValue,
-  openMatSelectAndClickOnOption,
-  setMatSliderThumbValueTo,
-  setMatInputValueTo,
-  setMatDatePickerInputValueTo,
-} from '../../tests/cypress-utils/material-utils.cy';
+import * as matUtils from '../../tests-utils/cypress-utils/material-utils.cy';
 
 describe('AddEventComponent', () => {
   let presenter: DummyAddEventPresenter;
@@ -85,27 +69,28 @@ describe('AddEventComponent', () => {
   });
 
   it('should initialize with default values', async () => {
-    await matInputShouldHaveValue(
+    await matUtils.matInputShouldHaveValue(
       initialViewModel.date.toLocaleDateString('fr'),
       '#add-event-date',
       loader
     );
 
+    //TODO
     //await matInputShouldHaveValue('10:15', '#add-event-time');
 
-    await matInputShouldHaveValue(
+    await matUtils.matInputShouldHaveValue(
       initialViewModel.durationMinutes.toString(),
       '#add-event-duration',
       loader
     );
 
-    await matSelectShouldHaveText(
+    await matUtils.matSelectShouldHaveText(
       AddEventComponent.DEPRESSION_TYPE_TEXT,
       '#add-event-type',
       loader
     );
 
-    await matSliderShouldHaveMinMaxStep(
+    await matUtils.matSliderShouldHaveMinMaxStep(
       initialViewModel.minLevel,
       initialViewModel.maxLevel,
       1,
@@ -113,19 +98,19 @@ describe('AddEventComponent', () => {
       loader
     );
 
-    await matSliderThumbShouldHaveValue(
+    await matUtils.matSliderThumbShouldHaveValue(
       initialViewModel.level,
       '#add-event-level-thumb',
       loader
     );
 
-    await matInputShouldHaveValue(
+    await matUtils.matInputShouldHaveValue(
       initialViewModel.thoughts,
       '#add-event-thoughts',
       loader
     );
 
-    await matInputShouldHavePlaceholder(
+    await matUtils.matInputShouldHavePlaceholder(
       initialViewModel.thoughtsPlaceholder,
       '#add-event-thoughts',
       loader
@@ -135,13 +120,17 @@ describe('AddEventComponent', () => {
   it('should add an event', async () => {
     const addNewEventSpy = cy.stub(presenter, 'addNewEvent');
 
-    await openMatSelectAndClickOnOption(
+    await matUtils.openMatSelectAndClickOnOption(
       AddEventComponent.ANXIETY_TYPE_TEXT,
       '#add-event-type',
       loader
     );
 
-    await setMatDatePickerInputValueTo('2022-12-10', '#add-event-date', loader);
+    await matUtils.setMatDatePickerInputValueTo(
+      '2022-12-10',
+      '#add-event-date',
+      loader
+    );
 
     /*
     const harness: MyHarness = await loader.getHarness(
@@ -152,13 +141,21 @@ describe('AddEventComponent', () => {
 
     await harness.setValue('16:14');    */
 
-    await setMatSliderThumbValueTo(2, '#add-event-level-thumb', loader);
+    await matUtils.setMatSliderThumbValueTo(
+      2,
+      '#add-event-level-thumb',
+      loader
+    );
 
-    await setMatInputValueTo('45', '#add-event-duration', loader);
+    await matUtils.setMatInputValueTo('45', '#add-event-duration', loader);
 
-    await setMatInputValueTo('Some thoughts', '#add-event-thoughts', loader);
+    await matUtils.setMatInputValueTo(
+      'Some thoughts',
+      '#add-event-thoughts',
+      loader
+    );
 
-    await clickOnMatButton('#add-event-button', loader);
+    await matUtils.clickOnMatButton('#add-event-button', loader);
 
     const expected: AddNewEventInputs = {
       type: 'anxiety',

@@ -6,7 +6,7 @@ import {
   eventViewModel2,
   eventViewModel3,
   eventWithoutThoughtsViewModel,
-} from '../../tests/view-model-events';
+} from '../../tests-utils/view-model-events';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';

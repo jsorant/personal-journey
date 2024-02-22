@@ -5,7 +5,7 @@ import {
   domainEvent1,
   domainEvent2,
   domainEvent3,
-} from '../tests/domain-events';
+} from '../tests-utils/domain-events';
 
 @Injectable({
   providedIn: 'root',
