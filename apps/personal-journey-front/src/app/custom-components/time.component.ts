@@ -18,10 +18,10 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  NgControl,
-  Validators,
   FormsModule,
+  NgControl,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import {
   MAT_FORM_FIELD,
@@ -30,61 +30,58 @@ import {
 } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 
-export class MyTel {
-  constructor(
-    public area: string,
-    public exchange: string,
-    public subscriber: string
-  ) {}
+const HOURS_LENGTH = 2;
+const MINUTES_LENGTH = 2;
+
+export class Time {
+  constructor(public hours: string, public minutes: string) {}
+
+  static MIDNIGHT = new Time('00', '00');
 }
 
-/** Custom `MatFormFieldControl` for telephone number input. */
 @Component({
-  selector: 'duckrulz-example-tel-input',
-  templateUrl: 'tel.component.html',
-  styleUrls: ['tel.component.css'],
+  selector: 'duckrulz-time-input',
+  templateUrl: 'time.component.html',
+  styleUrls: ['time.component.css'],
   providers: [
     { provide: MatFormFieldControl, useExisting: MyTelInputComponent },
   ],
 
   host: {
-    '[class.example-floating]': 'shouldLabelFloat',
+    '[class.input-floating]': 'shouldLabelFloat',
     '[id]': 'id',
   },
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule],
 })
 export class MyTelInputComponent
-  implements ControlValueAccessor, MatFormFieldControl<MyTel>, OnDestroy
+  implements ControlValueAccessor, MatFormFieldControl<Time>, OnDestroy
 {
   static nextId = 0;
   // @ts-ignore
-  @ViewChild('area') areaInput: HTMLInputElement;
+  @ViewChild('hours') hoursInput: HTMLInputElement;
   // @ts-ignore
-  @ViewChild('exchange') exchangeInput: HTMLInputElement;
-  // @ts-ignore
-  @ViewChild('subscriber') subscriberInput: HTMLInputElement;
+  @ViewChild('minutes') minutesInput: HTMLInputElement;
 
   parts: FormGroup<{
-    area: FormControl<string | null>;
-    exchange: FormControl<string | null>;
-    subscriber: FormControl<string | null>;
+    hours: FormControl<string | null>;
+    minutes: FormControl<string | null>;
   }>;
   stateChanges = new Subject<void>();
   focused = false;
   touched = false;
-  controlType = 'example-tel-input';
-  id = `example-tel-input-${MyTelInputComponent.nextId++}`;
+  controlType = 'duckrulz-time-input';
+  id = `duckrulz-time-input-${MyTelInputComponent.nextId++}`;
   onChange = (_: any) => {};
 
   onTouched = () => {};
 
   get empty() {
     const {
-      value: { area, exchange, subscriber },
+      value: { hours, minutes },
     } = this.parts;
 
-    return !area && !exchange && !subscriber;
+    return !hours && !minutes;
   }
 
   get shouldLabelFloat() {
@@ -125,19 +122,19 @@ export class MyTelInputComponent
   private _disabled = false;
 
   @Input()
-  get value(): MyTel | null {
+  get value(): Time | null {
     if (this.parts.valid) {
       const {
-        value: { area, exchange, subscriber },
+        value: { hours, minutes },
       } = this.parts;
 
-      return new MyTel(area!, exchange!, subscriber!);
+      return new Time(hours!, minutes!);
     }
     return null;
   }
-  set value(tel: MyTel | null) {
-    const { area, exchange, subscriber } = tel || new MyTel('', '', '');
-    this.parts.setValue({ area, exchange, subscriber });
+  set value(tel: Time | null) {
+    const { hours, minutes } = tel || new Time('', '');
+    this.parts.setValue({ hours: hours, minutes: minutes });
     this.stateChanges.next();
   }
 
@@ -157,17 +154,23 @@ export class MyTelInputComponent
     }
 
     this.parts = formBuilder.group({
-      area: [
+      hours: [
         '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
+        [
+          Validators.required,
+          Validators.minLength(HOURS_LENGTH),
+          Validators.maxLength(HOURS_LENGTH),
+          // TODO custom validator
+        ],
       ],
-      exchange: [
+      minutes: [
         '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
-      ],
-      subscriber: [
-        '',
-        [Validators.required, Validators.minLength(4), Validators.maxLength(4)],
+        [
+          Validators.required,
+          Validators.minLength(MINUTES_LENGTH),
+          Validators.maxLength(MINUTES_LENGTH),
+          // TODO custom validator
+        ],
       ],
     });
   }
@@ -205,31 +208,21 @@ export class MyTelInputComponent
   }
 
   autoFocusPrev(control: AbstractControl, prevElement: HTMLInputElement): void {
-    if (control.value.length < 1) {
+    if (!control.value || control.value.length < 1) {
       this._focusMonitor.focusVia(prevElement, 'program');
     }
   }
 
   setDescribedByIds(ids: string[]) {
     const controlElement = this._elementRef.nativeElement.querySelector(
-      '.example-tel-input-container'
+      '.time-input-container'
     )!;
     controlElement.setAttribute('aria-describedby', ids.join(' '));
   }
 
-  onContainerClick() {
-    if (this.parts.controls.subscriber.valid) {
-      this._focusMonitor.focusVia(this.subscriberInput, 'program');
-    } else if (this.parts.controls.exchange.valid) {
-      this._focusMonitor.focusVia(this.subscriberInput, 'program');
-    } else if (this.parts.controls.area.valid) {
-      this._focusMonitor.focusVia(this.exchangeInput, 'program');
-    } else {
-      this._focusMonitor.focusVia(this.areaInput, 'program');
-    }
-  }
+  onContainerClick() {}
 
-  writeValue(tel: MyTel | null): void {
+  writeValue(tel: Time | null): void {
     this.value = tel;
   }
 
@@ -246,7 +239,47 @@ export class MyTelInputComponent
   }
 
   _handleInput(control: AbstractControl, nextElement?: HTMLInputElement): void {
-    this.autoFocusNext(control, nextElement);
+    this.ensureControlHasNoMoreThanTwoChars(this.parts.controls.hours);
+    this.ensureControlHasNoMoreThanTwoChars(this.parts.controls.minutes);
+    this.shouldFocusNext(control, nextElement);
     this.onChange(this.value);
+  }
+
+  private shouldFocusNext(
+    control: AbstractControl,
+    nextElement: HTMLInputElement | undefined
+  ) {
+    if (this.controlIsHours(control) && this.hoursHasTwoChars()) {
+      this.autoFocusNext(control, nextElement);
+      nextElement?.select();
+      this.onChange(this.value);
+    }
+  }
+
+  private controlIsHours(control: AbstractControl) {
+    return control === this.parts.controls.hours;
+  }
+
+  private hoursHasTwoChars() {
+    return (
+      this.parts.controls.hours.value &&
+      this.parts.controls.hours.value!.toString().length === 2
+    );
+  }
+
+  private ensureControlHasNoMoreThanTwoChars(
+    control: FormControl<string | null>
+  ) {
+    if (this.controlHasMoreThanTwoChars(control)) {
+      this.reduceControlToTwoChars(control);
+    }
+  }
+
+  private controlHasMoreThanTwoChars(control: FormControl) {
+    return control.value && control.value!.toString().length > 2;
+  }
+
+  private reduceControlToTwoChars(control: FormControl) {
+    control.setValue(control.value!.toString().substring(0, 2));
   }
 }

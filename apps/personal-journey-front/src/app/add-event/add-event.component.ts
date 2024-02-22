@@ -26,7 +26,7 @@ import {
 } from '@angular/material/slider';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MyTel, MyTelInputComponent } from './tel.component';
+import { Time, MyTelInputComponent } from '../custom-components/time.component';
 
 @Component({
   selector: 'duckrulz-add-event',
@@ -71,12 +71,11 @@ export class AddEventComponent {
 
   form = this.#formBuilder.group({
     date: '',
-    time: '',
+    time: new FormControl(Time.MIDNIGHT),
     durationMinutes: 0,
     type: '',
     level: 0,
     thoughts: '',
-    tel: new FormControl(new MyTel('', '', '')),
   });
 
   constructor(@Inject('AddEventPresenter') presenter: AddEventPresenter) {
@@ -89,20 +88,20 @@ export class AddEventComponent {
   applyViewModel() {
     this.form.setValue({
       date: TimeHelper.toHtmlDateInputValue(this.viewModel.date),
-      time: TimeHelper.toHtmlTimeInputValue(this.viewModel.date),
+      //TODO remove toHtmlTimeInputValue
+      time: Time.MIDNIGHT,
       durationMinutes: this.viewModel.durationMinutes,
       type: this.viewModel.type,
       level: this.viewModel.level,
       thoughts: this.viewModel.thoughts,
-      tel: new MyTel('', '', ''),
     });
   }
 
   async addNewEvent(): Promise<void> {
     //TODO DATE
     let date = new Date(this.form.value.date!);
-    const hours = Number.parseInt(this.form.value.time!.split(':')[0]);
-    const minutes = Number.parseInt(this.form.value.time!.split(':')[1]);
+    const hours = Number.parseInt('00');
+    const minutes = Number.parseInt('00');
     date = new Date(date.setHours(hours, minutes));
 
     //TODO loader

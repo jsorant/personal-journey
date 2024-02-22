@@ -1,0 +1,29 @@
+<div
+  role="group"
+  class="time-input-container"
+  [formGroup]="parts"
+  [attr.aria-labelledby]="_formField.getLabelId()"
+  (focusin)="onFocusIn($event)"
+  (focusout)="onFocusOut($event)"
+>
+  <input
+    class="time-input-element"
+    formControlName="hours"
+    size="2"
+    maxlength="2"
+    aria-label="Hours"
+    (input)="_handleInput(parts.controls.hours, minutes)"
+    #hours
+  />
+  <span class="time-input-spacer">:</span>
+  <input
+    class="time-input-element"
+    formControlName="minutes"
+    maxlength="2"
+    size="2"
+    aria-label="Minutes"
+    (input)="_handleInput(parts.controls.minutes)"
+    (keyup.backspace)="autoFocusPrev(parts.controls.minutes, hours)"
+    #minutes
+  />
+</div>
