@@ -34,17 +34,47 @@ const HOURS_LENGTH = 2;
 const MINUTES_LENGTH = 2;
 
 export class Time {
-  constructor(public hours: string, public minutes: string) {}
+  private constructor(public hours: string, public minutes: string) {}
 
   static MIDNIGHT = new Time('00', '00');
+
+  static buildWithStrings(hours: string, minutes: string) {
+    return new Time(hours, minutes);
+  }
+
+  static buildWithNumbers(hours: number, minutes: number) {
+    let hoursStr = hours.toString();
+    if (hoursStr.length === 1) hoursStr = 0 + hoursStr;
+    let minutesStr = minutes.toString();
+    if (minutesStr.length === 1) minutesStr = 0 + minutesStr;
+    return Time.buildWithStrings(hoursStr, minutesStr);
+  }
+
+  static buildWithDate(date: Date) {
+    return Time.buildWithNumbers(date.getHours(), date.getMinutes());
+  }
+
+  applyCurrentTimeInto(date: Date): Date {
+    const hours = this.hoursToNumber();
+    const minutes = this.minutesToNumber();
+    return new Date(date.setHours(hours, minutes));
+  }
+
+  hoursToNumber(): number {
+    return Number.parseInt(this.hours);
+  }
+
+  minutesToNumber(): number {
+    return Number.parseInt(this.minutes);
+  }
 }
 
 @Component({
   selector: 'duckrulz-time-input',
-  templateUrl: 'time.component.html',
-  styleUrls: ['time.component.css'],
+  templateUrl: 'time-input.component.html',
+  styleUrls: ['time-input.component.css'],
   providers: [
-    { provide: MatFormFieldControl, useExisting: MyTelInputComponent },
+    { provide: MatFormFieldControl, useExisting: TimeInputComponent },
   ],
 
   host: {
@@ -54,7 +84,7 @@ export class Time {
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule],
 })
-export class MyTelInputComponent
+export class TimeInputComponent
   implements ControlValueAccessor, MatFormFieldControl<Time>, OnDestroy
 {
   static nextId = 0;
@@ -71,7 +101,7 @@ export class MyTelInputComponent
   focused = false;
   touched = false;
   controlType = 'duckrulz-time-input';
-  id = `duckrulz-time-input-${MyTelInputComponent.nextId++}`;
+  id = `duckrulz-time-input-${TimeInputComponent.nextId++}`;
   onChange = (_: any) => {};
 
   onTouched = () => {};
@@ -128,12 +158,12 @@ export class MyTelInputComponent
         value: { hours, minutes },
       } = this.parts;
 
-      return new Time(hours!, minutes!);
+      return Time.buildWithStrings(hours!, minutes!);
     }
     return null;
   }
-  set value(tel: Time | null) {
-    const { hours, minutes } = tel || new Time('', '');
+  set value(time: Time | null) {
+    const { hours, minutes } = time || Time.MIDNIGHT;
     this.parts.setValue({ hours: hours, minutes: minutes });
     this.stateChanges.next();
   }
@@ -222,8 +252,8 @@ export class MyTelInputComponent
 
   onContainerClick() {}
 
-  writeValue(tel: Time | null): void {
-    this.value = tel;
+  writeValue(time: Time | null): void {
+    this.value = time;
   }
 
   registerOnChange(fn: any): void {

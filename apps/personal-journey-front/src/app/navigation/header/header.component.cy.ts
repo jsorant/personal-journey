@@ -8,7 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
-import { matButtonShouldHaveText } from '../../../tests-utils/cypress-utils/material-utils.cy';
+import { matButtonShouldHaveText } from '../../../tests-utils/cypress-utils/harness-utils.cy';
 
 describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;

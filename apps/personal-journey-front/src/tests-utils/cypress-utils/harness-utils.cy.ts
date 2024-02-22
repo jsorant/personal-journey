@@ -7,6 +7,7 @@ import {
 } from '@angular/material/slider/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDatepickerInputHarness } from '@angular/material/datepicker/testing';
+import { TimeInputComponentHarness } from '../../app/custom-components/time-input.component.harness';
 
 export async function matInputShouldHaveValue(
   value: string,
@@ -84,6 +85,15 @@ export async function matButtonShouldHaveText(
   expect(await harness.getText()).to.eq(text);
 }
 
+export async function uniqueTimeInputShouldHaveValue(
+  value: string,
+  loader: HarnessLoader
+) {
+  const harness = await loader.getHarness(TimeInputComponentHarness);
+
+  expect(await harness.getTimeString()).to.eq(value);
+}
+
 export async function setMatInputValueTo(
   value: string,
   id: string,
@@ -97,7 +107,7 @@ export async function setMatInputValueTo(
 }
 
 export async function setMatDatePickerInputValueTo(
-  value: number,
+  value: string,
   id: string,
   loader: HarnessLoader
 ) {
@@ -106,6 +116,17 @@ export async function setMatDatePickerInputValueTo(
   );
 
   await harness.setValue(value);
+}
+
+export async function setUniqueTimeInputValue(
+  hours: string,
+  minutes: string,
+  loader: HarnessLoader
+) {
+  const harness = await loader.getHarness(TimeInputComponentHarness);
+
+  await harness.setHours(hours);
+  await harness.setMinutes(minutes);
 }
 
 export async function setMatSliderThumbValueTo(

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import { Component, EventEmitter, inject, Inject, Output } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TimeHelper } from '../helpers/time.helper';
 import {
   AddEventPresenter,
@@ -26,7 +28,10 @@ import {
 } from '@angular/material/slider';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { Time, MyTelInputComponent } from '../custom-components/time.component';
+import {
+  Time,
+  TimeInputComponent,
+} from '../custom-components/time-input.component';
 
 @Component({
   selector: 'duckrulz-add-event',
@@ -45,7 +50,7 @@ import { Time, MyTelInputComponent } from '../custom-components/time.component';
     MatSliderModule,
     MatButton,
     MatIcon,
-    MyTelInputComponent,
+    TimeInputComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './add-event.component.html',
@@ -71,7 +76,7 @@ export class AddEventComponent {
 
   form = this.#formBuilder.group({
     date: '',
-    time: new FormControl(Time.MIDNIGHT),
+    time: Time.MIDNIGHT,
     durationMinutes: 0,
     type: '',
     level: 0,
@@ -88,8 +93,7 @@ export class AddEventComponent {
   applyViewModel() {
     this.form.setValue({
       date: TimeHelper.toHtmlDateInputValue(this.viewModel.date),
-      //TODO remove toHtmlTimeInputValue
-      time: Time.MIDNIGHT,
+      time: Time.buildWithDate(this.viewModel.date),
       durationMinutes: this.viewModel.durationMinutes,
       type: this.viewModel.type,
       level: this.viewModel.level,
@@ -98,31 +102,35 @@ export class AddEventComponent {
   }
 
   async addNewEvent(): Promise<void> {
-    //TODO DATE
-    let date = new Date(this.form.value.date!);
-    const hours = Number.parseInt('00');
-    const minutes = Number.parseInt('00');
-    date = new Date(date.setHours(hours, minutes));
-
     //TODO loader
+
+    //TODO validate
+
     const inputs: AddNewEventInputs = {
-      type: this.adaptType(this.form.value.type!),
-      date,
+      type: this.adaptType(),
+      date: this.adaptDate(),
       level: this.form.value.level!,
       durationMinutes: this.form.value.durationMinutes!,
       thoughts: this.form.value.thoughts!,
     };
     await this.#presenter.addNewEvent(inputs);
-    //TODO hide loader then confirm
-    //TODO notify => navigate to list
 
-    console.log(this.form.value);
+    //TODO hide loader
+    //TODO confirm snackbar
+
+    //console.log(this.form.value);
+    //console.log(inputs);
 
     this.eventAdded.emit();
   }
 
-  private adaptType(type: string): 'anxiety' | 'depression' {
-    if (type === 'anxiety') return 'anxiety';
+  private adaptDate() {
+    const date = new Date(this.form.value.date!);
+    return this.form.value.time!.applyCurrentTimeInto(date);
+  }
+
+  private adaptType(): 'anxiety' | 'depression' {
+    if (this.form.value.type! === 'anxiety') return 'anxiety';
     return 'depression';
   }
 }

@@ -7,7 +7,7 @@ import {
 export class DummyAddEventPresenter implements AddEventPresenter {
   initialViewModel(): AddEventViewModel {
     return {
-      date: new Date('2020-12-25 10:15'),
+      date: new Date('1985-10-20 10:15'),
       durationMinutes: 6,
       type: 'depression',
       level: 5,
