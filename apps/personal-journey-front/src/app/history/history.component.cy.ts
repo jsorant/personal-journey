@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HistoryComponent } from './history.component';
-import { HistoryPresenter } from '../../adapters/presenters/history.presenter';
+import { HistoryPresenter } from '../../adapters/presenters/history/history.presenter';
 import {
   eventViewModel1,
   eventViewModel2,

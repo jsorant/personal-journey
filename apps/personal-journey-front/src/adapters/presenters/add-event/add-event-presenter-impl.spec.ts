@@ -1,8 +1,9 @@
 import { Mock, mock } from 'ts-jest-mocker';
 import { AddEventPresenterImpl } from './add-event-presenter-impl';
-import { EventsRepository } from '../../domain/events.repository';
-import { CurrentDate } from '../current-date';
-import { EventType } from '../../domain/event';
+import { EventsRepository } from '../../../domain/events.repository';
+import { CurrentDate } from '../../current-date';
+import { EventType } from '../../../domain/event';
+import { AddNewEventInputs } from './add-event.presenter';
 
 describe(AddEventPresenterImpl.name, () => {
   const now = new Date('2022-12-11 12:05');
@@ -36,13 +37,21 @@ describe(AddEventPresenterImpl.name, () => {
   });
 
   test('should add a new event', async () => {
-    await sut.addNewEvent(now, 'Thoughts');
+    const inputs: AddNewEventInputs = {
+      type: 'anxiety',
+      date: now,
+      level: 5,
+      durationMinutes: 55,
+      thoughts: 'Thoughts',
+    };
+
+    await sut.addNewEvent(inputs);
 
     expect(mockEventsRepository.saveEvent).toHaveBeenCalledWith({
       date: now,
       type: EventType.ANXIETY,
-      level: 0,
-      durationMinutes: 10,
+      level: 5,
+      durationMinutes: 55,
       thoughts: 'Thoughts',
     });
   });

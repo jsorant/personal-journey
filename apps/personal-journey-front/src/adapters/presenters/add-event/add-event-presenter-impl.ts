@@ -1,8 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
-import { AddEventPresenter, AddEventViewModel } from './add-event.presenter';
-import { EventsRepository } from '../../domain/events.repository';
-import { CurrentDate } from '../current-date';
-import { EventType } from '../../domain/event';
+import {
+  AddEventPresenter,
+  AddEventViewModel,
+  AddNewEventInputs,
+} from './add-event.presenter';
+import { EventsRepository } from '../../../domain/events.repository';
+import { CurrentDate } from '../../current-date';
+import { EventType } from '../../../domain/event';
 
 @Injectable({
   providedIn: 'root',
@@ -19,14 +23,19 @@ export class AddEventPresenterImpl implements AddEventPresenter {
     this.#currentDate = currentDate;
   }
 
-  async addNewEvent(date: Date, thoughts: string): Promise<void> {
+  async addNewEvent(inputs: AddNewEventInputs): Promise<void> {
     this.#eventsRepository.saveEvent({
-      date,
-      type: EventType.ANXIETY,
-      level: 0,
-      durationMinutes: 10,
-      thoughts,
+      date: inputs.date,
+      type: this.adaptType(inputs.type),
+      level: inputs.level,
+      durationMinutes: inputs.durationMinutes,
+      thoughts: inputs.thoughts,
     });
+  }
+
+  private adaptType(presenterType: 'anxiety' | 'depression'): EventType {
+    if (presenterType === 'anxiety') return EventType.ANXIETY;
+    return EventType.DEPRESSION;
   }
 
   initialViewModel(): AddEventViewModel {

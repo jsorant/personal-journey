@@ -1,8 +1,8 @@
 import { HistoryPresenter } from './history.presenter';
-import { EventsRepository } from '../../domain/events.repository';
+import { EventsRepository } from '../../../domain/events.repository';
 import { Inject, Injectable } from '@angular/core';
-import { Event, EventType } from '../../domain/event';
-import { EventViewModel, EventViewModelType } from './event-view-model';
+import { Event, EventType } from '../../../domain/event';
+import { EventViewModel, EventViewModelType } from '../event-view-model';
 
 @Injectable({
   providedIn: 'root',

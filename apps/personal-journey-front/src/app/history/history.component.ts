@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { HistoryPresenter } from '../../adapters/presenters/history.presenter';
+import { HistoryPresenter } from '../../adapters/presenters/history/history.presenter';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import {

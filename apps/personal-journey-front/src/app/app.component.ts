@@ -7,10 +7,10 @@ import {
 } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
 import { AddEventComponent } from './add-event/add-event.component';
-import { AddEventPresenterImpl } from '../adapters/presenters/add-event-presenter-impl';
+import { AddEventPresenterImpl } from '../adapters/presenters/add-event/add-event-presenter-impl';
 import { CurrentDateImpl } from '../adapters/current-date-impl';
 import { HistoryComponent } from './history/history.component';
-import { HistoryPresenterImpl } from '../adapters/presenters/history-presenter-impl';
+import { HistoryPresenterImpl } from '../adapters/presenters/history/history-presenter-impl';
 import { InMemoryEventsRepository } from '../domain/in-memory-events-repository';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';

@@ -6,6 +6,7 @@ import {
   MatSliderThumbHarness,
 } from '@angular/material/slider/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
+import { AddEventComponent } from '../../app/add-event/add-event.component';
 
 export async function matInputShouldHaveValue(
   value: string,
@@ -81,4 +82,53 @@ export async function matButtonShouldHaveText(
   );
 
   expect(await harness.getText()).to.eq(text);
+}
+
+export async function setTextIntoMatInput(
+  text: string,
+  id: string,
+  loader: HarnessLoader
+) {
+  const harness = await loader.getHarness(
+    MatInputHarness.with({ selector: id })
+  );
+
+  await harness.setValue(text);
+}
+
+export async function clickOnMatButton(id: string, loader: HarnessLoader) {
+  const harness = await loader.getHarness(
+    MatButtonHarness.with({ selector: id })
+  );
+
+  await harness.click();
+}
+
+export async function openMatSelectAndClickOnOption(
+  optionText: string,
+  matSelectId: string,
+  loader: HarnessLoader
+) {
+  const matSelectHarness = await loader.getHarness(
+    MatSelectHarness.with({ selector: matSelectId })
+  );
+
+  await matSelectHarness.open();
+
+  const matOptionHarnesses = await matSelectHarness.getOptions({
+    text: optionText,
+  });
+  await matOptionHarnesses[0].click();
+}
+
+export async function setMatSliderThumbValueTo(
+  value: number,
+  id: string,
+  loader: HarnessLoader
+) {
+  const harness = await loader.getHarness(
+    MatSliderThumbHarness.with({ selector: id })
+  );
+
+  await harness.setValue(value);
 }

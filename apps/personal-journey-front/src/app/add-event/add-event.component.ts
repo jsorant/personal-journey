@@ -1,10 +1,11 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, EventEmitter, inject, Inject, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TimeHelper } from '../helpers/time.helper';
 import {
   AddEventPresenter,
   AddEventViewModel,
-} from '../../adapters/presenters/add-event.presenter';
+  AddNewEventInputs,
+} from '../../adapters/presenters/add-event/add-event.presenter';
 import {
   MatFormField,
   MatFormFieldModule,
@@ -45,9 +46,11 @@ import { MatButton } from '@angular/material/button';
 export class AddEventComponent {
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
   readonly #presenter: AddEventPresenter;
-  viewModel: AddEventViewModel;
+  readonly viewModel: AddEventViewModel;
   static ANXIETY_TYPE_TEXT = "Crise d'angoisse";
   static DEPRESSION_TYPE_TEXT = 'Moment dépressif';
+
+  @Output() eventAdded: EventEmitter<void> = new EventEmitter();
 
   anxietyTypeText() {
     return AddEventComponent.ANXIETY_TYPE_TEXT;
@@ -84,17 +87,31 @@ export class AddEventComponent {
   }
 
   async addNewEvent(): Promise<void> {
+    //TODO DATE
     let date = new Date(this.form.value.date!);
     const hours = Number.parseInt(this.form.value.time!.split(':')[0]);
     const minutes = Number.parseInt(this.form.value.time!.split(':')[1]);
     date = new Date(date.setHours(hours, minutes));
 
-    console.log('date', date);
     //TODO loader
-    await this.#presenter.addNewEvent(date, this.form.value.thoughts!);
+    const inputs: AddNewEventInputs = {
+      type: this.adaptType(this.form.value.type!),
+      date: new Date('2022-12-12'),
+      level: this.form.value.level!,
+      durationMinutes: this.form.value.durationMinutes!,
+      thoughts: this.form.value.thoughts!,
+    };
+    await this.#presenter.addNewEvent(inputs);
     //TODO hide loader then confirm
     //TODO notify => navigate to list
 
     console.log(this.form.value);
+
+    this.eventAdded.emit();
+  }
+
+  private adaptType(type: string): 'anxiety' | 'depression' {
+    if (type === 'anxiety') return 'anxiety';
+    return 'depression';
   }
 }
