@@ -113,7 +113,7 @@ describe(HistoryComponent.name, () => {
     );
 
     expect(await harness.hasIcon()).to.be.true;
-    expect(await harness.getTitle()).to.eq('Depressive situation');
+    expect(await harness.getTitle()).to.eq('Moment dépressif');
     expect(await harness.getSecondaryText()).to.contain('Lorem ipsum dolor');
     console.log(await harness.getTertiaryText());
     expect(await harness.getTertiaryText()).to.eq(

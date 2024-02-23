@@ -82,7 +82,6 @@ It will show tasks that you can run with Nx.
 
 # Next
 
-- Form inputs validation
 - Snackbar notifications
 - Mental health journey
 - Better date/time picker
