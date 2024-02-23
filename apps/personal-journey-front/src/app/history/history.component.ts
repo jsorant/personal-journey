@@ -37,6 +37,11 @@ export class HistoryComponent {
     });
   }
 
+  formatType(type: EventViewModelType): string {
+    if (type === EventViewModelType.ANXIETY) return "Crise d'angoisse";
+    return 'Moment dépressif';
+  }
+
   protected readonly EventViewModel = EventViewModel;
   protected readonly EventViewModelType = EventViewModelType;
 }
