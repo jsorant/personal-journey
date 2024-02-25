@@ -52,6 +52,10 @@ export const justCreatedSituation = Situation.builder()
   .withPhysicalSymptoms(somePhysicalSymptoms)
   .build();
 
+export const justCreatedSituationWithoutSymptoms = Situation.builder()
+  .withCreationDate(aCreationDate)
+  .build();
+
 export const describedSituation = justCreatedSituation.describeSituation(
   aSituationDescription
 );

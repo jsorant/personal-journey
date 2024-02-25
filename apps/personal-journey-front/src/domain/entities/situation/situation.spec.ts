@@ -7,12 +7,11 @@ import {
   aSituationDescription,
   describedSituation,
   justCreatedSituation,
+  justCreatedSituationWithoutSymptoms,
   someEmotions,
   somePhysicalSymptoms,
 } from '../../../tests-utils/domain/fixtures';
 import { MissingMemberException } from '../../../shared-kernel/missing-member-exception';
-import { ExitEvent } from './value-objects/exit-event';
-import { Emotions } from './value-objects/emotions';
 
 describe(Situation.name, () => {
   describe('Build', () => {
@@ -60,6 +59,18 @@ describe(Situation.name, () => {
   });
 
   describe('Behaviors', () => {
+    it('should define physical symptoms', () => {
+      const aSituation = justCreatedSituationWithoutSymptoms;
+
+      const situationWithPhysicalSymptoms =
+        aSituation.definePhysicalSymptoms(somePhysicalSymptoms);
+
+      expect(aSituation.physicalSymptoms.length).toBe(0);
+      expect(situationWithPhysicalSymptoms.physicalSymptoms).toStrictEqual(
+        somePhysicalSymptoms
+      );
+    });
+
     it('should describe situation', () => {
       const notDescribedSituation = justCreatedSituation;
 

@@ -31,6 +31,7 @@ export class Situation {
     this.exitEvent = builder.exitEvent;
     this.relatedEmotions = builder.relatedEmotions;
   }
+
   static builder(): Situation.SituationBuilder {
     return new Situation.SituationBuilder();
   }
@@ -51,6 +52,12 @@ export class Situation {
 
   hasRelatedEmotions(): boolean {
     return this.relatedEmotions.length > 0;
+  }
+
+  definePhysicalSymptoms(somePhysicalSymptoms: PhysicalSymptoms[]): Situation {
+    return Situation.builderWithCurrentState(this)
+      .withPhysicalSymptoms(somePhysicalSymptoms)
+      .build();
   }
 
   describeSituation(description: SituationDescription): Situation {
