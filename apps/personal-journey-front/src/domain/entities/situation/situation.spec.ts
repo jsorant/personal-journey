@@ -3,11 +3,14 @@ import { PhysicalSymptoms } from './value-objects/physical-symptoms';
 import {
   aCreationDate,
   allPhysicalSymptoms,
+  anExitEvent,
   aSituationDescription,
+  describedSituation,
   justCreatedSituation,
   somePhysicalSymptoms,
 } from '../../../tests-utils/domain/fixtures';
 import { MissingMemberException } from '../../../shared-kernel/missing-member-exception';
+import { ExitEvent } from './value-objects/exit-event';
 
 describe(Situation.name, () => {
   describe('Build', () => {
@@ -67,6 +70,15 @@ describe(Situation.name, () => {
       expect(describedSituation.description).toStrictEqual(
         aSituationDescription
       );
+    });
+
+    it('should describe an event that allowed to exit the situation', () => {
+      const situationWithExitEvent =
+        describedSituation.describeExitEvent(anExitEvent);
+
+      expect(describedSituation.hasExitEvent()).toBeFalsy();
+      expect(situationWithExitEvent.hasExitEvent()).toBeTruthy();
+      expect(situationWithExitEvent.exitEvent).toStrictEqual(anExitEvent);
     });
   });
 });

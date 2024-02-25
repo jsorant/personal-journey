@@ -5,6 +5,7 @@ import { Description } from '../../domain/entities/situation/value-objects/descr
 import { StartDate } from '../../domain/entities/situation/value-objects/start-date';
 import { CreationDate } from '../../domain/entities/situation/value-objects/creation-date';
 import { Situation } from '../../domain/entities/situation/situation';
+import { ExitEvent } from '../../domain/entities/situation/value-objects/exit-event';
 
 export const aCreationDate = CreationDate.of(new Date('2022-12-25 15:45'));
 
@@ -49,3 +50,11 @@ export const justCreatedSituation = Situation.builder()
   .withCreationDate(aCreationDate)
   .withPhysicalSymptoms(somePhysicalSymptoms)
   .build();
+
+export const describedSituation = justCreatedSituation.describeSituation(
+  aSituationDescription
+);
+
+export const anExitEvent = ExitEvent.of(
+  'La foule a été attirée dans un autre zone...'
+);

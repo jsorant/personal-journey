@@ -2,6 +2,7 @@ import { PhysicalSymptoms } from './value-objects/physical-symptoms';
 import { SituationDescription } from './value-objects/situation-description';
 import { UniqueIdentifier } from '../unique-identifier';
 import { CreationDate } from './value-objects/creation-date';
+import { ExitEvent } from './value-objects/exit-event';
 import { assertMemberIsDefined } from '../../../shared-kernel/assertions';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -14,12 +15,14 @@ export class Situation {
   readonly creationDate: CreationDate;
   readonly physicalSymptoms: PhysicalSymptoms[];
   readonly description?: SituationDescription;
+  readonly exitEvent?: ExitEvent;
 
   private constructor(builder: Situation.SituationBuilder) {
     this.id = builder.id;
     this.creationDate = builder.creationDate;
     this.physicalSymptoms = builder.physicalSymptoms;
     this.description = builder.description;
+    this.exitEvent = builder.exitEvent;
   }
   static builder(): Situation.SituationBuilder {
     return new Situation.SituationBuilder();
@@ -35,9 +38,19 @@ export class Situation {
     return this.description !== undefined;
   }
 
-  describeSituation(description: SituationDescription) {
+  hasExitEvent(): boolean {
+    return this.exitEvent !== undefined;
+  }
+
+  describeSituation(description: SituationDescription): Situation {
     return Situation.builderWithCurrentState(this)
       .withDescription(description)
+      .build();
+  }
+
+  describeExitEvent(anExitEvent: ExitEvent): Situation {
+    return Situation.builderWithCurrentState(this)
+      .withExitEvent(anExitEvent)
       .build();
   }
 
@@ -46,6 +59,7 @@ export class Situation {
     #creationDate?: CreationDate;
     physicalSymptoms: PhysicalSymptoms[] = [];
     description?: SituationDescription;
+    exitEvent?: ExitEvent;
 
     get id(): UniqueIdentifier {
       if (this.#id === undefined)
@@ -65,28 +79,34 @@ export class Situation {
       return new Situation(this);
     }
 
-    fromSituation(situation: Situation): Situation.SituationBuilder {
-      this.#id = situation.id;
-      this.#creationDate = situation.creationDate;
-      this.physicalSymptoms = situation.physicalSymptoms;
-      this.description = situation.description;
+    fromSituation(aSituation: Situation): Situation.SituationBuilder {
+      this.#id = aSituation.id;
+      this.#creationDate = aSituation.creationDate;
+      this.physicalSymptoms = aSituation.physicalSymptoms;
+      this.description = aSituation.description;
+      this.exitEvent = aSituation.exitEvent;
       return this;
     }
 
-    withCreationDate(date: CreationDate): Situation.SituationBuilder {
-      this.#creationDate = date;
+    withCreationDate(aDate: CreationDate): Situation.SituationBuilder {
+      this.#creationDate = aDate;
       return this;
     }
 
     withPhysicalSymptoms(
-      symptoms: PhysicalSymptoms[]
+      someSymptoms: PhysicalSymptoms[]
     ): Situation.SituationBuilder {
-      this.physicalSymptoms = symptoms;
+      this.physicalSymptoms = someSymptoms;
       return this;
     }
 
-    withDescription(description: SituationDescription) {
-      this.description = description;
+    withDescription(aDescription: SituationDescription) {
+      this.description = aDescription;
+      return this;
+    }
+
+    withExitEvent(anExitEvent: ExitEvent) {
+      this.exitEvent = anExitEvent;
       return this;
     }
   };
