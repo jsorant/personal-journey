@@ -6,6 +6,7 @@ import { ExitEvent } from './value-objects/exit-event';
 import { assertMemberIsDefined } from '../../../shared-kernel/assertions';
 import { Emotions } from './value-objects/emotions';
 import { ThoughtsTypes } from './value-objects/thoughts-types';
+import { AutoPilots } from './value-objects/auto-pilots';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Situation {
@@ -24,6 +25,7 @@ export class Situation {
   readonly exitEvent?: ExitEvent;
   readonly emotions: Emotions[];
   readonly thoughtsTypes: ThoughtsTypes[];
+  readonly autoPilots: AutoPilots[];
 
   private constructor(builder: Situation.SituationBuilder) {
     this.id = builder.id;
@@ -33,6 +35,7 @@ export class Situation {
     this.exitEvent = builder.exitEvent;
     this.emotions = builder.emotions;
     this.thoughtsTypes = builder.thoughtsTypes;
+    this.autoPilots = builder.autoPilots;
   }
 
   static builder(): Situation.SituationBuilder {
@@ -61,6 +64,10 @@ export class Situation {
     return this.thoughtsTypes.length > 0;
   }
 
+  hasRelatedAutoPilots(): boolean {
+    return this.autoPilots.length > 0;
+  }
+
   identifyPhysicalSymptoms(
     somePhysicalSymptoms: PhysicalSymptoms[]
   ): Situation {
@@ -87,9 +94,15 @@ export class Situation {
       .build();
   }
 
-  identifyRelatedThoughtsTypes(someThoughtsTypes: ThoughtsTypes[]) {
+  identifyRelatedThoughtsTypes(someThoughtsTypes: ThoughtsTypes[]): Situation {
     return Situation.builderWithCurrentState(this)
       .withThoughtsTypes(someThoughtsTypes)
+      .build();
+  }
+
+  identifyRelatedAutoPilots(someAutoPilots: AutoPilots[]): Situation {
+    return Situation.builderWithCurrentState(this)
+      .withAutoPilots(someAutoPilots)
       .build();
   }
 
@@ -101,6 +114,7 @@ export class Situation {
     exitEvent?: ExitEvent;
     emotions: Emotions[] = [];
     thoughtsTypes: ThoughtsTypes[] = [];
+    autoPilots: AutoPilots[] = [];
 
     get id(): UniqueIdentifier {
       if (this.#id === undefined)
@@ -128,6 +142,7 @@ export class Situation {
       this.exitEvent = aSituation.exitEvent;
       this.emotions = aSituation.emotions;
       this.thoughtsTypes = aSituation.thoughtsTypes;
+      this.autoPilots = aSituation.autoPilots;
       return this;
     }
 
@@ -160,6 +175,11 @@ export class Situation {
 
     withThoughtsTypes(someThoughtsTypes: ThoughtsTypes[]) {
       this.thoughtsTypes = someThoughtsTypes;
+      return this;
+    }
+
+    withAutoPilots(someAutoPilots: AutoPilots[]) {
+      this.autoPilots = someAutoPilots;
       return this;
     }
   };

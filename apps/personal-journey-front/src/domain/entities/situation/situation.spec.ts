@@ -8,6 +8,7 @@ import {
   describedSituation,
   justCreatedSituation,
   justCreatedSituationWithoutSymptoms,
+  someAutoPilots,
   someEmotions,
   somePhysicalSymptoms,
   someThoughtsTypes,
@@ -105,7 +106,7 @@ describe(Situation.name, () => {
       expect(situationWithEmotions.emotions).toStrictEqual(someEmotions);
     });
 
-    it('should define thoughts types related with the situation', () => {
+    it('should identify thoughts types related with the situation', () => {
       const situationWithThoughtsTypes =
         describedSituation.identifyRelatedThoughtsTypes(someThoughtsTypes);
 
@@ -114,6 +115,17 @@ describe(Situation.name, () => {
       expect(situationWithThoughtsTypes.thoughtsTypes).toStrictEqual(
         someThoughtsTypes
       );
+    });
+
+    //TODO besoins non satifsfaits
+
+    it('should identify autopilots', () => {
+      const situationWithAutoPilots =
+        describedSituation.identifyRelatedAutoPilots(someAutoPilots);
+
+      expect(describedSituation.hasRelatedAutoPilots()).toBeFalsy();
+      expect(situationWithAutoPilots.hasRelatedAutoPilots()).toBeTruthy();
+      expect(situationWithAutoPilots.autoPilots).toStrictEqual(someAutoPilots);
     });
   });
 });

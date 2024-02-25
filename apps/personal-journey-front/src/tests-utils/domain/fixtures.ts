@@ -8,6 +8,7 @@ import { Situation } from '../../domain/entities/situation/situation';
 import { ExitEvent } from '../../domain/entities/situation/value-objects/exit-event';
 import { Emotions } from '../../domain/entities/situation/value-objects/emotions';
 import { ThoughtsTypes } from '../../domain/entities/situation/value-objects/thoughts-types';
+import { AutoPilots } from '../../domain/entities/situation/value-objects/auto-pilots';
 
 export const aCreationDate = CreationDate.of(new Date('2022-12-25 15:45'));
 
@@ -85,4 +86,14 @@ export const allThoughtsTypes = [
   ThoughtsTypes.SelfImage,
   ThoughtsTypes.Guiltiness,
   ThoughtsTypes.AbsenceOfChoice,
+];
+
+export const someAutoPilots = [AutoPilots.Fuite];
+
+export const allAutoPilots = [
+  AutoPilots.Combat,
+  AutoPilots.Fuite,
+  AutoPilots.Sideration,
+  AutoPilots.Agrippement,
+  AutoPilots.Soumission,
 ];
