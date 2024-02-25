@@ -3,8 +3,10 @@ import { PhysicalSymptoms } from './physical-symptoms';
 import { Location } from './location';
 import { Description } from './description';
 import { StartDate } from './start-date';
+import { CreationDate } from './creation-date';
+import { Situation } from './situation';
 
-export const aCreationDate = new Date('2022-12-25 15:45');
+export const aCreationDate = CreationDate.of(new Date('2022-12-25 15:45'));
 
 export const allPhysicalSymptoms = [
   PhysicalSymptoms.ColopathieFonctionnelle,
@@ -41,4 +43,9 @@ export const aSituationDescription = SituationDescription.builder()
   .withDate(aDate)
   .withLocation(aLocation)
   .withDescription(aDescription)
+  .build();
+
+export const justCreatedSituation = Situation.builder()
+  .withCreationDate(aCreationDate)
+  .withPhysicalSymptoms(somePhysicalSymptoms)
   .build();

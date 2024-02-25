@@ -1,6 +1,8 @@
 import { PhysicalSymptoms } from './physical-symptoms';
 import { SituationDescription } from './situation-description';
 import { UniqueIdentifier } from './unique-identifier';
+import { CreationDate } from './creation-date';
+import { assertMemberIsDefined } from '../../shared-kernel/assertions';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Situation {
@@ -9,7 +11,7 @@ declare namespace Situation {
 
 export class Situation {
   readonly id: UniqueIdentifier;
-  readonly creationDate: Date;
+  readonly creationDate: CreationDate;
   readonly physicalSymptoms: PhysicalSymptoms[];
   readonly description?: SituationDescription;
 
@@ -41,7 +43,7 @@ export class Situation {
 
   static SituationBuilder = class {
     #id?: UniqueIdentifier;
-    #creationDate?: Date;
+    #creationDate?: CreationDate;
     physicalSymptoms: PhysicalSymptoms[] = [];
     description?: SituationDescription;
 
@@ -51,10 +53,12 @@ export class Situation {
       return this.#id;
     }
 
-    get creationDate(): Date {
-      if (this.#creationDate === undefined)
-        throw new Error('Cannot create a situation without a creation date');
-      return this.#creationDate;
+    get creationDate(): CreationDate {
+      return assertMemberIsDefined<CreationDate>(
+        'creationDate',
+        this.#creationDate,
+        Situation.name
+      );
     }
 
     build(): Situation {
@@ -69,7 +73,7 @@ export class Situation {
       return this;
     }
 
-    withCreationDate(date: Date): Situation.SituationBuilder {
+    withCreationDate(date: CreationDate): Situation.SituationBuilder {
       this.#creationDate = date;
       return this;
     }

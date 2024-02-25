@@ -4,8 +4,10 @@ import {
   aCreationDate,
   allPhysicalSymptoms,
   aSituationDescription,
+  justCreatedSituation,
   somePhysicalSymptoms,
 } from './fixtures';
+import { MissingMemberException } from '../../shared-kernel/missing-member-exception';
 
 describe(Situation.name, () => {
   describe('Build', () => {
@@ -27,7 +29,7 @@ describe(Situation.name, () => {
 
     it('should not build without a creation date', () => {
       expect(() => Situation.builder().build()).toThrow(
-        'Cannot create a situation without a creation date'
+        new MissingMemberException('creationDate', Situation.name)
       );
     });
 
@@ -54,10 +56,7 @@ describe(Situation.name, () => {
 
   describe('Behaviors', () => {
     it('should describe situation', () => {
-      const notDescribedSituation = Situation.builder()
-        .withCreationDate(aCreationDate)
-        .withPhysicalSymptoms(somePhysicalSymptoms)
-        .build();
+      const notDescribedSituation = justCreatedSituation;
 
       const describedSituation = notDescribedSituation.describeSituation(
         aSituationDescription
