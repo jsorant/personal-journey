@@ -6,6 +6,7 @@ import { StartDate } from '../../domain/entities/situation/value-objects/start-d
 import { CreationDate } from '../../domain/entities/situation/value-objects/creation-date';
 import { Situation } from '../../domain/entities/situation/situation';
 import { ExitEvent } from '../../domain/entities/situation/value-objects/exit-event';
+import { Emotions } from '../../domain/entities/situation/value-objects/emotions';
 
 export const aCreationDate = CreationDate.of(new Date('2022-12-25 15:45'));
 
@@ -58,3 +59,13 @@ export const describedSituation = justCreatedSituation.describeSituation(
 export const anExitEvent = ExitEvent.of(
   'La foule a été attirée dans un autre zone...'
 );
+
+export const someEmotions = [Emotions.Anxiety, Emotions.Fear];
+
+export const allEmotions = [
+  Emotions.Joy,
+  Emotions.Anxiety,
+  Emotions.Sadness,
+  Emotions.Fear,
+  Emotions.Anger,
+];

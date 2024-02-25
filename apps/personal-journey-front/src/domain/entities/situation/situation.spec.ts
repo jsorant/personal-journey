@@ -7,10 +7,12 @@ import {
   aSituationDescription,
   describedSituation,
   justCreatedSituation,
+  someEmotions,
   somePhysicalSymptoms,
 } from '../../../tests-utils/domain/fixtures';
 import { MissingMemberException } from '../../../shared-kernel/missing-member-exception';
 import { ExitEvent } from './value-objects/exit-event';
+import { Emotions } from './value-objects/emotions';
 
 describe(Situation.name, () => {
   describe('Build', () => {
@@ -79,6 +81,17 @@ describe(Situation.name, () => {
       expect(describedSituation.hasExitEvent()).toBeFalsy();
       expect(situationWithExitEvent.hasExitEvent()).toBeTruthy();
       expect(situationWithExitEvent.exitEvent).toStrictEqual(anExitEvent);
+    });
+
+    it('should define emotions related with the situation', () => {
+      const situationWithRelatedEmotions =
+        describedSituation.defineRelatedEmotions(someEmotions);
+
+      expect(describedSituation.hasRelatedEmotions()).toBeFalsy();
+      expect(situationWithRelatedEmotions.hasRelatedEmotions()).toBeTruthy();
+      expect(situationWithRelatedEmotions.relatedEmotions).toStrictEqual(
+        someEmotions
+      );
     });
   });
 });

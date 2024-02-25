@@ -4,11 +4,16 @@ import { UniqueIdentifier } from '../unique-identifier';
 import { CreationDate } from './value-objects/creation-date';
 import { ExitEvent } from './value-objects/exit-event';
 import { assertMemberIsDefined } from '../../../shared-kernel/assertions';
+import { Emotions } from './value-objects/emotions';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Situation {
   type SituationBuilder = typeof Situation.SituationBuilder.prototype;
 }
+
+//TODO each step should have an OccuredAtDate and a PulseScore
+// DescribeSituationStep
+// Other place like use case, not same context
 
 export class Situation {
   readonly id: UniqueIdentifier;
@@ -16,6 +21,7 @@ export class Situation {
   readonly physicalSymptoms: PhysicalSymptoms[];
   readonly description?: SituationDescription;
   readonly exitEvent?: ExitEvent;
+  readonly relatedEmotions: Emotions[];
 
   private constructor(builder: Situation.SituationBuilder) {
     this.id = builder.id;
@@ -23,6 +29,7 @@ export class Situation {
     this.physicalSymptoms = builder.physicalSymptoms;
     this.description = builder.description;
     this.exitEvent = builder.exitEvent;
+    this.relatedEmotions = builder.relatedEmotions;
   }
   static builder(): Situation.SituationBuilder {
     return new Situation.SituationBuilder();
@@ -42,6 +49,10 @@ export class Situation {
     return this.exitEvent !== undefined;
   }
 
+  hasRelatedEmotions(): boolean {
+    return this.relatedEmotions.length > 0;
+  }
+
   describeSituation(description: SituationDescription): Situation {
     return Situation.builderWithCurrentState(this)
       .withDescription(description)
@@ -54,12 +65,19 @@ export class Situation {
       .build();
   }
 
+  defineRelatedEmotions(someEmotions: Emotions[]): Situation {
+    return Situation.builderWithCurrentState(this)
+      .withRelatedEmotions(someEmotions)
+      .build();
+  }
+
   static SituationBuilder = class {
     #id?: UniqueIdentifier;
     #creationDate?: CreationDate;
     physicalSymptoms: PhysicalSymptoms[] = [];
     description?: SituationDescription;
     exitEvent?: ExitEvent;
+    relatedEmotions: Emotions[] = [];
 
     get id(): UniqueIdentifier {
       if (this.#id === undefined)
@@ -85,6 +103,7 @@ export class Situation {
       this.physicalSymptoms = aSituation.physicalSymptoms;
       this.description = aSituation.description;
       this.exitEvent = aSituation.exitEvent;
+      this.relatedEmotions = aSituation.relatedEmotions;
       return this;
     }
 
@@ -107,6 +126,11 @@ export class Situation {
 
     withExitEvent(anExitEvent: ExitEvent) {
       this.exitEvent = anExitEvent;
+      return this;
+    }
+
+    withRelatedEmotions(someEmotions: Emotions[]) {
+      this.relatedEmotions = someEmotions;
       return this;
     }
   };
