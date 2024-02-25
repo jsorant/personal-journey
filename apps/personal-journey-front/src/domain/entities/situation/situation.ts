@@ -5,6 +5,7 @@ import { CreationDate } from './value-objects/creation-date';
 import { ExitEvent } from './value-objects/exit-event';
 import { assertMemberIsDefined } from '../../../shared-kernel/assertions';
 import { Emotions } from './value-objects/emotions';
+import { ThoughtsTypes } from './value-objects/thoughts-types';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Situation {
@@ -21,7 +22,8 @@ export class Situation {
   readonly physicalSymptoms: PhysicalSymptoms[];
   readonly description?: SituationDescription;
   readonly exitEvent?: ExitEvent;
-  readonly relatedEmotions: Emotions[];
+  readonly emotions: Emotions[];
+  readonly thoughtsTypes: ThoughtsTypes[];
 
   private constructor(builder: Situation.SituationBuilder) {
     this.id = builder.id;
@@ -29,7 +31,8 @@ export class Situation {
     this.physicalSymptoms = builder.physicalSymptoms;
     this.description = builder.description;
     this.exitEvent = builder.exitEvent;
-    this.relatedEmotions = builder.relatedEmotions;
+    this.emotions = builder.emotions;
+    this.thoughtsTypes = builder.thoughtsTypes;
   }
 
   static builder(): Situation.SituationBuilder {
@@ -51,10 +54,16 @@ export class Situation {
   }
 
   hasRelatedEmotions(): boolean {
-    return this.relatedEmotions.length > 0;
+    return this.emotions.length > 0;
   }
 
-  definePhysicalSymptoms(somePhysicalSymptoms: PhysicalSymptoms[]): Situation {
+  hasRelatedThoughtsTypes(): boolean {
+    return this.thoughtsTypes.length > 0;
+  }
+
+  identifyPhysicalSymptoms(
+    somePhysicalSymptoms: PhysicalSymptoms[]
+  ): Situation {
     return Situation.builderWithCurrentState(this)
       .withPhysicalSymptoms(somePhysicalSymptoms)
       .build();
@@ -72,9 +81,15 @@ export class Situation {
       .build();
   }
 
-  defineRelatedEmotions(someEmotions: Emotions[]): Situation {
+  identifyRelatedEmotions(someEmotions: Emotions[]): Situation {
     return Situation.builderWithCurrentState(this)
-      .withRelatedEmotions(someEmotions)
+      .withEmotions(someEmotions)
+      .build();
+  }
+
+  identifyRelatedThoughtsTypes(someThoughtsTypes: ThoughtsTypes[]) {
+    return Situation.builderWithCurrentState(this)
+      .withThoughtsTypes(someThoughtsTypes)
       .build();
   }
 
@@ -84,7 +99,8 @@ export class Situation {
     physicalSymptoms: PhysicalSymptoms[] = [];
     description?: SituationDescription;
     exitEvent?: ExitEvent;
-    relatedEmotions: Emotions[] = [];
+    emotions: Emotions[] = [];
+    thoughtsTypes: ThoughtsTypes[] = [];
 
     get id(): UniqueIdentifier {
       if (this.#id === undefined)
@@ -110,7 +126,8 @@ export class Situation {
       this.physicalSymptoms = aSituation.physicalSymptoms;
       this.description = aSituation.description;
       this.exitEvent = aSituation.exitEvent;
-      this.relatedEmotions = aSituation.relatedEmotions;
+      this.emotions = aSituation.emotions;
+      this.thoughtsTypes = aSituation.thoughtsTypes;
       return this;
     }
 
@@ -136,8 +153,13 @@ export class Situation {
       return this;
     }
 
-    withRelatedEmotions(someEmotions: Emotions[]) {
-      this.relatedEmotions = someEmotions;
+    withEmotions(someEmotions: Emotions[]) {
+      this.emotions = someEmotions;
+      return this;
+    }
+
+    withThoughtsTypes(someThoughtsTypes: ThoughtsTypes[]) {
+      this.thoughtsTypes = someThoughtsTypes;
       return this;
     }
   };

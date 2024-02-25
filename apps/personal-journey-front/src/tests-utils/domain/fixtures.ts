@@ -7,6 +7,7 @@ import { CreationDate } from '../../domain/entities/situation/value-objects/crea
 import { Situation } from '../../domain/entities/situation/situation';
 import { ExitEvent } from '../../domain/entities/situation/value-objects/exit-event';
 import { Emotions } from '../../domain/entities/situation/value-objects/emotions';
+import { ThoughtsTypes } from '../../domain/entities/situation/value-objects/thoughts-types';
 
 export const aCreationDate = CreationDate.of(new Date('2022-12-25 15:45'));
 
@@ -72,4 +73,16 @@ export const allEmotions = [
   Emotions.Sadness,
   Emotions.Fear,
   Emotions.Anger,
+];
+
+export const someThoughtsTypes = [
+  ThoughtsTypes.Security,
+  ThoughtsTypes.AbsenceOfChoice,
+];
+
+export const allThoughtsTypes = [
+  ThoughtsTypes.Security,
+  ThoughtsTypes.SelfImage,
+  ThoughtsTypes.Guiltiness,
+  ThoughtsTypes.AbsenceOfChoice,
 ];

@@ -10,8 +10,10 @@ import {
   justCreatedSituationWithoutSymptoms,
   someEmotions,
   somePhysicalSymptoms,
+  someThoughtsTypes,
 } from '../../../tests-utils/domain/fixtures';
 import { MissingMemberException } from '../../../shared-kernel/missing-member-exception';
+import { ThoughtsTypes } from './value-objects/thoughts-types';
 
 describe(Situation.name, () => {
   describe('Build', () => {
@@ -59,11 +61,11 @@ describe(Situation.name, () => {
   });
 
   describe('Behaviors', () => {
-    it('should define physical symptoms', () => {
+    it('should identify physical symptoms', () => {
       const aSituation = justCreatedSituationWithoutSymptoms;
 
       const situationWithPhysicalSymptoms =
-        aSituation.definePhysicalSymptoms(somePhysicalSymptoms);
+        aSituation.identifyPhysicalSymptoms(somePhysicalSymptoms);
 
       expect(aSituation.physicalSymptoms.length).toBe(0);
       expect(situationWithPhysicalSymptoms.physicalSymptoms).toStrictEqual(
@@ -94,14 +96,23 @@ describe(Situation.name, () => {
       expect(situationWithExitEvent.exitEvent).toStrictEqual(anExitEvent);
     });
 
-    it('should define emotions related with the situation', () => {
-      const situationWithRelatedEmotions =
-        describedSituation.defineRelatedEmotions(someEmotions);
+    it('should identify emotions related with the situation', () => {
+      const situationWithEmotions =
+        describedSituation.identifyRelatedEmotions(someEmotions);
 
       expect(describedSituation.hasRelatedEmotions()).toBeFalsy();
-      expect(situationWithRelatedEmotions.hasRelatedEmotions()).toBeTruthy();
-      expect(situationWithRelatedEmotions.relatedEmotions).toStrictEqual(
-        someEmotions
+      expect(situationWithEmotions.hasRelatedEmotions()).toBeTruthy();
+      expect(situationWithEmotions.emotions).toStrictEqual(someEmotions);
+    });
+
+    it('should define thoughts types related with the situation', () => {
+      const situationWithThoughtsTypes =
+        describedSituation.identifyRelatedThoughtsTypes(someThoughtsTypes);
+
+      expect(describedSituation.hasRelatedThoughtsTypes()).toBeFalsy();
+      expect(situationWithThoughtsTypes.hasRelatedThoughtsTypes()).toBeTruthy();
+      expect(situationWithThoughtsTypes.thoughtsTypes).toStrictEqual(
+        someThoughtsTypes
       );
     });
   });
