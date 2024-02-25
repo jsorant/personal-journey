@@ -10,6 +10,14 @@ export function assertMemberIsDefined<TValue>(
   return value;
 }
 
+export function assertMemberIsNotEmpty(
+  name: string,
+  value: string,
+  className: string
+): void {
+  if (value.length === 0) throw new EmptyMemberException(name, className);
+}
+
 export function assertMemberIsDefinedAndNotEmpty(
   name: string,
   value: string | undefined,
