@@ -1,8 +1,10 @@
 import { SituationDescription } from './situation-description';
 import { aDate, aDescription, aLocation } from './fixtures';
+import { MissingMemberException } from '../../shared-kernel/missing-member-exception';
+import { EmptyMemberException } from '../../shared-kernel/empty-member-exception';
 
 describe(SituationDescription.name, () => {
-  it('should build with a date, location and description', () => {
+  it('should build with a date, a location and a description', () => {
     const situationDescription = SituationDescription.builder()
       .withDate(aDate)
       .withLocation(aLocation)
@@ -20,7 +22,7 @@ describe(SituationDescription.name, () => {
         .withLocation(aLocation)
         .withDescription(aDescription)
         .build()
-    ).toThrow('Cannot create a situation description without a date');
+    ).toThrow(new MissingMemberException('date', 'SituationDescription'));
   });
 
   it('should not build without a location', () => {
@@ -29,15 +31,17 @@ describe(SituationDescription.name, () => {
         .withDate(aDate)
         .withDescription(aDescription)
         .build()
-    ).toThrow('Cannot create a situation description without a location');
+    ).toThrow(new MissingMemberException('location', 'SituationDescription'));
+  });
 
+  it('should not build with an empty location', () => {
     expect(() =>
       SituationDescription.builder()
         .withDate(aDate)
         .withLocation('')
         .withDescription(aDescription)
         .build()
-    ).toThrow('Cannot create a situation description without a location');
+    ).toThrow(new EmptyMemberException('location', 'SituationDescription'));
   });
 
   it('should not build without a description', () => {
@@ -46,14 +50,18 @@ describe(SituationDescription.name, () => {
         .withDate(aDate)
         .withLocation(aLocation)
         .build()
-    ).toThrow('Cannot create a situation description without a description');
+    ).toThrow(
+      new MissingMemberException('description', 'SituationDescription')
+    );
+  });
 
+  it('should not build with an empty description', () => {
     expect(() =>
       SituationDescription.builder()
         .withDate(aDate)
         .withLocation(aLocation)
         .withDescription('')
         .build()
-    ).toThrow('Cannot create a situation description without a description');
+    ).toThrow(new EmptyMemberException('description', 'SituationDescription'));
   });
 });

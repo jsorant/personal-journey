@@ -1,8 +1,14 @@
+import {
+  assertMemberIsDefined,
+  assertMemberIsDefinedAndNotEmpty,
+} from '../../shared-kernel/assertions';
+
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace SituationDescription {
   type SituationDescriptionBuilder =
     typeof SituationDescription.SituationDescriptionBuilder.prototype;
 }
+
 export class SituationDescription {
   readonly date: Date;
   readonly location: string;
@@ -25,25 +31,27 @@ export class SituationDescription {
     #description?: string;
 
     get date(): Date {
-      if (this.#date === undefined)
-        throw new Error('Cannot create a situation description without a date');
-      return this.#date;
+      return assertMemberIsDefined<Date>(
+        'date',
+        this.#date,
+        SituationDescription.name
+      );
     }
 
     get location(): string {
-      if (this.#location === undefined || this.#location.length === 0)
-        throw new Error(
-          'Cannot create a situation description without a location'
-        );
-      return this.#location;
+      return assertMemberIsDefinedAndNotEmpty(
+        'location',
+        this.#location,
+        SituationDescription.name
+      );
     }
 
     get description(): string {
-      if (this.#description === undefined || this.#description.length === 0)
-        throw new Error(
-          'Cannot create a situation description without a description'
-        );
-      return this.#description;
+      return assertMemberIsDefinedAndNotEmpty(
+        'description',
+        this.#description,
+        SituationDescription.name
+      );
     }
 
     withDate(aDate: Date): SituationDescription.SituationDescriptionBuilder {
