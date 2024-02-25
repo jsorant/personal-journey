@@ -2,7 +2,7 @@ import { Location } from './location';
 import { EmptyMemberException } from '../../shared-kernel/empty-member-exception';
 
 describe(Location.name, () => {
-  it('should build with value', () => {
+  it('should build with a value', () => {
     const location = Location.of('Au centre commercial');
 
     expect(location.value).toStrictEqual('Au centre commercial');

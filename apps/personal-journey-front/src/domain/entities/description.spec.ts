@@ -2,7 +2,7 @@ import { EmptyMemberException } from '../../shared-kernel/empty-member-exception
 import { Description } from './description';
 
 describe(Description.name, () => {
-  it('should build with value', () => {
+  it('should build with a value', () => {
     const description = Description.of('Une description...');
 
     expect(description.value).toStrictEqual('Une description...');
