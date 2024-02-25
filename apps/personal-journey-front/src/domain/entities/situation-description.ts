@@ -1,5 +1,6 @@
 import { assertMemberIsDefined } from '../../shared-kernel/assertions';
 import { Location } from './location';
+import { Description } from './description';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace SituationDescription {
@@ -10,7 +11,7 @@ declare namespace SituationDescription {
 export class SituationDescription {
   readonly date: Date;
   readonly location: Location;
-  readonly description: string;
+  readonly description: Description;
 
   private constructor(
     builder: SituationDescription.SituationDescriptionBuilder
@@ -26,7 +27,7 @@ export class SituationDescription {
   static SituationDescriptionBuilder = class {
     #date?: Date;
     #location?: Location;
-    #description?: string;
+    #description?: Description;
 
     get date(): Date {
       return assertMemberIsDefined<Date>(
@@ -44,8 +45,8 @@ export class SituationDescription {
       );
     }
 
-    get description(): string {
-      return assertMemberIsDefined<string>(
+    get description(): Description {
+      return assertMemberIsDefined<Description>(
         'description',
         this.#description,
         SituationDescription.name
@@ -65,7 +66,7 @@ export class SituationDescription {
     }
 
     withDescription(
-      aDescription: string
+      aDescription: Description
     ): SituationDescription.SituationDescriptionBuilder {
       this.#description = aDescription;
       return this;
