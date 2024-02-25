@@ -1,5 +1,5 @@
 import { Location } from './location';
-import { EmptyMemberException } from '../../shared-kernel/empty-member-exception';
+import { EmptyMemberException } from '../../../../shared-kernel/empty-member-exception';
 
 describe(Location.name, () => {
   it('should build with a value', () => {

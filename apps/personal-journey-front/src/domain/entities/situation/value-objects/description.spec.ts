@@ -1,4 +1,4 @@
-import { EmptyMemberException } from '../../shared-kernel/empty-member-exception';
+import { EmptyMemberException } from '../../../../shared-kernel/empty-member-exception';
 import { Description } from './description';
 
 describe(Description.name, () => {

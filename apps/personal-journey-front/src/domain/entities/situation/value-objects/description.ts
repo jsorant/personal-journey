@@ -1,4 +1,4 @@
-import { assertMemberIsNotEmpty } from '../../shared-kernel/assertions';
+import { assertMemberIsNotEmpty } from '../../../../shared-kernel/assertions';
 
 export class Description {
   readonly value: string;

@@ -1,13 +1,13 @@
 import { Situation } from './situation';
-import { PhysicalSymptoms } from './physical-symptoms';
+import { PhysicalSymptoms } from './value-objects/physical-symptoms';
 import {
   aCreationDate,
   allPhysicalSymptoms,
   aSituationDescription,
   justCreatedSituation,
   somePhysicalSymptoms,
-} from './fixtures';
-import { MissingMemberException } from '../../shared-kernel/missing-member-exception';
+} from '../../../tests-utils/domain/fixtures';
+import { MissingMemberException } from '../../../shared-kernel/missing-member-exception';
 
 describe(Situation.name, () => {
   describe('Build', () => {

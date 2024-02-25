@@ -1,4 +1,4 @@
-import { assertMemberIsDefined } from '../../shared-kernel/assertions';
+import { assertMemberIsDefined } from '../../../../shared-kernel/assertions';
 import { Location } from './location';
 import { Description } from './description';
 import { StartDate } from './start-date';

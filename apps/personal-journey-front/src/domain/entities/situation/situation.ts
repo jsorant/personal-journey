@@ -1,8 +1,8 @@
-import { PhysicalSymptoms } from './physical-symptoms';
-import { SituationDescription } from './situation-description';
-import { UniqueIdentifier } from './unique-identifier';
-import { CreationDate } from './creation-date';
-import { assertMemberIsDefined } from '../../shared-kernel/assertions';
+import { PhysicalSymptoms } from './value-objects/physical-symptoms';
+import { SituationDescription } from './value-objects/situation-description';
+import { UniqueIdentifier } from '../unique-identifier';
+import { CreationDate } from './value-objects/creation-date';
+import { assertMemberIsDefined } from '../../../shared-kernel/assertions';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Situation {

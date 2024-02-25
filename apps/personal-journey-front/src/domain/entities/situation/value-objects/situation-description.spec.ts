@@ -1,6 +1,10 @@
 import { SituationDescription } from './situation-description';
-import { aDate, aDescription, aLocation } from './fixtures';
-import { MissingMemberException } from '../../shared-kernel/missing-member-exception';
+import {
+  aDate,
+  aDescription,
+  aLocation,
+} from '../../../../tests-utils/domain/fixtures';
+import { MissingMemberException } from '../../../../shared-kernel/missing-member-exception';
 
 describe(SituationDescription.name, () => {
   it('should build with a date, a location and a description', () => {
