@@ -5,7 +5,7 @@ import {
   AddNewEventInputs,
 } from './add-event.presenter';
 import { EventsRepository } from '../../../domain/events.repository';
-import { CurrentDate } from '../../current-date';
+import { CurrentDate } from '../../../shared-kernel/current-date';
 import { EventType } from '../../../domain/event';
 
 @Injectable({

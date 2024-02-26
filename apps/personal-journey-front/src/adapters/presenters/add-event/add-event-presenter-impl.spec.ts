@@ -1,7 +1,7 @@
 import { Mock, mock } from 'ts-jest-mocker';
 import { AddEventPresenterImpl } from './add-event-presenter-impl';
 import { EventsRepository } from '../../../domain/events.repository';
-import { CurrentDate } from '../../current-date';
+import { CurrentDate } from '../../../shared-kernel/current-date';
 import { EventType } from '../../../domain/event';
 import { AddNewEventInputs } from './add-event.presenter';
 
