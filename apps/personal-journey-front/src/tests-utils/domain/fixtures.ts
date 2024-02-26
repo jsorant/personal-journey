@@ -3,14 +3,23 @@ import { PhysicalSymptoms } from '../../domain/entities/situation/value-objects/
 import { Location } from '../../domain/entities/situation/value-objects/location';
 import { Description } from '../../domain/entities/situation/value-objects/description';
 import { StartDate } from '../../domain/entities/situation/value-objects/start-date';
-import { CreationDate } from '../../domain/entities/situation/value-objects/creation-date';
 import { Situation } from '../../domain/entities/situation/situation';
 import { ExitEvent } from '../../domain/entities/situation/value-objects/exit-event';
 import { Emotions } from '../../domain/entities/situation/value-objects/emotions';
 import { ThoughtsTypes } from '../../domain/entities/situation/value-objects/thoughts-types';
 import { AutoPilots } from '../../domain/entities/situation/value-objects/auto-pilots';
+import { SituationId } from '../../domain/entities/situation/value-objects/situation-id';
 
-export const aCreationDate = CreationDate.of(new Date('2022-12-25 15:45'));
+export const aSituationId = SituationId.of(
+  'ea6ef84e-af14-408b-b5a7-0fe1a3cfc2dc'
+);
+
+export const aDomainEventId = SituationId.of(
+  '9944fbc2-ef3f-4808-ad5c-9d260c2b781d'
+);
+export const aDate = new Date('2022-12-26 22:15');
+
+export const anUuidV4 = '0808e930-972b-4af6-92c5-5ac2fe17e7f4';
 
 export const allPhysicalSymptoms = [
   PhysicalSymptoms.ColopathieFonctionnelle,
@@ -37,30 +46,27 @@ export const somePhysicalSymptoms = [
   PhysicalSymptoms.Vertiges,
 ];
 
-export const aDate = StartDate.of(new Date('2022-12-25 15:15'));
+export const aStartDate = StartDate.of(new Date('2022-12-25 15:15'));
 export const aLocation = Location.of('Au centre commercial');
 export const aDescription = Description.of(
   "Je marchais dans la foule, il y avait beaucoupt de monde. Mon coeur s'est mis à battre fort. Je suis sorti au plus vite et j'ai rejoins le parc pour m'assoir sur un banc."
 );
 
 export const aSituationDescription = SituationDescription.builder()
-  .withDate(aDate)
+  .withDate(aStartDate)
   .withLocation(aLocation)
   .withDescription(aDescription)
   .build();
 
-export const justCreatedSituation = Situation.builder()
-  .withCreationDate(aCreationDate)
+export const aBlankSituation = Situation.builder().withId(aSituationId).build();
+
+export const aSituationWithPhysicalSymptoms = Situation.builder()
+  .withId(aSituationId)
   .withPhysicalSymptoms(somePhysicalSymptoms)
   .build();
 
-export const justCreatedSituationWithoutSymptoms = Situation.builder()
-  .withCreationDate(aCreationDate)
-  .build();
-
-export const describedSituation = justCreatedSituation.describeSituation(
-  aSituationDescription
-);
+export const aDescribedSituation =
+  aSituationWithPhysicalSymptoms.describeSituation(aSituationDescription);
 
 export const anExitEvent = ExitEvent.of(
   'La foule a été attirée dans un autre zone...'

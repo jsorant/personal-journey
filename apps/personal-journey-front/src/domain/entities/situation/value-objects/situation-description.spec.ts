@@ -1,6 +1,6 @@
 import { SituationDescription } from './situation-description';
 import {
-  aDate,
+  aStartDate,
   aDescription,
   aLocation,
 } from '../../../../tests-utils/domain/fixtures';
@@ -9,12 +9,12 @@ import { MissingMemberException } from '../../../../shared-kernel/missing-member
 describe(SituationDescription.name, () => {
   it('should build with a date, a location and a description', () => {
     const situationDescription = SituationDescription.builder()
-      .withDate(aDate)
+      .withDate(aStartDate)
       .withLocation(aLocation)
       .withDescription(aDescription)
       .build();
 
-    expect(situationDescription.date).toStrictEqual(aDate);
+    expect(situationDescription.date).toStrictEqual(aStartDate);
     expect(situationDescription.location).toStrictEqual(aLocation);
     expect(situationDescription.description).toStrictEqual(aDescription);
   });
@@ -31,7 +31,7 @@ describe(SituationDescription.name, () => {
   it('should not build without a location', () => {
     expect(() =>
       SituationDescription.builder()
-        .withDate(aDate)
+        .withDate(aStartDate)
         .withDescription(aDescription)
         .build()
     ).toThrow(new MissingMemberException('location', 'SituationDescription'));
@@ -40,7 +40,7 @@ describe(SituationDescription.name, () => {
   it('should not build without a description', () => {
     expect(() =>
       SituationDescription.builder()
-        .withDate(aDate)
+        .withDate(aStartDate)
         .withLocation(aLocation)
         .build()
     ).toThrow(
