@@ -5,7 +5,6 @@ import { ExitEvent } from './value-objects/exit-event';
 import { Emotions } from './value-objects/emotions';
 import { ThoughtsTypes } from './value-objects/thoughts-types';
 import { AutoPilots } from './value-objects/auto-pilots';
-import { MissingMemberException } from '../../../shared-kernel/missing-member-exception';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Situation {
@@ -31,14 +30,16 @@ export class Situation {
     this.autoPilots = builder.autoPilots;
   }
 
-  static builder(): Situation.SituationBuilder {
-    return new Situation.SituationBuilder();
+  static buildWithId(id: SituationId) {
+    return new Situation.SituationBuilder(id).build();
   }
 
   private static builderWithCurrentState(
     situation: Situation
   ): Situation.SituationBuilder {
-    return new Situation.SituationBuilder().fromSituation(situation);
+    return new Situation.SituationBuilder(situation.id).withInternalStateFrom(
+      situation
+    );
   }
 
   isDescribed(): boolean {
@@ -100,7 +101,7 @@ export class Situation {
   }
 
   static SituationBuilder = class {
-    #id?: SituationId;
+    id: SituationId;
     physicalSymptoms: PhysicalSymptoms[] = [];
     description?: SituationDescription;
     exitEvent?: ExitEvent;
@@ -108,29 +109,21 @@ export class Situation {
     thoughtsTypes: ThoughtsTypes[] = [];
     autoPilots: AutoPilots[] = [];
 
-    get id(): SituationId {
-      if (this.#id === undefined)
-        throw new MissingMemberException('id', Situation.name);
-      return this.#id;
+    constructor(id: SituationId) {
+      this.id = id;
     }
 
     build(): Situation {
       return new Situation(this);
     }
 
-    fromSituation(aSituation: Situation): Situation.SituationBuilder {
-      this.#id = aSituation.id;
+    withInternalStateFrom(aSituation: Situation): Situation.SituationBuilder {
       this.physicalSymptoms = aSituation.physicalSymptoms;
       this.description = aSituation.description;
       this.exitEvent = aSituation.exitEvent;
       this.emotions = aSituation.emotions;
       this.thoughtsTypes = aSituation.thoughtsTypes;
       this.autoPilots = aSituation.autoPilots;
-      return this;
-    }
-
-    withId(id: SituationId) {
-      this.#id = id;
       return this;
     }
 

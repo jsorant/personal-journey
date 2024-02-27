@@ -1,76 +1,39 @@
 import { Situation } from './situation';
-import { PhysicalSymptoms } from './value-objects/physical-symptoms';
 import {
-  allPhysicalSymptoms,
+  aBlankSituation,
   anExitEvent,
   aSituationDescription,
-  aDescribedSituation,
-  aSituationWithPhysicalSymptoms,
-  aBlankSituation,
+  aSituationId,
   someAutoPilots,
   someEmotions,
   somePhysicalSymptoms,
   someThoughtsTypes,
-  aSituationId,
 } from '../../../tests-utils/domain/fixtures';
-import { MissingMemberException } from '../../../shared-kernel/missing-member-exception';
 
 describe(Situation.name, () => {
   describe('Build', () => {
     it('should build a new situation', () => {
-      expect(() =>
-        Situation.builder().withId(aSituationId).build()
-      ).not.toThrow();
-    });
-
-    it('should not build without a unique identifier', () => {
-      expect(() => Situation.builder().build()).toThrow(
-        new MissingMemberException('id', Situation.name)
-      );
-    });
-
-    it('should build a situation with a physical symptom', () => {
-      const symptoms = [PhysicalSymptoms.Palpitations];
-
-      const situation = Situation.builder()
-        .withId(aSituationId)
-        .withPhysicalSymptoms([PhysicalSymptoms.Palpitations])
-        .build();
-
-      expect(situation.physicalSymptoms).toStrictEqual(symptoms);
-    });
-
-    it('should build a situation with all physical symptoms', () => {
-      const situation = Situation.builder()
-        .withId(aSituationId)
-        .withPhysicalSymptoms(allPhysicalSymptoms)
-        .build();
-
-      expect(situation.physicalSymptoms).toStrictEqual(allPhysicalSymptoms);
+      expect(() => Situation.buildWithId(aSituationId)).not.toThrow();
     });
   });
 
   describe('Behaviors', () => {
     it('should identify physical symptoms', () => {
-      const aSituation = aBlankSituation;
-
       const situationWithPhysicalSymptoms =
-        aSituation.identifyPhysicalSymptoms(somePhysicalSymptoms);
+        aBlankSituation.identifyPhysicalSymptoms(somePhysicalSymptoms);
 
-      expect(aSituation.physicalSymptoms.length).toBe(0);
+      expect(aBlankSituation.physicalSymptoms.length).toBe(0);
       expect(situationWithPhysicalSymptoms.physicalSymptoms).toStrictEqual(
         somePhysicalSymptoms
       );
     });
 
     it('should describe situation', () => {
-      const notDescribedSituation = aSituationWithPhysicalSymptoms;
-
-      const describedSituation = notDescribedSituation.describeSituation(
+      const describedSituation = aBlankSituation.describeSituation(
         aSituationDescription
       );
 
-      expect(notDescribedSituation.isDescribed()).toBeFalsy();
+      expect(aBlankSituation.isDescribed()).toBeFalsy();
       expect(describedSituation.isDescribed()).toBeTruthy();
       expect(describedSituation.description).toStrictEqual(
         aSituationDescription
@@ -79,27 +42,27 @@ describe(Situation.name, () => {
 
     it('should describe an event that allowed to exit the situation', () => {
       const situationWithExitEvent =
-        aDescribedSituation.describeExitEvent(anExitEvent);
+        aBlankSituation.describeExitEvent(anExitEvent);
 
-      expect(aDescribedSituation.hasExitEvent()).toBeFalsy();
+      expect(aBlankSituation.hasExitEvent()).toBeFalsy();
       expect(situationWithExitEvent.hasExitEvent()).toBeTruthy();
       expect(situationWithExitEvent.exitEvent).toStrictEqual(anExitEvent);
     });
 
     it('should identify emotions related with the situation', () => {
       const situationWithEmotions =
-        aDescribedSituation.identifyRelatedEmotions(someEmotions);
+        aBlankSituation.identifyRelatedEmotions(someEmotions);
 
-      expect(aDescribedSituation.hasRelatedEmotions()).toBeFalsy();
+      expect(aBlankSituation.hasRelatedEmotions()).toBeFalsy();
       expect(situationWithEmotions.hasRelatedEmotions()).toBeTruthy();
       expect(situationWithEmotions.emotions).toStrictEqual(someEmotions);
     });
 
     it('should identify thoughts types related with the situation', () => {
       const situationWithThoughtsTypes =
-        aDescribedSituation.identifyRelatedThoughtsTypes(someThoughtsTypes);
+        aBlankSituation.identifyRelatedThoughtsTypes(someThoughtsTypes);
 
-      expect(aDescribedSituation.hasRelatedThoughtsTypes()).toBeFalsy();
+      expect(aBlankSituation.hasRelatedThoughtsTypes()).toBeFalsy();
       expect(situationWithThoughtsTypes.hasRelatedThoughtsTypes()).toBeTruthy();
       expect(situationWithThoughtsTypes.thoughtsTypes).toStrictEqual(
         someThoughtsTypes
@@ -110,9 +73,9 @@ describe(Situation.name, () => {
 
     it('should identify autopilots', () => {
       const situationWithAutoPilots =
-        aDescribedSituation.identifyRelatedAutoPilots(someAutoPilots);
+        aBlankSituation.identifyRelatedAutoPilots(someAutoPilots);
 
-      expect(aDescribedSituation.hasRelatedAutoPilots()).toBeFalsy();
+      expect(aBlankSituation.hasRelatedAutoPilots()).toBeFalsy();
       expect(situationWithAutoPilots.hasRelatedAutoPilots()).toBeTruthy();
       expect(situationWithAutoPilots.autoPilots).toStrictEqual(someAutoPilots);
     });

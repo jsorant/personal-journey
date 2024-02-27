@@ -14,6 +14,8 @@ export const aSituationId = SituationId.of(
   'ea6ef84e-af14-408b-b5a7-0fe1a3cfc2dc'
 );
 
+export const aBlankSituation = Situation.buildWithId(aSituationId);
+
 export const aDomainEventId = SituationId.of(
   '9944fbc2-ef3f-4808-ad5c-9d260c2b781d'
 );
@@ -57,16 +59,6 @@ export const aSituationDescription = SituationDescription.builder()
   .withLocation(aLocation)
   .withDescription(aDescription)
   .build();
-
-export const aBlankSituation = Situation.builder().withId(aSituationId).build();
-
-export const aSituationWithPhysicalSymptoms = Situation.builder()
-  .withId(aSituationId)
-  .withPhysicalSymptoms(somePhysicalSymptoms)
-  .build();
-
-export const aDescribedSituation =
-  aSituationWithPhysicalSymptoms.describeSituation(aSituationDescription);
 
 export const anExitEvent = ExitEvent.of(
   'La foule a été attirée dans un autre zone...'
