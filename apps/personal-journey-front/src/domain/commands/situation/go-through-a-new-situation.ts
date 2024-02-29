@@ -4,17 +4,17 @@ import { SituationId } from '../../entities/situation/value-objects/situation-id
 import { Situation } from '../../entities/situation/situation';
 import { SituationRepository } from '../../ports/situation-repository';
 import { SituationFactory } from '../../entities/situation/situation-factory';
-import { CreateNewSituationEventFactory } from '../../events/factories/create-new-situation-event-factory';
+import { SituationCreatedFactory } from '../../events/factories/situation-created-factory';
 
 export class GoThroughANewSituation {
   readonly #situationFactory: SituationFactory;
-  readonly #eventFactory: CreateNewSituationEventFactory;
+  readonly #eventFactory: SituationCreatedFactory;
   readonly #situationRepository: SituationRepository;
   readonly #eventsEmitter: DomainEventsEmitter;
 
   constructor(
     situationFactory: SituationFactory,
-    eventFactory: CreateNewSituationEventFactory,
+    eventFactory: SituationCreatedFactory,
     situationRepository: SituationRepository,
     eventsEmitter: DomainEventsEmitter
   ) {

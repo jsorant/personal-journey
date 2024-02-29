@@ -9,8 +9,8 @@ import { DomainEventsEmitter } from '../../ports/domain-events-emitter';
 import { GoThroughANewSituation } from './go-through-a-new-situation';
 import { SituationRepository } from '../../ports/situation-repository';
 import { SituationFactory } from '../../entities/situation/situation-factory';
-import { CreateNewSituationEventFactory } from '../../events/factories/create-new-situation-event-factory';
-import { CreateNewSituationEvent } from '../../events/create-new-situation-event';
+import { SituationCreatedFactory } from '../../events/factories/situation-created-factory';
+import { SituationCreated } from '../../events/situation-created';
 
 const generatedSituation = aBlankSituation;
 const symptoms = somePhysicalSymptoms;
@@ -25,7 +25,7 @@ describe(GoThroughANewSituation.name, () => {
   let sut: GoThroughANewSituation;
 
   let mockSituationFactory: Mock<SituationFactory>;
-  let mockEventFactory: Mock<CreateNewSituationEventFactory>;
+  let mockEventFactory: Mock<SituationCreatedFactory>;
   let mockEventsEmitter: Mock<DomainEventsEmitter>;
   let mockSituationRepository: Mock<SituationRepository>;
 
@@ -33,7 +33,7 @@ describe(GoThroughANewSituation.name, () => {
     mockSituationFactory = mock<SituationFactory>();
     mockSituationFactory.createSituation.mockReturnValue(generatedSituation);
 
-    mockEventFactory = mock<CreateNewSituationEventFactory>();
+    mockEventFactory = mock<SituationCreatedFactory>();
     mockEventFactory.generateFrom.mockReturnValue(generatedEvent);
 
     mockEventsEmitter = mock<DomainEventsEmitter>();
@@ -70,7 +70,7 @@ describe(GoThroughANewSituation.name, () => {
 
     expect(mockEventsEmitter.emitEvent).toHaveBeenCalledTimes(1);
     const emittedEvent = mockEventsEmitter.emitEvent.mock
-      .calls[0][0] as CreateNewSituationEvent;
+      .calls[0][0] as SituationCreated;
     expect(emittedEvent.situationId).toStrictEqual(generatedSituation.id);
     expect(emittedEvent.physicalSymptoms).toStrictEqual(symptoms);
   });
