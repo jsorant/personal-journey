@@ -1,14 +1,14 @@
-import { CreateNewSituationEvent } from '../create-new-situation-event';
+import { SituationCreated } from '../situation-created';
 import { aBlankSituation } from '../../../tests-utils/domain/fixtures';
-import { CreateNewSituationEventFactory } from './create-new-situation-event-factory';
+import { SituationCreatedFactory } from './situation-created-factory';
 import {
   buildMockUuidv4Generator,
   buildMockCurrentDate,
 } from '../../../tests-utils/domain/mocks';
 
-describe(CreateNewSituationEventFactory.name, () => {
+describe(SituationCreatedFactory.name, () => {
   it('should generate an event based on a random generator and the current date', () => {
-    const event: CreateNewSituationEvent = new CreateNewSituationEventFactory(
+    const event: SituationCreated = new SituationCreatedFactory(
       buildMockUuidv4Generator(),
       buildMockCurrentDate()
     ).generateFrom(aBlankSituation);
