@@ -14,6 +14,11 @@ Run `nx list` to get a list of available plugins and whether they have generator
 
 Learn more about [Nx generators on the docs](https://nx.dev/features/generate-code).
 
+Generate angular component:
+```
+nx g @nx/angular:component situation-study --directory apps/personal-journey-front/src/app/situation-study
+```
+
 ## Running tasks
 
 ### Dev

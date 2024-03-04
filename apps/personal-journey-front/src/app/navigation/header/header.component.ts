@@ -4,10 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
-
-const HOME_ROUTE = '/home';
-const ADD_EVENT_ROUTE = '/events/add';
-const HISTORY_ROUTE = '/history';
+import { ADD_EVENT_ROUTE, HISTORY_ROUTE, HOME_ROUTE } from '../../app.routes';
 
 @Component({
   selector: 'duckrulz-header',
