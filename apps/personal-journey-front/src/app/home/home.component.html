@@ -1,4 +1,23 @@
 <div class="grid-container">
+  <h1 class="mat-h1">Anciennes idées :</h1>
+  <div>
+    <button id="history-button" mat-raised-button (click)="onHistoryClicked()">
+      <mat-icon>list</mat-icon>
+      Historique
+    </button>
+  </div>
+
+  <br />
+
+  <div>
+    <button id="add-event-button" mat-raised-button (click)="onAddClicked()">
+      <mat-icon>add</mat-icon>
+      Ajouter un évènement
+    </button>
+  </div>
+
+  <br />
+
   <h1 id="title" class="mat-h1">Welcome !</h1>
   <mat-grid-list cols="2" rowHeight="350px">
     @for (card of cards | async; track card) {

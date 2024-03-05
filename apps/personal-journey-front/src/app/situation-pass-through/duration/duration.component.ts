@@ -47,5 +47,7 @@ export class DurationComponent {
     await this.#router.navigate([MEMORIES_ROUTE]);
   }
 
-  onFinishClicked() {}
+  onFinishClicked() {
+    console.log('FINISHED');
+  }
 }

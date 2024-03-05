@@ -4,7 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
-import { ADD_EVENT_ROUTE, HISTORY_ROUTE, HOME_ROUTE } from '../../app.routes';
+import {
+  HISTORY_ROUTE,
+  HOME_ROUTE,
+  SITUATION_PASS_THROUGH_ROUTE,
+} from '../../app.routes';
 
 @Component({
   selector: 'duckrulz-header',
@@ -21,26 +25,27 @@ import { ADD_EVENT_ROUTE, HISTORY_ROUTE, HOME_ROUTE } from '../../app.routes';
 })
 export class HeaderComponent {
   router = inject(Router);
-  static ADD_EVENT_BUTTON_TEXT = 'Ajouter un évènement';
-  static HISTORY_BUTTON_TEXT = 'Historique';
 
-  addEventButtonText() {
-    return HeaderComponent.ADD_EVENT_BUTTON_TEXT;
+  static readonly MY_SITUATIONS_BUTTON_TEXT = 'Mes situations';
+  static readonly ADD_SITUATION_BUTTON_TEXT = 'Nouvelle situation';
+
+  mySituationButtonText() {
+    return HeaderComponent.MY_SITUATIONS_BUTTON_TEXT;
   }
 
-  historyButtonText() {
-    return HeaderComponent.HISTORY_BUTTON_TEXT;
+  addSituationButtonText() {
+    return HeaderComponent.ADD_SITUATION_BUTTON_TEXT;
   }
 
   async onHomeClicked(): Promise<void> {
     await this.router.navigateByUrl(HOME_ROUTE);
   }
 
-  async onHistoryClicked() {
+  async onMySituationsClicked() {
     await this.router.navigateByUrl(HISTORY_ROUTE);
   }
 
-  async onAddClicked() {
-    await this.router.navigateByUrl(ADD_EVENT_ROUTE);
+  async onAddSituationClicked() {
+    await this.router.navigateByUrl(SITUATION_PASS_THROUGH_ROUTE);
   }
 }

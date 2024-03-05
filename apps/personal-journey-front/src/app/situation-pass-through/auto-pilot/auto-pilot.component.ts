@@ -12,11 +12,7 @@ import { InfoCardComponent } from '../../custom-components/info-card/info-card.c
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
-import {
-  EMOTIONS_ROUTE,
-  MEMORIES_ROUTE,
-  TRIGGERS_NEEDS_ROUTE,
-} from '../../app.routes';
+import { MEMORIES_ROUTE, TRIGGERS_NEEDS_ROUTE } from '../../app.routes';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
 
 @Component({

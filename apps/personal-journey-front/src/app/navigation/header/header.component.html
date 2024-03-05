@@ -8,14 +8,22 @@
       <a id="home-link" routerLink="/home">Personal Journey</a>
     </div>
 
-    <button id="history-button" mat-raised-button (click)="onHistoryClicked()">
+    <button
+      id="my-situations-button"
+      mat-raised-button
+      (click)="onMySituationsClicked()"
+    >
       <mat-icon>list</mat-icon>
-      {{ historyButtonText() }}
+      {{ mySituationButtonText() }}
     </button>
 
-    <button id="add-event-button" mat-raised-button (click)="onAddClicked()">
+    <button
+      id="add-situation-button"
+      mat-raised-button
+      (click)="onAddSituationClicked()"
+    >
       <mat-icon>add</mat-icon>
-      {{ addEventButtonText() }}
+      {{ addSituationButtonText() }}
     </button>
   </div>
 </mat-toolbar>

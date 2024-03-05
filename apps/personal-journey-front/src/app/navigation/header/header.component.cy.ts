@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { matButtonShouldHaveText } from '../../../tests-utils/cypress-utils/harness-utils.cy';
+import { HISTORY_ROUTE, SITUATION_PASS_THROUGH_ROUTE } from '../../app.routes';
 
 describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
@@ -44,27 +45,35 @@ describe('HeaderComponent', () => {
     clickOnLinkShouldNavigateTo('/home', '#home-link', router);
   });
 
-  it('should have the add event button', () => {
+  it('should have the add situation button', () => {
     matButtonShouldHaveText(
-      HeaderComponent.ADD_EVENT_BUTTON_TEXT,
-      '#add-event-button',
+      HeaderComponent.ADD_SITUATION_BUTTON_TEXT,
+      '#add-situation-button',
       loader
     );
   });
 
-  it('should navigate to add event with the add event button', () => {
-    clickOnButtonShouldNavigateTo('/events/add', '#add-event-button', router);
+  it('should navigate to add situation with the add situation button', () => {
+    clickOnButtonShouldNavigateTo(
+      SITUATION_PASS_THROUGH_ROUTE,
+      '#add-situation-button',
+      router
+    );
   });
 
-  it('should have the history button', () => {
+  it('should have the my situations button', () => {
     matButtonShouldHaveText(
-      HeaderComponent.HISTORY_BUTTON_TEXT,
-      '#history-button',
+      HeaderComponent.MY_SITUATIONS_BUTTON_TEXT,
+      '#my-situations-button',
       loader
     );
   });
 
-  it('should navigate to history with the history button', () => {
-    clickOnButtonShouldNavigateTo('/history', '#history-button', router);
+  it('should navigate to history with the my situations button', () => {
+    clickOnButtonShouldNavigateTo(
+      HISTORY_ROUTE,
+      '#my-situations-button',
+      router
+    );
   });
 });
