@@ -1,0 +1,38 @@
+<duckrulz-info-card
+  [title]="infosTitle"
+  [descriptions]="infoDescriptions"
+></duckrulz-info-card>
+
+<p></p>
+
+<h3>J'identifie les types de pensées qui augmentent mon degré d'inconfort :</h3>
+
+<form [formGroup]="form" (ngSubmit)="onNextClicked()">
+  <div
+    formArrayName="thoughtsTypes"
+    *ngFor="let order of thoughtsTypesFormArray().controls; let i = index"
+  >
+    <mat-checkbox [formControlName]="i">{{
+      thoughtsTypesData[i]
+    }}</mat-checkbox>
+  </div>
+
+  <duckrulz-therapy-card
+    [descriptions]="therapyDescriptions"
+  ></duckrulz-therapy-card>
+
+  <p></p>
+
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    Étape précédente
+  </button>
+
+  <button mat-raised-button color="primary" type="submit">
+    Étape suivante
+  </button>
+</form>

@@ -1,0 +1,30 @@
+<duckrulz-info-card
+  [title]="infosTitle"
+  [descriptions]="infoDescriptions"
+></duckrulz-info-card>
+
+<br /><br />
+
+<form [formGroup]="form" (ngSubmit)="onFinishClicked()">
+  <div>
+    <mat-form-field floatLabel="always">
+      <mat-label>Durée (minutes)</mat-label>
+      <input matInput type="number" formControlName="duration" required />
+    </mat-form-field>
+  </div>
+
+  <p></p>
+
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    Étape précédente
+  </button>
+
+  <button mat-raised-button color="primary" type="submit">
+    Terminer l'analyse
+  </button>
+</form>

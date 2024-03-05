@@ -1,0 +1,47 @@
+<duckrulz-info-card
+  [title]="infosTitle"
+  [descriptions]="infoDescriptions"
+></duckrulz-info-card>
+
+<p></p>
+
+<h3>
+  Si il existe, j'indique l'événement ayant permis la sortie de la situation :
+</h3>
+
+<form [formGroup]="form" (ngSubmit)="onNextClicked()">
+  <div>
+    <mat-form-field floatLabel="always">
+      <mat-label>Décrivez l'évènement</mat-label>
+      <textarea
+        matInput
+        rows="10"
+        cols="40"
+        placeholder="Ex :
+- j’étais dépressif à ne rien faire au chômage, avoir un travail m’a sorti de cet état
+- j’étais anxieux à l’idée de faire cette conférence, mais finalement elle a été annulée"
+        formControlName="description"
+        required
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <duckrulz-therapy-card
+    [descriptions]="therapyDescriptions"
+  ></duckrulz-therapy-card>
+
+  <p></p>
+
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    Étape précédente
+  </button>
+  <button mat-stroked-button color="primary" type="submit">Ignorer</button>
+  <button mat-raised-button color="primary" type="submit">
+    Étape suivante
+  </button>
+</form>

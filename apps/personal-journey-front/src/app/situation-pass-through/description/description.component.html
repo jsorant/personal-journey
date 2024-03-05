@@ -1,0 +1,68 @@
+<duckrulz-info-card
+  [title]="infosTitle"
+  [descriptions]="infoDescriptions"
+></duckrulz-info-card>
+
+<p></p>
+
+<h3>Je décris la situation et comment je l’ai vécu :</h3>
+
+<form [formGroup]="form" (ngSubmit)="onNextClicked()">
+  <div>
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input matInput formControlName="date" [matDatepicker]="picker" />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field floatLabel="always">
+      <mat-label>Heure</mat-label>
+      <duckrulz-time-input formControlName="time"></duckrulz-time-input>
+      <mat-icon matSuffix>access_time</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field floatLabel="always">
+      <mat-label>Lieu</mat-label>
+      <input matInput formControlName="location" required />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field floatLabel="always">
+      <mat-label>Décrivez l'évènement</mat-label>
+      <textarea
+        matInput
+        rows="10"
+        cols="40"
+        placeholder="Ex :
+- j’ai vu une araignée à côté de la porte de la chambre, je n’ai pas pu sortir de la pièce, j’ai fait une crise d’angoisse
+- mon boss m’a hurlé dessus, je suis resté sans voix, de retour au bureau, je suis resté figé 10 minutes avant de reprendre le travail
+- j’étais pressé pour aller à la gare, j’ai loupé le bus/métro de peu, ça m’a irrité, une personne m’a fait remarquer que j’aurai dû partir plus tôt, ça m’a mis dans une colère noire
+"
+        formControlName="description"
+        required
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    Étape précédente
+  </button>
+
+  <button mat-raised-button color="primary" type="submit">
+    Étape suivante
+  </button>
+</form>

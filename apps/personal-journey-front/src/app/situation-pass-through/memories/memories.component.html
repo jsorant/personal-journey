@@ -1,0 +1,44 @@
+<duckrulz-info-card
+  [title]="infosTitle"
+  [descriptions]="infoDescriptions"
+></duckrulz-info-card>
+
+<p></p>
+
+<h3>Je recherche dans mes souvenirs ce qui résonne avec cette situation :</h3>
+
+<form [formGroup]="form" (ngSubmit)="onNextClicked()">
+  <div>
+    <mat-form-field floatLabel="always">
+      <mat-label>Décrivez et datez l'évènement</mat-label>
+      <textarea
+        matInput
+        rows="10"
+        cols="40"
+        placeholder="Exemple en lien avec la phobie du sang :
+En CM2 (1995), les pompiers sont venu faire un cours de sauvetage. Il y avait du faux sang mais j'ai été surpris et la scène m'a fait extrêmement peur."
+        formControlName="memories"
+        required
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <duckrulz-therapy-card
+    [descriptions]="therapyDescriptions"
+  ></duckrulz-therapy-card>
+
+  <p></p>
+
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    Étape précédente
+  </button>
+
+  <button mat-raised-button color="primary" type="submit">
+    Étape suivante
+  </button>
+</form>

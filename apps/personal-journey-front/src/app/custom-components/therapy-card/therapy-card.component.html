@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Pistes thérapeutiques</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngIf="descriptions">
+      <p *ngFor="let description of descriptions">
+        {{ description }}
+      </p>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

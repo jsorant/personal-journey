@@ -1,0 +1,39 @@
+<duckrulz-info-card
+  [title]="infosTitle"
+  [descriptions]="infoDescriptions"
+></duckrulz-info-card>
+
+<p></p>
+
+<h3>
+  Je détermine les besoins qui ne sont pas satisfaits pour identifier les
+  déclencheurs de ce type de situations :
+</h3>
+
+<form [formGroup]="form" (ngSubmit)="onNextClicked()">
+  <div
+    formArrayName="needsTypes"
+    *ngFor="let order of needsTypesFormArray().controls; let i = index"
+  >
+    <mat-checkbox [formControlName]="i">{{ needsTypesData[i] }}</mat-checkbox>
+  </div>
+
+  <duckrulz-therapy-card
+    [descriptions]="therapyDescriptions"
+  ></duckrulz-therapy-card>
+
+  <p></p>
+
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    Étape précédente
+  </button>
+
+  <button mat-raised-button color="primary" type="submit">
+    Étape suivante
+  </button>
+</form>

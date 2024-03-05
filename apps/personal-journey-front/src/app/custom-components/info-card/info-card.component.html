@@ -1,0 +1,20 @@
+<mat-card>
+  <ng-container *ngIf="title">
+    <mat-card-header>
+      <mat-card-title> {{ title }}</mat-card-title>
+    </mat-card-header>
+  </ng-container>
+
+  <mat-card-content>
+    <ng-container *ngIf="descriptions">
+      <p *ngFor="let description of descriptions">
+        {{ description }}
+      </p>
+    </ng-container>
+    <p *ngIf="examples">
+      <i>
+        {{ examples }}
+      </i>
+    </p>
+  </mat-card-content>
+</mat-card>
