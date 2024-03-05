@@ -7,6 +7,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { ADD_EVENT_ROUTE, HISTORY_ROUTE } from '../app.routes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'duckrulz-home',
@@ -23,6 +25,7 @@ import { MatCardModule } from '@angular/material/card';
   ],
 })
 export class HomeComponent {
+  readonly #router = inject(Router);
   private breakpointObserver = inject(BreakpointObserver);
 
   /** Based on the screen size, switch from standard to one column per row */
@@ -45,4 +48,12 @@ export class HomeComponent {
       ];
     })
   );
+
+  async onHistoryClicked() {
+    await this.#router.navigateByUrl(HISTORY_ROUTE);
+  }
+
+  async onAddClicked() {
+    await this.#router.navigateByUrl(ADD_EVENT_ROUTE);
+  }
 }

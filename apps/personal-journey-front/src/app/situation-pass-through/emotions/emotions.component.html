@@ -1,0 +1,30 @@
+<duckrulz-info-card
+  [title]="infosTitle"
+  [descriptions]="infoDescriptions"
+></duckrulz-info-card>
+
+<p></p>
+
+<h3>J'identifie ce que la situation produit comme émotions :</h3>
+
+<form [formGroup]="form" (ngSubmit)="onNextClicked()">
+  <div
+    formArrayName="emotions"
+    *ngFor="let order of emotionsFormArray().controls; let i = index"
+  >
+    <mat-checkbox [formControlName]="i">{{ emotionsData[i] }}</mat-checkbox>
+  </div>
+
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    Étape précédente
+  </button>
+
+  <button mat-raised-button color="primary" type="submit">
+    Étape suivante
+  </button>
+</form>

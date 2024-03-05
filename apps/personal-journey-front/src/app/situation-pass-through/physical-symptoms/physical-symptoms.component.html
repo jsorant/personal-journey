@@ -1,0 +1,33 @@
+<duckrulz-info-card
+  [title]="infosTitle"
+  [descriptions]="infoDescriptions"
+  [examples]="infoExamples"
+></duckrulz-info-card>
+
+<p></p>
+
+<h3>J'identifie les signes physiologiques induits par la situation :</h3>
+
+<form [formGroup]="form" (ngSubmit)="onNextClicked()">
+  <div
+    formArrayName="physicalSymptoms"
+    *ngFor="let order of physicalSymptomsFormArray().controls; let i = index"
+  >
+    <mat-checkbox [formControlName]="i">{{
+      physicalSymptomsData[i]
+    }}</mat-checkbox>
+  </div>
+
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    Étape précédente
+  </button>
+
+  <button mat-raised-button color="primary" type="submit">
+    Étape suivante
+  </button>
+</form>

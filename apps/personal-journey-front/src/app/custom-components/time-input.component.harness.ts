@@ -1,5 +1,4 @@
 import { ComponentHarness } from '@angular/cdk/testing';
-import { Time } from './time-input.component';
 
 export class TimeInputComponentHarness extends ComponentHarness {
   static hostSelector = 'duckrulz-time-input';

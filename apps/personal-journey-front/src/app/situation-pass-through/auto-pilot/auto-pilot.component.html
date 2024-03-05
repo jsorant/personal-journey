@@ -1,0 +1,39 @@
+<duckrulz-info-card
+  [title]="infosTitle"
+  [descriptions]="infoDescriptions"
+  [examples]="infoExamples"
+></duckrulz-info-card>
+
+<p></p>
+
+<h3>J'identifie les mécaniques automatiques de survie qui s'enclenchent :</h3>
+
+<form [formGroup]="form" (ngSubmit)="onNextClicked()">
+  <div
+    formArrayName="autoPilotTypes"
+    *ngFor="let order of autoPilotTypesFormArray().controls; let i = index"
+  >
+    <mat-checkbox [formControlName]="i">{{
+      autoPilotTypesData[i]
+    }}</mat-checkbox>
+  </div>
+
+  <duckrulz-therapy-card
+    [descriptions]="therapyDescriptions"
+  ></duckrulz-therapy-card>
+
+  <p></p>
+
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    Étape précédente
+  </button>
+
+  <button mat-raised-button color="primary" type="submit">
+    Étape suivante
+  </button>
+</form>
