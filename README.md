@@ -81,8 +81,11 @@ nx build personal-journey-front -- --base-href https://jsorant.github.io/persona
 rm -rf github-pages/* 
 cp -rf dist/apps/personal-journey-front/* github-pages/
 git add .
+git commit -m "Deploy"
 git push
 ```
+
+https://jsorant.github.io/personal-journey/
 
 ## Set up CI!
 
