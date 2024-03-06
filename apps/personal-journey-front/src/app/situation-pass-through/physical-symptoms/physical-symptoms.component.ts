@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -15,10 +15,10 @@ import {
 } from '@angular/material/datepicker';
 import { MatCheckbox } from '@angular/material/checkbox';
 import {
-  DESCRIPTION_ROUTE,
+  descriptionRoute,
   SITUATION_PASS_THROUGH_ROUTE,
 } from '../../app.routes';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { InfoCardComponent } from '../../custom-components/info-card/info-card.component';
@@ -44,7 +44,8 @@ import { StepsButtonsComponent } from '../../custom-components/steps-buttons/ste
   templateUrl: './physical-symptoms.component.html',
   styleUrl: './physical-symptoms.component.css',
 })
-export class PhysicalSymptomsComponent {
+export class PhysicalSymptomsComponent implements OnInit {
+  readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
 
@@ -75,12 +76,22 @@ export class PhysicalSymptomsComponent {
     'Sensation de faiblesse',
   ];
 
+  situationId = '';
+
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       physicalSymptoms: new FormArray([]),
     });
 
     this.addCheckboxes();
+  }
+
+  ngOnInit() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const id = this.#route.snapshot.paramMap.get('id')!;
+    console.log(id);
+    //this.#hero$ = this.#service.getHero(id);
+    this.situationId = id;
   }
 
   private addCheckboxes() {
@@ -105,6 +116,6 @@ export class PhysicalSymptomsComponent {
       .filter((name: string | null) => name !== null);
     console.log(selectedPhysicalSymptoms);
     //TODO map to enum
-    await this.#router.navigate([DESCRIPTION_ROUTE]);
+    await this.#router.navigate(descriptionRoute(this.situationId));
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -10,8 +10,8 @@ import { InfoCardComponent } from '../../custom-components/info-card/info-card.c
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { MEMORIES_ROUTE } from '../../app.routes';
-import { Router } from '@angular/router';
+import { memoriesRoute } from '../../app.routes';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
@@ -31,13 +31,24 @@ import { StepsButtonsComponent } from '../../custom-components/steps-buttons/ste
   templateUrl: './duration.component.html',
   styleUrl: './duration.component.css',
 })
-export class DurationComponent {
+export class DurationComponent implements OnInit {
+  readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
 
   readonly form: FormGroup = this.#formBuilder.group({
     duration: '',
   });
+
+  situationId = '';
+
+  ngOnInit() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const id = this.#route.snapshot.paramMap.get('id')!;
+    console.log(id);
+    //this.#hero$ = this.#service.getHero(id);
+    this.situationId = id;
+  }
 
   infosTitle = 'La durée de la situation';
   infoDescriptions = [
@@ -46,7 +57,7 @@ export class DurationComponent {
   ];
 
   async onPrevClicked() {
-    await this.#router.navigate([MEMORIES_ROUTE]);
+    await this.#router.navigate(memoriesRoute(this.situationId));
   }
 
   onFinishClicked() {

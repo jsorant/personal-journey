@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { PHYSICAL_SYMPTOMS_ROUTE } from '../../app.routes';
+import { physicalSymptomsRoute } from '../../app.routes';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
@@ -24,6 +24,6 @@ export class IntroComponent {
   readonly #router: Router = inject(Router);
 
   async onBeginClicked() {
-    await this.#router.navigate([PHYSICAL_SYMPTOMS_ROUTE]);
+    await this.#router.navigate(physicalSymptomsRoute('15')); // TODO
   }
 }

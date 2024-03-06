@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -11,11 +11,8 @@ import {
 import { InfoCardComponent } from '../../custom-components/info-card/info-card.component';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { Router } from '@angular/router';
-import {
-  EXIT_DESCRIPTION_ROUTE,
-  TRIGGERS_THOUGHTS_ROUTE,
-} from '../../app.routes';
+import { ActivatedRoute, Router } from '@angular/router';
+import { exitDescriptionRoute, triggersThoughtsRoute } from '../../app.routes';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
@@ -33,7 +30,8 @@ import { StepsButtonsComponent } from '../../custom-components/steps-buttons/ste
   templateUrl: './emotions.component.html',
   styleUrl: './emotions.component.css',
 })
-export class EmotionsComponent {
+export class EmotionsComponent implements OnInit {
+  readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
 
@@ -42,12 +40,22 @@ export class EmotionsComponent {
 
   readonly emotionsData = ['Joie', 'Anxiété', 'Tristesse', 'Peur', 'Colère'];
 
+  situationId = '';
+
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       emotions: new FormArray([]),
     });
 
     this.addCheckboxes();
+  }
+
+  ngOnInit() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const id = this.#route.snapshot.paramMap.get('id')!;
+    console.log(id);
+    //this.#hero$ = this.#service.getHero(id);
+    this.situationId = id;
   }
 
   emotionsFormArray(): FormArray<FormControl> {
@@ -61,10 +69,10 @@ export class EmotionsComponent {
   }
 
   async onNextClicked() {
-    await this.#router.navigate([TRIGGERS_THOUGHTS_ROUTE]);
+    await this.#router.navigate(triggersThoughtsRoute(this.situationId));
   }
 
   async onPrevClicked() {
-    await this.#router.navigate([EXIT_DESCRIPTION_ROUTE]);
+    await this.#router.navigate(exitDescriptionRoute(this.situationId));
   }
 }
