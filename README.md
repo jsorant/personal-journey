@@ -92,6 +92,7 @@ git checkout gh-pages
 ./deploy.bat
 ```
 
+https://github.com/jsorant/personal-journey/settings/pages
 https://jsorant.github.io/personal-journey/
 
 ## Set up CI!

@@ -4,7 +4,7 @@ echo -> Git Merge main
 git merge main || exit /b
 
 echo -> Build
-START /B /WAIT cmd "npm run build -- --base-href https://jsorant.github.io/personal-journey/"
+npm run build -- --base-href https://jsorant.github.io/personal-journey/
 
 echo -> Prepare docs folder
 rm -rf docs/* || exit /b

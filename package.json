@@ -10,7 +10,8 @@
     "serve": "nx serve personal-journey-front",
     "lint": "nx lint personal-journey-front",
     "lint:nx": "nx format:check --base origin/main",
-    "build": "nx build personal-journey-front"
+    "build": "nx build personal-journey-front",
+    "deploy": "node deploy.js"
   },
   "private": true,
   "dependencies": {
