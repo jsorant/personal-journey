@@ -14,6 +14,7 @@ import { DESCRIPTION_ROUTE, EMOTIONS_ROUTE } from '../../app.routes';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-exit-description',
@@ -29,6 +30,7 @@ import { TherapyCardComponent } from '../../custom-components/therapy-card/thera
     MatInput,
     MatLabel,
     TherapyCardComponent,
+    StepsButtonsComponent,
   ],
   templateUrl: './exit-description.component.html',
   styleUrl: './exit-description.component.css',
@@ -55,6 +57,10 @@ export class ExitDescriptionComponent {
 
   async onPrevClicked() {
     await this.#router.navigate([DESCRIPTION_ROUTE]);
+  }
+
+  async onIgnoreClicked() {
+    await this.#router.navigate([EMOTIONS_ROUTE]);
   }
 
   async onNextClicked() {

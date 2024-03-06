@@ -16,6 +16,7 @@ import {
   EXIT_DESCRIPTION_ROUTE,
   TRIGGERS_THOUGHTS_ROUTE,
 } from '../../app.routes';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-emotions',
@@ -27,6 +28,7 @@ import {
     MatButton,
     MatCheckbox,
     ReactiveFormsModule,
+    StepsButtonsComponent,
   ],
   templateUrl: './emotions.component.html',
   styleUrl: './emotions.component.css',

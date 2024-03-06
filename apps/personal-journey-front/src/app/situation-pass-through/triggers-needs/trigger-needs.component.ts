@@ -14,6 +14,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 import { AUTO_PILOT_ROUTE, TRIGGERS_THOUGHTS_ROUTE } from '../../app.routes';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-trigger-needs',
@@ -26,6 +27,7 @@ import { TherapyCardComponent } from '../../custom-components/therapy-card/thera
     MatCheckbox,
     ReactiveFormsModule,
     TherapyCardComponent,
+    StepsButtonsComponent,
   ],
   templateUrl: './trigger-needs.component.html',
   styleUrl: './trigger-needs.component.css',

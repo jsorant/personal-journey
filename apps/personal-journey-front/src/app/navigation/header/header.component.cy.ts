@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  clickOnLinkShouldNavigateTo,
   clickOnButtonShouldNavigateTo,
+  clickOnLinkShouldNavigateTo,
 } from '../../../tests-utils/cypress-utils/navigation.cy';
 import { Router } from '@angular/router';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { matButtonShouldHaveText } from '../../../tests-utils/cypress-utils/harness-utils.cy';
-import { HISTORY_ROUTE, SITUATION_PASS_THROUGH_ROUTE } from '../../app.routes';
+import { SITUATION_PASS_THROUGH_ROUTE } from '../../app.routes';
 
 describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
@@ -57,22 +57,6 @@ describe('HeaderComponent', () => {
     clickOnButtonShouldNavigateTo(
       SITUATION_PASS_THROUGH_ROUTE,
       '#add-situation-button',
-      router
-    );
-  });
-
-  it('should have the my situations button', () => {
-    matButtonShouldHaveText(
-      HeaderComponent.MY_SITUATIONS_BUTTON_TEXT,
-      '#my-situations-button',
-      loader
-    );
-  });
-
-  it('should navigate to history with the my situations button', () => {
-    clickOnButtonShouldNavigateTo(
-      HISTORY_ROUTE,
-      '#my-situations-button',
       router
     );
   });

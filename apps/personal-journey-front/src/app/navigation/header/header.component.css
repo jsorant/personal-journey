@@ -26,3 +26,20 @@ mat-toolbar {
   flex-wrap: nowrap;
   gap: 10px;
 }
+
+.home-box {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+mat-icon {
+  flex-shrink: 0;
+}
+
+button {
+  flex-shrink: 0;
+}

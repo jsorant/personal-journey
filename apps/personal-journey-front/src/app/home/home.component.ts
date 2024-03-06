@@ -1,59 +1,22 @@
-import { Component, inject } from '@angular/core';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
-import { AsyncPipe } from '@angular/common';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { ADD_EVENT_ROUTE, HISTORY_ROUTE } from '../app.routes';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import {
+  ADD_EVENT_ROUTE,
+  HISTORY_ROUTE,
+  SITUATION_PASS_THROUGH_ROUTE,
+} from '../app.routes';
+import { RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'duckrulz-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    MatGridListModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-  ],
+  imports: [RouterLink, MatIcon, MatButton],
 })
 export class HomeComponent {
-  readonly #router = inject(Router);
-  private breakpointObserver = inject(BreakpointObserver);
-
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 },
-        ];
-      }
-
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 },
-      ];
-    })
-  );
-
-  async onHistoryClicked() {
-    await this.#router.navigateByUrl(HISTORY_ROUTE);
-  }
-
-  async onAddClicked() {
-    await this.#router.navigateByUrl(ADD_EVENT_ROUTE);
-  }
+  addSituationRoute = SITUATION_PASS_THROUGH_ROUTE;
+  historyRoute = HISTORY_ROUTE;
+  addEventRoute = ADD_EVENT_ROUTE;
 }

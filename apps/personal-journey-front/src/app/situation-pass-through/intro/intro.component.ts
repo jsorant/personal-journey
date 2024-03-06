@@ -4,11 +4,19 @@ import { Router, RouterLink } from '@angular/router';
 import { PHYSICAL_SYMPTOMS_ROUTE } from '../../app.routes';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-intro',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatButton, MatCard, MatCardContent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    StepsButtonsComponent,
+  ],
   templateUrl: './intro.component.html',
   styleUrl: './intro.component.css',
 })

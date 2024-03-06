@@ -1,0 +1,30 @@
+<div class="h-box">
+  <button
+    *ngIf="hidePreviousButton === undefined"
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onPrevClicked()"
+  >
+    {{ previousButtonText }}
+  </button>
+
+  <button
+    *ngIf="displayIgnoreButton !== undefined"
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="onIgnoreClicked()"
+  >
+    {{ ignoreButtonText }}
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    (click)="onSubmitClicked()"
+  >
+    {{ submitButtonText }}
+  </button>
+</div>

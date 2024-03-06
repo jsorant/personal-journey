@@ -6,6 +6,8 @@
 </mat-card>
 <p></p>
 
+<br />
+
 <h2>Objectifs de cet outil :</h2>
 <ul>
   <li>Vous aider ponctuellement à traverser une situation difficile</li>
@@ -20,6 +22,10 @@
   </li>
 </ul>
 
-<button mat-raised-button color="primary" (click)="onBeginClicked()">
-  Je commence
-</button>
+<br />
+
+<duckrulz-steps-buttons
+  hidePreviousButton
+  (submitButtonClicked)="onBeginClicked()"
+  submitButtonText="Je commence"
+></duckrulz-steps-buttons>
