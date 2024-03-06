@@ -71,6 +71,19 @@ Have a look at the [Nx Console extensions](https://nx.dev/nx-console). It provid
 
 Just run `nx build demoapp` to build the application. The build artifacts will be stored in the `dist/` directory, ready to be deployed.
 
+## Github pages
+
+```
+git checkout gh-pages
+git rebase main
+npm run ng build --configuration-production --base-href https://[username].github.io/[repo]/
+nx build personal-journey-front -- --base-href https://jsorant.github.io/personal-journey/
+rm -rf github-pages/* 
+cp -rf dist/apps/personal-journey-front/* github-pages/
+git add .
+git push
+```
+
 ## Set up CI!
 
 Nx comes with local caching already built-in (check your `nx.json`). On CI you might want to go a step further.
