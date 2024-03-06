@@ -3,6 +3,10 @@ import { assertMemberIsNotEmpty } from '../../../../shared-kernel/assertions';
 export class SituationId {
   value: string;
 
+  equals(other: SituationId) {
+    return this.value === other.value;
+  }
+
   private constructor(value: string) {
     this.value = value;
   }
