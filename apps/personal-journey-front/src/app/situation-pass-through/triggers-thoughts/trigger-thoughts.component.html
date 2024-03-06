@@ -3,7 +3,7 @@
   [descriptions]="infoDescriptions"
 ></duckrulz-info-card>
 
-<p></p>
+<br />
 
 <h3>J'identifie les types de pensées qui augmentent mon degré d'inconfort :</h3>
 
@@ -17,22 +17,15 @@
     }}</mat-checkbox>
   </div>
 
+  <br />
+
   <duckrulz-therapy-card
     [descriptions]="therapyDescriptions"
   ></duckrulz-therapy-card>
 
-  <p></p>
+  <br />
 
-  <button
-    type="button"
-    mat-stroked-button
-    color="primary"
-    (click)="onPrevClicked()"
-  >
-    Étape précédente
-  </button>
-
-  <button mat-raised-button color="primary" type="submit">
-    Étape suivante
-  </button>
+  <duckrulz-steps-buttons
+    (previousButtonClicked)="onPrevClicked()"
+  ></duckrulz-steps-buttons>
 </form>

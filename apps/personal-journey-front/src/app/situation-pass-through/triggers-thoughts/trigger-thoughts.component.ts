@@ -13,6 +13,7 @@ import { EMOTIONS_ROUTE, TRIGGERS_NEEDS_ROUTE } from '../../app.routes';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatButton } from '@angular/material/button';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-trigger-thoughts',
@@ -24,6 +25,7 @@ import { TherapyCardComponent } from '../../custom-components/therapy-card/thera
     MatCheckbox,
     MatButton,
     TherapyCardComponent,
+    StepsButtonsComponent,
   ],
   templateUrl: './trigger-thoughts.component.html',
   styleUrl: './trigger-thoughts.component.css',

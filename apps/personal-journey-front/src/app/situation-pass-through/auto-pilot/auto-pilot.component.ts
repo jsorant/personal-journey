@@ -14,6 +14,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 import { MEMORIES_ROUTE, TRIGGERS_NEEDS_ROUTE } from '../../app.routes';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-auto-pilot',
@@ -26,6 +27,7 @@ import { TherapyCardComponent } from '../../custom-components/therapy-card/thera
     MatCheckbox,
     ReactiveFormsModule,
     TherapyCardComponent,
+    StepsButtonsComponent,
   ],
   templateUrl: './auto-pilot.component.html',
   styleUrl: './auto-pilot.component.css',

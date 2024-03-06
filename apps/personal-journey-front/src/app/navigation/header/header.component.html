@@ -1,21 +1,14 @@
 <mat-toolbar color="primary">
   <div class="box">
-    <button id="home-icon-button" mat-icon-button (click)="onHomeClicked()">
-      <mat-icon>home</mat-icon>
-    </button>
+    <div class="home-box">
+      <button id="home-icon-button" mat-icon-button (click)="onHomeClicked()">
+        <mat-icon>home</mat-icon>
+      </button>
 
-    <div>
-      <a id="home-link" routerLink="/home">Personal Journey</a>
+      <div>
+        <a id="home-link" routerLink="/home">Personal Journey</a>
+      </div>
     </div>
-
-    <button
-      id="my-situations-button"
-      mat-raised-button
-      (click)="onMySituationsClicked()"
-    >
-      <mat-icon>list</mat-icon>
-      {{ mySituationButtonText() }}
-    </button>
 
     <button
       id="add-situation-button"

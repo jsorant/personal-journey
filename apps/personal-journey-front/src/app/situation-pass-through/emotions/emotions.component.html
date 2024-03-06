@@ -3,7 +3,7 @@
   [descriptions]="infoDescriptions"
 ></duckrulz-info-card>
 
-<p></p>
+<br />
 
 <h3>J'identifie ce que la situation produit comme émotions :</h3>
 
@@ -15,16 +15,9 @@
     <mat-checkbox [formControlName]="i">{{ emotionsData[i] }}</mat-checkbox>
   </div>
 
-  <button
-    type="button"
-    mat-stroked-button
-    color="primary"
-    (click)="onPrevClicked()"
-  >
-    Étape précédente
-  </button>
+  <br />
 
-  <button mat-raised-button color="primary" type="submit">
-    Étape suivante
-  </button>
+  <duckrulz-steps-buttons
+    (previousButtonClicked)="onPrevClicked()"
+  ></duckrulz-steps-buttons>
 </form>

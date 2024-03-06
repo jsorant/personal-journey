@@ -3,12 +3,12 @@
   [descriptions]="infoDescriptions"
 ></duckrulz-info-card>
 
-<p></p>
+<br />
 
 <h3>Je décris la situation et comment je l’ai vécu :</h3>
 
 <form [formGroup]="form" (ngSubmit)="onNextClicked()">
-  <div>
+  <div class="small-input">
     <mat-form-field>
       <mat-label>Date</mat-label>
       <input matInput formControlName="date" [matDatepicker]="picker" />
@@ -20,7 +20,7 @@
     </mat-form-field>
   </div>
 
-  <div>
+  <div class="small-input">
     <mat-form-field floatLabel="always">
       <mat-label>Heure</mat-label>
       <duckrulz-time-input formControlName="time"></duckrulz-time-input>
@@ -53,16 +53,9 @@
     </mat-form-field>
   </div>
 
-  <button
-    type="button"
-    mat-stroked-button
-    color="primary"
-    (click)="onPrevClicked()"
-  >
-    Étape précédente
-  </button>
+  <br />
 
-  <button mat-raised-button color="primary" type="submit">
-    Étape suivante
-  </button>
+  <duckrulz-steps-buttons
+    (previousButtonClicked)="onPrevClicked()"
+  ></duckrulz-steps-buttons>
 </form>

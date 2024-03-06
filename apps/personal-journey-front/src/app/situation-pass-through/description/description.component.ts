@@ -30,6 +30,7 @@ import {
   PHYSICAL_SYMPTOMS_ROUTE,
 } from '../../app.routes';
 import { InfoCardComponent } from '../../custom-components/info-card/info-card.component';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-description',
@@ -50,6 +51,7 @@ import { InfoCardComponent } from '../../custom-components/info-card/info-card.c
     MatIcon,
     TimeInputComponent,
     InfoCardComponent,
+    StepsButtonsComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './description.component.html',

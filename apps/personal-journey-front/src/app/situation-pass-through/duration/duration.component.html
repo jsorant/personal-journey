@@ -3,7 +3,7 @@
   [descriptions]="infoDescriptions"
 ></duckrulz-info-card>
 
-<br /><br />
+<br />
 
 <form [formGroup]="form" (ngSubmit)="onFinishClicked()">
   <div>
@@ -13,18 +13,10 @@
     </mat-form-field>
   </div>
 
-  <p></p>
+  <br />
 
-  <button
-    type="button"
-    mat-stroked-button
-    color="primary"
-    (click)="onPrevClicked()"
-  >
-    Étape précédente
-  </button>
-
-  <button mat-raised-button color="primary" type="submit">
-    Terminer l'analyse
-  </button>
+  <duckrulz-steps-buttons
+    (previousButtonClicked)="onPrevClicked()"
+    submitButtonText="Terminer l'analyse"
+  ></duckrulz-steps-buttons>
 </form>

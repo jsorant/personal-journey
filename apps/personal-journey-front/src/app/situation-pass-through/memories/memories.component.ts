@@ -13,6 +13,7 @@ import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { AUTO_PILOT_ROUTE, DURATION_ROUTE } from '../../app.routes';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-memories',
@@ -27,6 +28,7 @@ import { TherapyCardComponent } from '../../custom-components/therapy-card/thera
     ReactiveFormsModule,
     TherapyCardComponent,
     MatLabel,
+    StepsButtonsComponent,
   ],
   templateUrl: './memories.component.html',
   styleUrl: './memories.component.css',
