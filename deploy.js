@@ -2,6 +2,7 @@ const { execSync } = require('node:child_process');
 
 try {
   console.log('== Git merge main');
+  run('git pull origin main');
   run('git merge main');
 
   console.log('== Build');
