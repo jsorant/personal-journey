@@ -73,16 +73,23 @@ Just run `nx build demoapp` to build the application. The build artifacts will b
 
 ## Github pages
 
+
 ```
 git checkout gh-pages
 git rebase main
-npm run ng build --configuration-production --base-href https://[username].github.io/[repo]/
+// npm run ng build --configuration-production --base-href https://[username].github.io/[repo]/
 nx build personal-journey-front -- --base-href https://jsorant.github.io/personal-journey/
-rm -rf github-pages/* 
-cp -rf dist/apps/personal-journey-front/* github-pages/
+rm -rf docs/* 
+cp -rf dist/apps/personal-journey-front/browser/* docs/
+cp dist/apps/personal-journey-front/browser/3rdpartylicenses.txt docs/
 git add .
 git commit -m "Deploy"
 git push
+```
+
+```
+git checkout gh-pages
+./deploy.bat
 ```
 
 https://jsorant.github.io/personal-journey/

@@ -9,7 +9,8 @@
     "all": "nx run-many -p personal-journey-front -t lint test build e2e-ci component-test",
     "serve": "nx serve personal-journey-front",
     "lint": "nx lint personal-journey-front",
-    "lint:nx": "nx format:check --base origin/main"
+    "lint:nx": "nx format:check --base origin/main",
+    "build": "nx build personal-journey-front"
   },
   "private": true,
   "dependencies": {
