@@ -3,7 +3,7 @@
   [descriptions]="infoDescriptions"
 ></duckrulz-info-card>
 
-<p></p>
+<br />
 
 <h3>
   Je détermine les besoins qui ne sont pas satisfaits pour identifier les
@@ -18,22 +18,15 @@
     <mat-checkbox [formControlName]="i">{{ needsTypesData[i] }}</mat-checkbox>
   </div>
 
+  <br />
+
   <duckrulz-therapy-card
     [descriptions]="therapyDescriptions"
   ></duckrulz-therapy-card>
 
-  <p></p>
+  <br />
 
-  <button
-    type="button"
-    mat-stroked-button
-    color="primary"
-    (click)="onPrevClicked()"
-  >
-    Étape précédente
-  </button>
-
-  <button mat-raised-button color="primary" type="submit">
-    Étape suivante
-  </button>
+  <duckrulz-steps-buttons
+    (previousButtonClicked)="onPrevClicked()"
+  ></duckrulz-steps-buttons>
 </form>

@@ -3,7 +3,7 @@
   [descriptions]="infoDescriptions"
 ></duckrulz-info-card>
 
-<p></p>
+<br />
 
 <h3>
   Si il existe, j'indique l'événement ayant permis la sortie de la situation :
@@ -30,18 +30,11 @@
     [descriptions]="therapyDescriptions"
   ></duckrulz-therapy-card>
 
-  <p></p>
+  <br />
 
-  <button
-    type="button"
-    mat-stroked-button
-    color="primary"
-    (click)="onPrevClicked()"
-  >
-    Étape précédente
-  </button>
-  <button mat-stroked-button color="primary" type="submit">Ignorer</button>
-  <button mat-raised-button color="primary" type="submit">
-    Étape suivante
-  </button>
+  <duckrulz-steps-buttons
+    displayIgnoreButton
+    (previousButtonClicked)="onPrevClicked()"
+    (ignoreButtonClicked)="onIgnoreClicked()"
+  ></duckrulz-steps-buttons>
 </form>

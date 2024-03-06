@@ -1,0 +1,8 @@
+.h-box {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+}

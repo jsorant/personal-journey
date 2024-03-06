@@ -12,6 +12,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MEMORIES_ROUTE } from '../../app.routes';
 import { Router } from '@angular/router';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-duration',
@@ -25,6 +26,7 @@ import { Router } from '@angular/router';
     MatInput,
     ReactiveFormsModule,
     MatLabel,
+    StepsButtonsComponent,
   ],
   templateUrl: './duration.component.html',
   styleUrl: './duration.component.css',

@@ -8,7 +8,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import {
   MatDatepicker,
   MatDatepickerInput,
@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { InfoCardComponent } from '../../custom-components/info-card/info-card.component';
+import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
 
 @Component({
   selector: 'duckrulz-physical-symptoms',
@@ -37,6 +38,8 @@ import { InfoCardComponent } from '../../custom-components/info-card/info-card.c
     MatCardModule,
     MatIcon,
     InfoCardComponent,
+    MatIconButton,
+    StepsButtonsComponent,
   ],
   templateUrl: './physical-symptoms.component.html',
   styleUrl: './physical-symptoms.component.css',

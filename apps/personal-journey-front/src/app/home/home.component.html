@@ -1,50 +1,40 @@
-<div class="grid-container">
-  <h1 class="mat-h1">Anciennes idées :</h1>
-  <div>
-    <button id="history-button" mat-raised-button (click)="onHistoryClicked()">
-      <mat-icon>list</mat-icon>
-      Historique
-    </button>
-  </div>
-
-  <br />
-
-  <div>
-    <button id="add-event-button" mat-raised-button (click)="onAddClicked()">
-      <mat-icon>add</mat-icon>
-      Ajouter un évènement
-    </button>
-  </div>
-
-  <br />
-
-  <h1 id="title" class="mat-h1">Welcome !</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    @for (card of cards | async; track card) {
-    <mat-grid-tile [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{ card.title }}
-            <button
-              mat-icon-button
-              class="more-button"
-              [matMenuTriggerFor]="menu"
-              aria-label="Toggle menu"
-            >
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-    }
-  </mat-grid-list>
+<h1 class="mat-h1">Fonctionnalités :</h1>
+<div>
+  <button mat-raised-button [routerLink]="[addSituationRoute]">
+    Traverser et analyser une situation difficile
+  </button>
 </div>
+
+<br />
+
+<h1 class="mat-h1">Anciennes idées :</h1>
+<div>
+  <button mat-raised-button [routerLink]="[historyRoute]">
+    <mat-icon>list</mat-icon>
+    Historique
+  </button>
+</div>
+
+<br />
+
+<div>
+  <button mat-raised-button [routerLink]="[addEventRoute]">
+    <mat-icon>add</mat-icon>
+    Ajouter un évènement
+  </button>
+</div>
+
+<br />
+
+<h1 class="mat-h1">A venir :</h1>
+
+<ul>
+  <li>Ma boîte à ressources</li>
+  <li>Estimer mon niveau de perturbation</li>
+  <li>Vue d'ensemble d'une situation</li>
+  <li>Exporter une situation en PDF</li>
+  <li>Lister, modifier mes situations</li>
+  <li>Exporter / importer mes données</li>
+  <li>Produire des statistiques basées sur mes situations</li>
+  <li>Persistance des données et compte utilisateur</li>
+</ul>
