@@ -91,7 +91,7 @@ export function validateTimeInput(
   if (Number.isNaN(minutes)) {
     return { onlyDigitsRequired: true };
   }
-  if (minutes < 0 || minutes > 23) {
+  if (minutes < 0 || minutes > 60) {
     return {
       invalidMinutesRange: true,
     };

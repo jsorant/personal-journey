@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -10,10 +10,11 @@ import { InfoCardComponent } from '../../custom-components/info-card/info-card.c
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { Router } from '@angular/router';
-import { AUTO_PILOT_ROUTE, DURATION_ROUTE } from '../../app.routes';
+import { ActivatedRoute, Router } from '@angular/router';
+import { autoPilotsRoute, durationRoute } from '../../app.routes';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-memories',
@@ -33,9 +34,11 @@ import { StepsButtonsComponent } from '../../custom-components/steps-buttons/ste
   templateUrl: './memories.component.html',
   styleUrl: './memories.component.css',
 })
-export class MemoriesComponent {
+export class MemoriesComponent implements OnInit {
+  readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly form: FormGroup = this.#formBuilder.group({
     memories: '',
@@ -53,11 +56,26 @@ export class MemoriesComponent {
     'J’apprends à mieux me connaître en comprenant l’impact du passé sur ma construction personnelle.',
   ];
 
+  situationId = '';
+
+  ngOnInit() {
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
+  }
+
   async onNextClicked() {
-    await this.#router.navigate([DURATION_ROUTE]);
+    await this.#situationService.addMemories(
+      this.form.value.memories,
+      this.situationId
+    );
+
+    await this.#router.navigate(durationRoute(this.situationId));
   }
 
   async onPrevClicked() {
-    await this.#router.navigate([AUTO_PILOT_ROUTE]);
+    await this.#router.navigate(autoPilotsRoute(this.situationId));
+  }
+
+  async onIgnoreClicked() {
+    await this.#router.navigate(durationRoute(this.situationId));
   }
 }

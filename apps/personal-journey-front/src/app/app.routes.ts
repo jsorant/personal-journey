@@ -19,18 +19,56 @@ export const ADD_EVENT_ROUTE = '/events/add';
 export const HISTORY_ROUTE = '/history';
 
 export const SITUATION_PASS_THROUGH_ROUTE = '/situation/pass-through/intro';
-export const PHYSICAL_SYMPTOMS_ROUTE =
-  '/situation/pass-through/physical-symptoms';
-export const DESCRIPTION_ROUTE = '/situation/pass-through/description';
-export const EXIT_DESCRIPTION_ROUTE =
-  '/situation/pass-through/exit-description';
-export const EMOTIONS_ROUTE = '/situation/pass-through/emotions';
-export const TRIGGERS_THOUGHTS_ROUTE =
-  '/situation/pass-through/triggers-thoughts';
-export const TRIGGERS_NEEDS_ROUTE = '/situation/pass-through/triggers-needs';
-export const AUTO_PILOT_ROUTE = '/situation/pass-through/auto-pilot';
-export const MEMORIES_ROUTE = '/situation/pass-through/memories';
-export const DURATION_ROUTE = '/situation/pass-through/duration';
+
+const SITUATION_PASS_THROUGH_BASE_PARTS = ['situation', 'pass-through'];
+
+export function physicalSymptomsRoute(situationId: string) {
+  return [
+    ...SITUATION_PASS_THROUGH_BASE_PARTS,
+    situationId,
+    'physical-symptoms',
+  ];
+}
+
+export function descriptionRoute(situationId: string) {
+  return [...SITUATION_PASS_THROUGH_BASE_PARTS, situationId, 'description'];
+}
+
+export function exitDescriptionRoute(situationId: string) {
+  return [
+    ...SITUATION_PASS_THROUGH_BASE_PARTS,
+    situationId,
+    'exit-description',
+  ];
+}
+
+export function emotionsRoute(situationId: string) {
+  return [...SITUATION_PASS_THROUGH_BASE_PARTS, situationId, 'emotions'];
+}
+
+export function triggersThoughtsRoute(situationId: string) {
+  return [
+    ...SITUATION_PASS_THROUGH_BASE_PARTS,
+    situationId,
+    'triggers-thoughts',
+  ];
+}
+
+export function triggersNeedsRoute(situationId: string) {
+  return [...SITUATION_PASS_THROUGH_BASE_PARTS, situationId, 'triggers-needs'];
+}
+
+export function autoPilotsRoute(situationId: string) {
+  return [...SITUATION_PASS_THROUGH_BASE_PARTS, situationId, 'auto-pilots'];
+}
+
+export function memoriesRoute(situationId: string) {
+  return [...SITUATION_PASS_THROUGH_BASE_PARTS, situationId, 'memories'];
+}
+
+export function durationRoute(situationId: string) {
+  return [...SITUATION_PASS_THROUGH_BASE_PARTS, situationId, 'duration'];
+}
 
 export const appRoutes: Route[] = [
   { path: '', component: HomeComponent },
@@ -51,39 +89,39 @@ export const appRoutes: Route[] = [
         component: IntroComponent,
       },
       {
-        path: 'physical-symptoms',
+        path: ':situationId/physical-symptoms',
         component: PhysicalSymptomsComponent,
       },
       {
-        path: 'description',
+        path: ':situationId/description',
         component: DescriptionComponent,
       },
       {
-        path: 'exit-description',
+        path: ':situationId/exit-description',
         component: ExitDescriptionComponent,
       },
       {
-        path: 'emotions',
+        path: ':situationId/emotions',
         component: EmotionsComponent,
       },
       {
-        path: 'triggers-thoughts',
+        path: ':situationId/triggers-thoughts',
         component: TriggerThoughtsComponent,
       },
       {
-        path: 'triggers-needs',
+        path: ':situationId/triggers-needs',
         component: TriggerNeedsComponent,
       },
       {
-        path: 'auto-pilot',
+        path: ':situationId/auto-pilots',
         component: AutoPilotComponent,
       },
       {
-        path: 'memories',
+        path: ':situationId/memories',
         component: MemoriesComponent,
       },
       {
-        path: 'duration',
+        path: ':situationId/duration',
         component: DurationComponent,
       },
     ],
