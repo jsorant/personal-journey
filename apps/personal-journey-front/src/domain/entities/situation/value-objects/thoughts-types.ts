@@ -1,6 +1,6 @@
 export enum ThoughtsTypes {
-  Security,
-  SelfImage,
-  Guiltiness,
-  AbsenceOfChoice,
+  Security = 'Securité',
+  SelfImage = 'ImageDeSoi',
+  Guiltiness = 'Culpabilite',
+  AbsenceOfChoice = 'AbsenceDeChoix',
 }

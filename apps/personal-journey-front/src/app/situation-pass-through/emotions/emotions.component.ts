@@ -14,6 +14,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { ActivatedRoute, Router } from '@angular/router';
 import { exitDescriptionRoute, triggersThoughtsRoute } from '../../app.routes';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-emotions',
@@ -34,11 +35,12 @@ export class EmotionsComponent implements OnInit {
   readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly infosTitle = 'Mes émotions';
   readonly infoDescriptions = ['TODO'];
 
-  readonly emotionsData = ['Joie', 'Anxiété', 'Tristesse', 'Peur', 'Colère'];
+  readonly emotionsData = this.#situationService.allEmotions();
 
   situationId = '';
 
@@ -51,11 +53,7 @@ export class EmotionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const id = this.#route.snapshot.paramMap.get('id')!;
-    console.log(id);
-    //this.#hero$ = this.#service.getHero(id);
-    this.situationId = id;
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   emotionsFormArray(): FormArray<FormControl> {
@@ -69,10 +67,23 @@ export class EmotionsComponent implements OnInit {
   }
 
   async onNextClicked() {
+    await this.#situationService.addEmotions(
+      this.selectedEmotions(),
+      this.situationId
+    );
+
     await this.#router.navigate(triggersThoughtsRoute(this.situationId));
   }
 
   async onPrevClicked() {
     await this.#router.navigate(exitDescriptionRoute(this.situationId));
+  }
+
+  private selectedEmotions() {
+    return this.form.value.emotions
+      .map((checked: boolean, index: number) =>
+        checked ? this.emotionsData[index] : null
+      )
+      .filter((name: string | null) => name !== null);
   }
 }

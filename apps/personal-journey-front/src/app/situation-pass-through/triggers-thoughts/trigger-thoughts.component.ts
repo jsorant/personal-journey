@@ -14,6 +14,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatButton } from '@angular/material/button';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-trigger-thoughts',
@@ -34,6 +35,7 @@ export class TriggerThoughtsComponent implements OnInit {
   readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly infosTitle = 'Déclencheurs - Mes types de pensées';
   readonly infoDescriptions = [
@@ -49,12 +51,7 @@ export class TriggerThoughtsComponent implements OnInit {
     "- Je peux à l'avenir identifier plus rapidement l'arrivée de ces schémas de pensées",
   ];
 
-  readonly thoughtsTypesData = [
-    'Pensées liées à la sécurité (je suis en danger, je vais mourir...)',
-    "Pensées liées à l'image de soi (je suis trop nul, je ne saurais jamais faire cela...)",
-    "Pensées liées à la culpabilité (c'est de ma faute, je suis responsable de la situation...)",
-    "Pensées liées à l'absence de choix (je ne peux rien y faire, je ne vois pas le moyen de m'en sortir, je suis dans une impasse...)",
-  ];
+  readonly thoughtsTypesData = this.#situationService.allThoughtsTypes();
 
   situationId = '';
 
@@ -67,11 +64,7 @@ export class TriggerThoughtsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const id = this.#route.snapshot.paramMap.get('id')!;
-    console.log(id);
-    //this.#hero$ = this.#service.getHero(id);
-    this.situationId = id;
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   private addCheckboxes() {
@@ -89,6 +82,19 @@ export class TriggerThoughtsComponent implements OnInit {
   }
 
   async onNextClicked() {
+    await this.#situationService.addThoughtsTriggers(
+      this.selectedThoughtsTypes(),
+      this.situationId
+    );
+
     await this.#router.navigate(triggersNeedsRoute(this.situationId));
+  }
+
+  private selectedThoughtsTypes() {
+    return this.form.value.thoughtsTypes
+      .map((checked: boolean, index: number) =>
+        checked ? this.thoughtsTypesData[index] : null
+      )
+      .filter((name: string | null) => name !== null);
   }
 }

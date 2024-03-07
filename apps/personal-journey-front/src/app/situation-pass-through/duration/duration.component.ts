@@ -13,6 +13,7 @@ import { MatInput } from '@angular/material/input';
 import { memoriesRoute } from '../../app.routes';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-duration',
@@ -35,6 +36,7 @@ export class DurationComponent implements OnInit {
   readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly form: FormGroup = this.#formBuilder.group({
     duration: '',
@@ -43,11 +45,7 @@ export class DurationComponent implements OnInit {
   situationId = '';
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const id = this.#route.snapshot.paramMap.get('id')!;
-    console.log(id);
-    //this.#hero$ = this.#service.getHero(id);
-    this.situationId = id;
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   infosTitle = 'La durée de la situation';
@@ -60,7 +58,12 @@ export class DurationComponent implements OnInit {
     await this.#router.navigate(memoriesRoute(this.situationId));
   }
 
-  onFinishClicked() {
+  async onFinishClicked() {
+    await this.#situationService.addDuration(
+      parseInt(this.form.value.duration),
+      this.situationId
+    );
+
     console.log('FINISHED');
   }
 }

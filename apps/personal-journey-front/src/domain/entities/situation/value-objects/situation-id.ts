@@ -4,7 +4,7 @@ export class SituationId {
   value: string;
 
   equals(other: SituationId) {
-    return this.value === other.value;
+    return this.value.localeCompare(other.value) === 0;
   }
 
   private constructor(value: string) {

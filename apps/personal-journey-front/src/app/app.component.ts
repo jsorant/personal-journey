@@ -18,11 +18,16 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { UuidV4GeneratorImpl } from '../secondary/uuid-v4-generator-impl';
 import { SituationService } from '../adapters/services/situation-service';
 import { SituationFactory } from '../domain/entities/situation/situation-factory';
+import { InMemorySituationRepository } from '../adapters/services/in-memory-situation-repository';
+import { CurrentDateImpl } from '../shared-kernel/current-date-impl';
 
 export const situationServiceFactory = () => {
   const uuidGenerator = new UuidV4GeneratorImpl();
   const situationFactory = new SituationFactory(uuidGenerator);
-  return new SituationService(situationFactory);
+  const situationsRepository = new InMemorySituationRepository(
+    situationFactory
+  );
+  return new SituationService(situationsRepository);
 }; // Deps to have a situation repository ?
 
 @Component({
@@ -46,6 +51,7 @@ export const situationServiceFactory = () => {
     { provide: 'HistoryPresenter', useClass: HistoryPresenterImpl },
     { provide: 'AddEventPresenter', useClass: AddEventPresenterImpl },
     { provide: 'EventsRepository', useClass: InMemoryEventsRepository },
+    { provide: 'CurrentDate', useClass: CurrentDateImpl },
     { provide: SituationService, useFactory: situationServiceFactory },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { autoPilotsRoute, durationRoute } from '../../app.routes';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-memories',
@@ -37,6 +38,7 @@ export class MemoriesComponent implements OnInit {
   readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly form: FormGroup = this.#formBuilder.group({
     memories: '',
@@ -57,18 +59,23 @@ export class MemoriesComponent implements OnInit {
   situationId = '';
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const id = this.#route.snapshot.paramMap.get('id')!;
-    console.log(id);
-    //this.#hero$ = this.#service.getHero(id);
-    this.situationId = id;
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   async onNextClicked() {
+    await this.#situationService.addMemories(
+      this.form.value.memories,
+      this.situationId
+    );
+
     await this.#router.navigate(durationRoute(this.situationId));
   }
 
   async onPrevClicked() {
     await this.#router.navigate(autoPilotsRoute(this.situationId));
+  }
+
+  async onIgnoreClicked() {
+    await this.#router.navigate(durationRoute(this.situationId));
   }
 }

@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { autoPilotsRoute, triggersThoughtsRoute } from '../../app.routes';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-trigger-needs',
@@ -36,6 +37,7 @@ export class TriggerNeedsComponent implements OnInit {
   readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly infosTitle = 'Déclencheurs - Mes besoins non satisfaits';
   readonly infoDescriptions = [
@@ -51,13 +53,7 @@ export class TriggerNeedsComponent implements OnInit {
     "- Je peux à l'avenir identifier plus rapidement quel besoin n'est pas satisfait",
   ];
 
-  readonly needsTypesData = [
-    'Survie (abri, air, lumière, faim, soif, chaleur, repos, reproduction...)',
-    'Confort (calme, paix, sérénité, amour de soi, liberté, beauté, confiance, jeu, humour...)',
-    'Accomplissement (apprentissage, compétence, confiance, évolution, découverte, créativité, sens...)',
-    'Relation (bienveillance, amour, ouverture, tolérance, attention, respect, confiance, sécurité relationnelle...)',
-    'Gratitude (envers la vie, les réalisations, fêter, rendre hommage...)',
-  ];
+  readonly needsTypesData = this.#situationService.allNeeds();
 
   situationId = '';
 
@@ -70,11 +66,7 @@ export class TriggerNeedsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const id = this.#route.snapshot.paramMap.get('id')!;
-    console.log(id);
-    //this.#hero$ = this.#service.getHero(id);
-    this.situationId = id;
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   private addCheckboxes() {
@@ -92,6 +84,19 @@ export class TriggerNeedsComponent implements OnInit {
   }
 
   async onNextClicked() {
+    await this.#situationService.addNeeds(
+      this.selectedNeeds(),
+      this.situationId
+    );
+
     await this.#router.navigate(autoPilotsRoute(this.situationId));
+  }
+
+  private selectedNeeds() {
+    return this.form.value.needsTypes
+      .map((checked: boolean, index: number) =>
+        checked ? this.needsTypesData[index] : null
+      )
+      .filter((name: string | null) => name !== null);
   }
 }

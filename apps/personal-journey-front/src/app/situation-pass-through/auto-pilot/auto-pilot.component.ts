@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { memoriesRoute, triggersNeedsRoute } from '../../app.routes';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-auto-pilot',
@@ -36,6 +37,7 @@ export class AutoPilotComponent implements OnInit {
   readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
+  readonly #situationService: SituationService = inject(SituationService);
 
   infosTitle = 'Mes pilotes automatiques';
   infoDescriptions = [
@@ -56,13 +58,7 @@ export class AutoPilotComponent implements OnInit {
     'Je comprends mieux ma manière d’interagir en société.',
   ];
 
-  readonly autoPilotTypesData = [
-    'Combat',
-    'Fuite',
-    'Sidération',
-    'Agrippement',
-    'Soumission',
-  ];
+  readonly autoPilotsData = this.#situationService.allAutoPilots();
 
   situationId = '';
 
@@ -75,15 +71,11 @@ export class AutoPilotComponent implements OnInit {
   }
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const id = this.#route.snapshot.paramMap.get('id')!;
-    console.log(id);
-    //this.#hero$ = this.#service.getHero(id);
-    this.situationId = id;
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   private addCheckboxes() {
-    this.autoPilotTypesData.forEach(() =>
+    this.autoPilotsData.forEach(() =>
       this.autoPilotTypesFormArray().push(new FormControl(false))
     );
   }
@@ -97,6 +89,19 @@ export class AutoPilotComponent implements OnInit {
   }
 
   async onNextClicked() {
+    await this.#situationService.addAutoPilots(
+      this.selectedAutoPilots(),
+      this.situationId
+    );
+
     await this.#router.navigate(memoriesRoute(this.situationId));
+  }
+
+  private selectedAutoPilots() {
+    return this.form.value.autoPilotTypes
+      .map((checked: boolean, index: number) =>
+        checked ? this.autoPilotsData[index] : null
+      )
+      .filter((name: string | null) => name !== null);
   }
 }

@@ -89,39 +89,39 @@ export const appRoutes: Route[] = [
         component: IntroComponent,
       },
       {
-        path: ':id/physical-symptoms',
+        path: ':situationId/physical-symptoms',
         component: PhysicalSymptomsComponent,
       },
       {
-        path: ':id/description',
+        path: ':situationId/description',
         component: DescriptionComponent,
       },
       {
-        path: ':id/exit-description',
+        path: ':situationId/exit-description',
         component: ExitDescriptionComponent,
       },
       {
-        path: ':id/emotions',
+        path: ':situationId/emotions',
         component: EmotionsComponent,
       },
       {
-        path: ':id/triggers-thoughts',
+        path: ':situationId/triggers-thoughts',
         component: TriggerThoughtsComponent,
       },
       {
-        path: ':id/triggers-needs',
+        path: ':situationId/triggers-needs',
         component: TriggerNeedsComponent,
       },
       {
-        path: ':id/auto-pilots',
+        path: ':situationId/auto-pilots',
         component: AutoPilotComponent,
       },
       {
-        path: ':id/memories',
+        path: ':situationId/memories',
         component: MemoriesComponent,
       },
       {
-        path: ':id/duration',
+        path: ':situationId/duration',
         component: DurationComponent,
       },
     ],

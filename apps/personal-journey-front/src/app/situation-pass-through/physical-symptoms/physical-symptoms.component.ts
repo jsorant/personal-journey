@@ -23,6 +23,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { InfoCardComponent } from '../../custom-components/info-card/info-card.component';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-physical-symptoms',
@@ -48,6 +49,7 @@ export class PhysicalSymptomsComponent implements OnInit {
   readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly infosTitle = 'Mes signes physiologiques';
   readonly infoDescriptions = [
@@ -56,25 +58,7 @@ export class PhysicalSymptomsComponent implements OnInit {
   readonly infoExamples =
     'Ex : Je suis rouge de colère, j’ai la moutarde qui me monte au nez, j’ai la boule au ventre, j’ai la gorge qui se serre, j’ai l’estomac noué…';
 
-  readonly physicalSymptomsData = [
-    'Colopathie fonctionnelle',
-    'Nausée',
-    'Hyperphagie boulimique',
-    "Perte d'appetit",
-    'Incapacite à manger',
-    'Douleurs',
-    'Tensions musculaires',
-    'Fourmillements',
-    'Palpitations',
-    'Douleurs thoraciques',
-    "Envie fréquente d'uriner",
-    'Insomnies',
-    'Somnolences dans la journee',
-    'Fatigue',
-    'Mal de tête',
-    'Vertiges',
-    'Sensation de faiblesse',
-  ];
+  readonly physicalSymptomsData = this.#situationService.allPhysicalSymptoms();
 
   situationId = '';
 
@@ -87,11 +71,7 @@ export class PhysicalSymptomsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const id = this.#route.snapshot.paramMap.get('id')!;
-    console.log(id);
-    //this.#hero$ = this.#service.getHero(id);
-    this.situationId = id;
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   private addCheckboxes() {
@@ -109,13 +89,19 @@ export class PhysicalSymptomsComponent implements OnInit {
   }
 
   async onNextClicked() {
-    const selectedPhysicalSymptoms = this.form.value.physicalSymptoms
+    await this.#situationService.addPhysicalSymptoms(
+      this.selectedPhysicalSymptoms(),
+      this.situationId
+    );
+
+    await this.#router.navigate(descriptionRoute(this.situationId));
+  }
+
+  private selectedPhysicalSymptoms() {
+    return this.form.value.physicalSymptoms
       .map((checked: boolean, index: number) =>
         checked ? this.physicalSymptomsData[index] : null
       )
       .filter((name: string | null) => name !== null);
-    console.log(selectedPhysicalSymptoms);
-    //TODO map to enum
-    await this.#router.navigate(descriptionRoute(this.situationId));
   }
 }

@@ -15,6 +15,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-exit-description',
@@ -39,9 +40,10 @@ export class ExitDescriptionComponent implements OnInit {
   readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly #formBuilder: FormBuilder = inject(FormBuilder);
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly form: FormGroup = this.#formBuilder.group({
-    description: '',
+    event: '',
   });
 
   readonly infosTitle = 'Optionel : Sortie de situation spontanée';
@@ -59,11 +61,7 @@ export class ExitDescriptionComponent implements OnInit {
   situationId = '';
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const id = this.#route.snapshot.paramMap.get('id')!;
-    console.log(id);
-    //this.#hero$ = this.#service.getHero(id);
-    this.situationId = id;
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   async onPrevClicked() {
@@ -75,6 +73,11 @@ export class ExitDescriptionComponent implements OnInit {
   }
 
   async onNextClicked() {
+    await this.#situationService.addExitEvent(
+      this.form.value.event,
+      this.situationId
+    );
+
     await this.#router.navigate(emotionsRoute(this.situationId));
   }
 }

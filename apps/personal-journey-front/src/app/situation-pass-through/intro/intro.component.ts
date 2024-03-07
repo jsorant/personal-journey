@@ -26,7 +26,7 @@ export class IntroComponent {
   readonly #situationService: SituationService = inject(SituationService);
 
   async onBeginClicked() {
-    const newSituation = await this.#situationService.createNewSituation();
-    await this.#router.navigate(physicalSymptomsRoute(newSituation.id.value));
+    const newSituationId = await this.#situationService.createNewSituation();
+    await this.#router.navigate(physicalSymptomsRoute(newSituationId));
   }
 }
