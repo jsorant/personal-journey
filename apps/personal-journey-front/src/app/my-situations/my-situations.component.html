@@ -1,0 +1,29 @@
+<h2>Mes situations</h2>
+
+<div
+  *ngIf="situations.length === 0; then noSituationsBlock; else situationsBlock"
+></div>
+<ng-template #noSituationsBlock>
+  <p id="list-situations-empty-label">Aucun évènement enregistré</p>
+</ng-template>
+<ng-template #situationsBlock>
+  <mat-list id="situations-list">
+    @for (situation of situations; track situation) {
+    <mat-list-item id="situation-{{ $index }}" lines="3">
+      <span matListItemLine *ngIf="situation.date.length === 0"
+        >Créé le {{ situation.creationDate }}</span
+      >
+      <span matListItemTitle *ngIf="situation.emotions.length > 0">{{
+        situation.emotions
+      }}</span>
+      <span matListItemLine *ngIf="situation.description.length > 0">{{
+        situation.description
+      }}</span>
+      <span matListItemLine *ngIf="situation.date.length > 0"
+        >{{ situation.date }}
+      </span>
+    </mat-list-item>
+    <mat-divider> </mat-divider>
+    }
+  </mat-list>
+</ng-template>

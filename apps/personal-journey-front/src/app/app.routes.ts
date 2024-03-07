@@ -13,12 +13,15 @@ import { TriggerNeedsComponent } from './situation-pass-through/triggers-needs/t
 import { AutoPilotComponent } from './situation-pass-through/auto-pilot/auto-pilot.component';
 import { MemoriesComponent } from './situation-pass-through/memories/memories.component';
 import { DurationComponent } from './situation-pass-through/duration/duration.component';
+import { MySituationsComponent } from './my-situations/my-situations.component';
 
 export const HOME_ROUTE = '/home';
 export const ADD_EVENT_ROUTE = '/events/add';
 export const HISTORY_ROUTE = '/history';
 
 export const SITUATION_PASS_THROUGH_ROUTE = '/situation/pass-through/intro';
+
+export const MY_SITUATIONS_ROUTE = '/my-situations';
 
 const SITUATION_PASS_THROUGH_BASE_PARTS = ['situation', 'pass-through'];
 
@@ -75,6 +78,7 @@ export const appRoutes: Route[] = [
   { path: 'home', component: HomeComponent },
   { path: 'events/add', component: AddEventComponent },
   { path: 'history', component: HistoryComponent },
+  { path: 'my-situations', component: MySituationsComponent },
   {
     path: 'situation/pass-through',
     component: SituationPassThroughComponent,
