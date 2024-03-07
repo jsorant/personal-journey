@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {
   ADD_EVENT_ROUTE,
   HISTORY_ROUTE,
+  MY_SITUATIONS_ROUTE,
   SITUATION_PASS_THROUGH_ROUTE,
 } from '../app.routes';
 import { RouterLink } from '@angular/router';
@@ -19,4 +20,5 @@ export class HomeComponent {
   addSituationRoute = SITUATION_PASS_THROUGH_ROUTE;
   historyRoute = HISTORY_ROUTE;
   addEventRoute = ADD_EVENT_ROUTE;
+  mySituationsRoute = MY_SITUATIONS_ROUTE;
 }

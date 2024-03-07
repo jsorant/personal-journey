@@ -23,7 +23,8 @@ import { CurrentDateImpl } from '../shared-kernel/current-date-impl';
 
 export const situationServiceFactory = () => {
   const uuidGenerator = new UuidV4GeneratorImpl();
-  const situationFactory = new SituationFactory(uuidGenerator);
+  const currentDate = new CurrentDateImpl();
+  const situationFactory = new SituationFactory(uuidGenerator, currentDate);
   const situationsRepository = new InMemorySituationRepository(
     situationFactory
   );

@@ -8,6 +8,7 @@ import { AutoPilots } from './value-objects/auto-pilots';
 import { Needs } from './value-objects/needs';
 import { Memories } from './value-objects/memories';
 import { Duration } from './value-objects/duration';
+import { CreationDate } from './value-objects/creation-date';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Situation {
@@ -16,6 +17,7 @@ declare namespace Situation {
 
 export class Situation {
   readonly id: SituationId;
+  readonly creationDate: CreationDate;
   readonly physicalSymptoms: PhysicalSymptoms[];
   readonly description?: SituationDescription;
   readonly exitEvent?: ExitEvent;
@@ -28,6 +30,7 @@ export class Situation {
 
   private constructor(builder: Situation.SituationBuilder) {
     this.id = builder.id;
+    this.creationDate = builder.creationDate;
     this.physicalSymptoms = builder.physicalSymptoms;
     this.description = builder.description;
     this.exitEvent = builder.exitEvent;
@@ -39,16 +42,17 @@ export class Situation {
     this.duration = builder.duration;
   }
 
-  static buildWithId(id: SituationId) {
-    return new Situation.SituationBuilder(id).build();
+  static buildWithIdAndDate(id: SituationId, date: CreationDate) {
+    return new Situation.SituationBuilder(id, date).build();
   }
 
   private static builderWithCurrentState(
     situation: Situation
   ): Situation.SituationBuilder {
-    return new Situation.SituationBuilder(situation.id).withInternalStateFrom(
-      situation
-    );
+    return new Situation.SituationBuilder(
+      situation.id,
+      situation.creationDate
+    ).withInternalStateFrom(situation);
   }
 
   isDescribed(): boolean {
@@ -139,6 +143,7 @@ export class Situation {
 
   static SituationBuilder = class {
     id: SituationId;
+    creationDate: CreationDate;
     physicalSymptoms: PhysicalSymptoms[] = [];
     description?: SituationDescription;
     exitEvent?: ExitEvent;
@@ -149,8 +154,9 @@ export class Situation {
     memories?: Memories;
     duration?: Duration;
 
-    constructor(id: SituationId) {
+    constructor(id: SituationId, creationDate: CreationDate) {
       this.id = id;
+      this.creationDate = creationDate;
     }
 
     build(): Situation {

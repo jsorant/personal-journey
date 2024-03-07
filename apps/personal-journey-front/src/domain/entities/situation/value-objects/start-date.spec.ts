@@ -1,11 +1,10 @@
 import { StartDate } from './start-date';
+import { aDate } from '../../../../tests-utils/domain/fixtures';
 
 describe(StartDate.name, () => {
   it('should build with a date', () => {
-    const aDate = new Date();
+    const startDate = StartDate.of(aDate);
 
-    const description = StartDate.of(aDate);
-
-    expect(description.value).toStrictEqual(aDate);
+    expect(startDate.value).toStrictEqual(aDate);
   });
 });
