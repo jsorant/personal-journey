@@ -1,7 +1,7 @@
 export enum Emotions {
-  Joy,
-  Anxiety,
-  Sadness,
-  Fear,
-  Anger,
+  Joy = 'Joie',
+  Anxiety = 'Anxiete',
+  Sadness = 'Tristesse',
+  Fear = 'Peur',
+  Anger = 'Colere',
 }

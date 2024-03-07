@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -11,10 +11,11 @@ import {
 import { InfoCardComponent } from '../../custom-components/info-card/info-card.component';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { Router } from '@angular/router';
-import { MEMORIES_ROUTE, TRIGGERS_NEEDS_ROUTE } from '../../app.routes';
+import { ActivatedRoute, Router } from '@angular/router';
+import { memoriesRoute, triggersNeedsRoute } from '../../app.routes';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-auto-pilot',
@@ -32,9 +33,11 @@ import { StepsButtonsComponent } from '../../custom-components/steps-buttons/ste
   templateUrl: './auto-pilot.component.html',
   styleUrl: './auto-pilot.component.css',
 })
-export class AutoPilotComponent {
+export class AutoPilotComponent implements OnInit {
+  readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
+  readonly #situationService: SituationService = inject(SituationService);
 
   infosTitle = 'Mes pilotes automatiques';
   infoDescriptions = [
@@ -55,13 +58,9 @@ export class AutoPilotComponent {
     'Je comprends mieux ma manière d’interagir en société.',
   ];
 
-  readonly autoPilotTypesData = [
-    'Combat',
-    'Fuite',
-    'Sidération',
-    'Agrippement',
-    'Soumission',
-  ];
+  readonly autoPilotsData = this.#situationService.allAutoPilots();
+
+  situationId = '';
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
@@ -71,8 +70,12 @@ export class AutoPilotComponent {
     this.addCheckboxes();
   }
 
+  ngOnInit() {
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
+  }
+
   private addCheckboxes() {
-    this.autoPilotTypesData.forEach(() =>
+    this.autoPilotsData.forEach(() =>
       this.autoPilotTypesFormArray().push(new FormControl(false))
     );
   }
@@ -82,10 +85,23 @@ export class AutoPilotComponent {
   }
 
   async onPrevClicked() {
-    await this.#router.navigate([TRIGGERS_NEEDS_ROUTE]);
+    await this.#router.navigate(triggersNeedsRoute(this.situationId));
   }
 
   async onNextClicked() {
-    await this.#router.navigate([MEMORIES_ROUTE]);
+    await this.#situationService.addAutoPilots(
+      this.selectedAutoPilots(),
+      this.situationId
+    );
+
+    await this.#router.navigate(memoriesRoute(this.situationId));
+  }
+
+  private selectedAutoPilots() {
+    return this.form.value.autoPilotTypes
+      .map((checked: boolean, index: number) =>
+        checked ? this.autoPilotsData[index] : null
+      )
+      .filter((name: string | null) => name !== null);
   }
 }

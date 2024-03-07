@@ -5,6 +5,9 @@ import { ExitEvent } from './value-objects/exit-event';
 import { Emotions } from './value-objects/emotions';
 import { ThoughtsTypes } from './value-objects/thoughts-types';
 import { AutoPilots } from './value-objects/auto-pilots';
+import { Needs } from './value-objects/needs';
+import { Memories } from './value-objects/memories';
+import { Duration } from './value-objects/duration';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Situation {
@@ -18,7 +21,10 @@ export class Situation {
   readonly exitEvent?: ExitEvent;
   readonly emotions: Emotions[];
   readonly thoughtsTypes: ThoughtsTypes[];
+  readonly needs: Needs[];
   readonly autoPilots: AutoPilots[];
+  readonly memories?: Memories;
+  readonly duration?: Duration;
 
   private constructor(builder: Situation.SituationBuilder) {
     this.id = builder.id;
@@ -27,7 +33,10 @@ export class Situation {
     this.exitEvent = builder.exitEvent;
     this.emotions = builder.emotions;
     this.thoughtsTypes = builder.thoughtsTypes;
+    this.needs = builder.needs;
     this.autoPilots = builder.autoPilots;
+    this.memories = builder.memories;
+    this.duration = builder.duration;
   }
 
   static buildWithId(id: SituationId) {
@@ -62,6 +71,18 @@ export class Situation {
     return this.autoPilots.length > 0;
   }
 
+  hasRelatedNeeds() {
+    return this.needs.length > 0;
+  }
+
+  hasRelatedMemories() {
+    return this.memories !== undefined;
+  }
+
+  hasDuration() {
+    return this.duration !== undefined;
+  }
+
   identifyPhysicalSymptoms(
     somePhysicalSymptoms: PhysicalSymptoms[]
   ): Situation {
@@ -94,9 +115,25 @@ export class Situation {
       .build();
   }
 
+  identifyRelatedNeeds(someNeeds: Needs[]) {
+    return Situation.builderWithCurrentState(this).withNeeds(someNeeds).build();
+  }
+
   identifyRelatedAutoPilots(someAutoPilots: AutoPilots[]): Situation {
     return Situation.builderWithCurrentState(this)
       .withAutoPilots(someAutoPilots)
+      .build();
+  }
+
+  describeRelatedMemories(someMemories: Memories) {
+    return Situation.builderWithCurrentState(this)
+      .withMemories(someMemories)
+      .build();
+  }
+
+  describeDuration(aDuration: Duration) {
+    return Situation.builderWithCurrentState(this)
+      .withDuration(aDuration)
       .build();
   }
 
@@ -107,7 +144,10 @@ export class Situation {
     exitEvent?: ExitEvent;
     emotions: Emotions[] = [];
     thoughtsTypes: ThoughtsTypes[] = [];
+    needs: Needs[] = [];
     autoPilots: AutoPilots[] = [];
+    memories?: Memories;
+    duration?: Duration;
 
     constructor(id: SituationId) {
       this.id = id;
@@ -124,6 +164,9 @@ export class Situation {
       this.emotions = aSituation.emotions;
       this.thoughtsTypes = aSituation.thoughtsTypes;
       this.autoPilots = aSituation.autoPilots;
+      this.needs = aSituation.needs;
+      this.memories = aSituation.memories;
+      this.duration = aSituation.duration;
       return this;
     }
 
@@ -154,8 +197,23 @@ export class Situation {
       return this;
     }
 
+    withNeeds(someNeeds: Needs[]) {
+      this.needs = someNeeds;
+      return this;
+    }
+
     withAutoPilots(someAutoPilots: AutoPilots[]) {
       this.autoPilots = someAutoPilots;
+      return this;
+    }
+
+    withMemories(someMemories: Memories) {
+      this.memories = someMemories;
+      return this;
+    }
+
+    withDuration(aDuration: Duration) {
+      this.duration = aDuration;
       return this;
     }
   };

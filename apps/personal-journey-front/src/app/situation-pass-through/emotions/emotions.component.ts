@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -11,12 +11,10 @@ import {
 import { InfoCardComponent } from '../../custom-components/info-card/info-card.component';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { Router } from '@angular/router';
-import {
-  EXIT_DESCRIPTION_ROUTE,
-  TRIGGERS_THOUGHTS_ROUTE,
-} from '../../app.routes';
+import { ActivatedRoute, Router } from '@angular/router';
+import { exitDescriptionRoute, triggersThoughtsRoute } from '../../app.routes';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-emotions',
@@ -33,14 +31,18 @@ import { StepsButtonsComponent } from '../../custom-components/steps-buttons/ste
   templateUrl: './emotions.component.html',
   styleUrl: './emotions.component.css',
 })
-export class EmotionsComponent {
+export class EmotionsComponent implements OnInit {
+  readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly infosTitle = 'Mes émotions';
   readonly infoDescriptions = ['TODO'];
 
-  readonly emotionsData = ['Joie', 'Anxiété', 'Tristesse', 'Peur', 'Colère'];
+  readonly emotionsData = this.#situationService.allEmotions();
+
+  situationId = '';
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
@@ -48,6 +50,10 @@ export class EmotionsComponent {
     });
 
     this.addCheckboxes();
+  }
+
+  ngOnInit() {
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   emotionsFormArray(): FormArray<FormControl> {
@@ -61,10 +67,23 @@ export class EmotionsComponent {
   }
 
   async onNextClicked() {
-    await this.#router.navigate([TRIGGERS_THOUGHTS_ROUTE]);
+    await this.#situationService.addEmotions(
+      this.selectedEmotions(),
+      this.situationId
+    );
+
+    await this.#router.navigate(triggersThoughtsRoute(this.situationId));
   }
 
   async onPrevClicked() {
-    await this.#router.navigate([EXIT_DESCRIPTION_ROUTE]);
+    await this.#router.navigate(exitDescriptionRoute(this.situationId));
+  }
+
+  private selectedEmotions() {
+    return this.form.value.emotions
+      .map((checked: boolean, index: number) =>
+        checked ? this.emotionsData[index] : null
+      )
+      .filter((name: string | null) => name !== null);
   }
 }

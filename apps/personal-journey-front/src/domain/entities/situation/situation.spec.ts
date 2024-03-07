@@ -1,11 +1,14 @@
 import { Situation } from './situation';
 import {
   aBlankSituation,
+  aDuration,
   anExitEvent,
   aSituationDescription,
   aSituationId,
   someAutoPilots,
   someEmotions,
+  someMemories,
+  someNeeds,
   somePhysicalSymptoms,
   someThoughtsTypes,
 } from '../../../tests-utils/domain/fixtures';
@@ -69,7 +72,14 @@ describe(Situation.name, () => {
       );
     });
 
-    //TODO besoins non satifsfaits
+    it('should identify needs related with the situation', () => {
+      const situationWithNeeds =
+        aBlankSituation.identifyRelatedNeeds(someNeeds);
+
+      expect(aBlankSituation.hasRelatedNeeds()).toBeFalsy();
+      expect(situationWithNeeds.hasRelatedNeeds()).toBeTruthy();
+      expect(situationWithNeeds.needs).toStrictEqual(someNeeds);
+    });
 
     it('should identify autopilots', () => {
       const situationWithAutoPilots =
@@ -78,6 +88,23 @@ describe(Situation.name, () => {
       expect(aBlankSituation.hasRelatedAutoPilots()).toBeFalsy();
       expect(situationWithAutoPilots.hasRelatedAutoPilots()).toBeTruthy();
       expect(situationWithAutoPilots.autoPilots).toStrictEqual(someAutoPilots);
+    });
+
+    it('should describe memories related to a situation', () => {
+      const situationWithMemories =
+        aBlankSituation.describeRelatedMemories(someMemories);
+
+      expect(aBlankSituation.hasRelatedMemories()).toBeFalsy();
+      expect(situationWithMemories.hasRelatedMemories()).toBeTruthy();
+      expect(situationWithMemories.memories).toStrictEqual(someMemories);
+    });
+
+    it('should describe the duration of a situation', () => {
+      const situationWithDuration = aBlankSituation.describeDuration(aDuration);
+
+      expect(aBlankSituation.hasDuration()).toBeFalsy();
+      expect(situationWithDuration.hasDuration()).toBeTruthy();
+      expect(situationWithDuration.duration).toStrictEqual(aDuration);
     });
   });
 });

@@ -13,9 +13,7 @@
     formArrayName="autoPilotTypes"
     *ngFor="let order of autoPilotTypesFormArray().controls; let i = index"
   >
-    <mat-checkbox [formControlName]="i">{{
-      autoPilotTypesData[i]
-    }}</mat-checkbox>
+    <mat-checkbox [formControlName]="i">{{ autoPilotsData[i] }}</mat-checkbox>
   </div>
 
   <br />

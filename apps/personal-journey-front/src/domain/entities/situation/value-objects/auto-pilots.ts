@@ -1,7 +1,7 @@
 export enum AutoPilots {
-  Combat,
-  Fuite,
-  Sideration,
-  Agrippement,
-  Soumission,
+  Combat = 'Combat',
+  Fuite = 'Fuite',
+  Sideration = 'Sideration',
+  Agrippement = 'Agrippement',
+  Soumission = 'Soumission',
 }

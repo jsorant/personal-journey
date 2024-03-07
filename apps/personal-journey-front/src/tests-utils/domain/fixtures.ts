@@ -9,6 +9,9 @@ import { Emotions } from '../../domain/entities/situation/value-objects/emotions
 import { ThoughtsTypes } from '../../domain/entities/situation/value-objects/thoughts-types';
 import { AutoPilots } from '../../domain/entities/situation/value-objects/auto-pilots';
 import { SituationId } from '../../domain/entities/situation/value-objects/situation-id';
+import { Needs } from '../../domain/entities/situation/value-objects/needs';
+import { Memories } from '../../domain/entities/situation/value-objects/memories';
+import { Duration } from '../../domain/entities/situation/value-objects/duration';
 
 export const aSituationId = SituationId.of(
   'ea6ef84e-af14-408b-b5a7-0fe1a3cfc2dc'
@@ -64,6 +67,10 @@ export const anExitEvent = ExitEvent.of(
   'La foule a été attirée dans un autre zone...'
 );
 
+export const someMemories = Memories.of("C'était en 1995, alors que...");
+
+export const aDuration = Duration.ofMinutes(10);
+
 export const someEmotions = [Emotions.Anxiety, Emotions.Fear];
 
 export const allEmotions = [
@@ -78,6 +85,8 @@ export const someThoughtsTypes = [
   ThoughtsTypes.Security,
   ThoughtsTypes.AbsenceOfChoice,
 ];
+
+export const someNeeds = [Needs.Confort, Needs.Gratitude];
 
 export const allThoughtsTypes = [
   ThoughtsTypes.Security,

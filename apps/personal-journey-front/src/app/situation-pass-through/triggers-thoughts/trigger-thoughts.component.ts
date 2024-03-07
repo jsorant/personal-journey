@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfoCardComponent } from '../../custom-components/info-card/info-card.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormArray,
   FormBuilder,
@@ -9,11 +9,12 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { EMOTIONS_ROUTE, TRIGGERS_NEEDS_ROUTE } from '../../app.routes';
+import { emotionsRoute, triggersNeedsRoute } from '../../app.routes';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatButton } from '@angular/material/button';
 import { TherapyCardComponent } from '../../custom-components/therapy-card/therapy-card.component';
 import { StepsButtonsComponent } from '../../custom-components/steps-buttons/steps-buttons.component';
+import { SituationService } from '../../../adapters/services/situation-service';
 
 @Component({
   selector: 'duckrulz-situation-pass-through-trigger-thoughts',
@@ -30,9 +31,11 @@ import { StepsButtonsComponent } from '../../custom-components/steps-buttons/ste
   templateUrl: './trigger-thoughts.component.html',
   styleUrl: './trigger-thoughts.component.css',
 })
-export class TriggerThoughtsComponent {
+export class TriggerThoughtsComponent implements OnInit {
+  readonly #route: ActivatedRoute = inject(ActivatedRoute);
   readonly #router: Router = inject(Router);
   readonly form: FormGroup;
+  readonly #situationService: SituationService = inject(SituationService);
 
   readonly infosTitle = 'Déclencheurs - Mes types de pensées';
   readonly infoDescriptions = [
@@ -48,12 +51,9 @@ export class TriggerThoughtsComponent {
     "- Je peux à l'avenir identifier plus rapidement l'arrivée de ces schémas de pensées",
   ];
 
-  readonly thoughtsTypesData = [
-    'Pensées liées à la sécurité (je suis en danger, je vais mourir...)',
-    "Pensées liées à l'image de soi (je suis trop nul, je ne saurais jamais faire cela...)",
-    "Pensées liées à la culpabilité (c'est de ma faute, je suis responsable de la situation...)",
-    "Pensées liées à l'absence de choix (je ne peux rien y faire, je ne vois pas le moyen de m'en sortir, je suis dans une impasse...)",
-  ];
+  readonly thoughtsTypesData = this.#situationService.allThoughtsTypes();
+
+  situationId = '';
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
@@ -61,6 +61,10 @@ export class TriggerThoughtsComponent {
     });
 
     this.addCheckboxes();
+  }
+
+  ngOnInit() {
+    this.situationId = <string>this.#route.snapshot.paramMap.get('situationId');
   }
 
   private addCheckboxes() {
@@ -74,10 +78,23 @@ export class TriggerThoughtsComponent {
   }
 
   async onPrevClicked() {
-    await this.#router.navigate([EMOTIONS_ROUTE]);
+    await this.#router.navigate(emotionsRoute(this.situationId));
   }
 
   async onNextClicked() {
-    await this.#router.navigate([TRIGGERS_NEEDS_ROUTE]);
+    await this.#situationService.addThoughtsTriggers(
+      this.selectedThoughtsTypes(),
+      this.situationId
+    );
+
+    await this.#router.navigate(triggersNeedsRoute(this.situationId));
+  }
+
+  private selectedThoughtsTypes() {
+    return this.form.value.thoughtsTypes
+      .map((checked: boolean, index: number) =>
+        checked ? this.thoughtsTypesData[index] : null
+      )
+      .filter((name: string | null) => name !== null);
   }
 }
