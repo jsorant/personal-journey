@@ -1,6 +1,7 @@
 import { Situation } from './situation';
 import {
   aBlankSituation,
+  aCreationDate,
   aDuration,
   anExitEvent,
   aSituationDescription,
@@ -16,7 +17,9 @@ import {
 describe(Situation.name, () => {
   describe('Build', () => {
     it('should build a new situation', () => {
-      expect(() => Situation.buildWithId(aSituationId)).not.toThrow();
+      expect(() =>
+        Situation.buildWithIdAndDate(aSituationId, aCreationDate)
+      ).not.toThrow();
     });
   });
 

@@ -11,6 +11,10 @@ import { Needs } from '../../domain/entities/situation/value-objects/needs';
 import { AutoPilots } from '../../domain/entities/situation/value-objects/auto-pilots';
 import { Memories } from '../../domain/entities/situation/value-objects/memories';
 import { Duration } from '../../domain/entities/situation/value-objects/duration';
+import { Situation } from '../../domain/entities/situation/situation';
+import { SituationViewModel } from './situation-view-model';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale/fr';
 
 const physicalSymptomsMap = new Map<string, PhysicalSymptoms>();
 physicalSymptomsMap.set(
@@ -130,6 +134,11 @@ export class SituationService {
 
   allAutoPilots() {
     return Array.from(autoPilotsMap.keys());
+  }
+
+  async getAllSituations() {
+    const situations = await this.situationRepository.getAll();
+    return situations.map(this.toViewModel, this);
   }
 
   async createNewSituation() {
@@ -299,5 +308,24 @@ export class SituationService {
       throw new Error('Unexpected auto pilot: ' + autoPilot);
 
     return result;
+  }
+
+  private toViewModel(situation: Situation): SituationViewModel {
+    return {
+      creationDate: this.formatDate(situation.creationDate.value),
+      description: situation.description
+        ? situation.description.description.value
+        : '',
+      date: situation.description
+        ? this.formatDate(situation.description.date.value)
+        : '',
+      emotions: situation.emotions.join(' '),
+    };
+  }
+
+  private formatDate(date: Date): string {
+    return format(date, "E d MMMM yyyy ' à ' HH:mm", {
+      locale: fr,
+    });
   }
 }

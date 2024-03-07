@@ -12,12 +12,18 @@ import { SituationId } from '../../domain/entities/situation/value-objects/situa
 import { Needs } from '../../domain/entities/situation/value-objects/needs';
 import { Memories } from '../../domain/entities/situation/value-objects/memories';
 import { Duration } from '../../domain/entities/situation/value-objects/duration';
+import { CreationDate } from '../../domain/entities/situation/value-objects/creation-date';
 
 export const aSituationId = SituationId.of(
   'ea6ef84e-af14-408b-b5a7-0fe1a3cfc2dc'
 );
 
-export const aBlankSituation = Situation.buildWithId(aSituationId);
+export const aCreationDate = CreationDate.of(new Date('2022-10-10'));
+
+export const aBlankSituation = Situation.buildWithIdAndDate(
+  aSituationId,
+  aCreationDate
+);
 
 export const aDomainEventId = SituationId.of(
   '9944fbc2-ef3f-4808-ad5c-9d260c2b781d'
